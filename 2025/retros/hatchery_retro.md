@@ -2,19 +2,24 @@
 
 ## Room Photos
 
-![Hatchery entrance with egg sacs](../assets/hatchery/signal-2025-11-06-102851.jpeg)
+<img src="../assets/hatchery/signal-2025-11-06-102851.jpeg" width="50%" alt="Hatchery entrance with egg sacs">
+
 *The hatchery entrance showing white egg sacs made from balloons and gauze hanging at the doorway. Green table visible in background demonstrates the "room too empty" issue - needed many more egg sacs to feel claustrophobic.*
 
-![View inside hatchery with more egg sacs](../assets/hatchery/signal-2025-11-06-102851_002.jpeg)
+<img src="../assets/hatchery/signal-2025-11-06-102851_002.jpeg" width="50%" alt="View inside hatchery with more egg sacs">
+
 *Interior view showing netting on ceiling (hiding wiring), more egg sacs, and the relatively sparse layout that needed to be filled with many more eggs.*
 
-![Animatronic egg with legs extended](../assets/hatchery/signal-2025-11-06-102851_005.jpeg)
+<img src="../assets/hatchery/signal-2025-11-06-102851_005.jpeg" width="50%" alt="Animatronic egg with legs extended">
+
 *The animatronic egg with spider legs partially extended. This shows the eye-level positioning that was dangerous and the legs that needed to extend much farther for dramatic effect.*
 
-![Close-up of egg animatronic mechanism](../assets/hatchery/signal-2025-11-06-102851_006.jpeg)
+<img src="../assets/hatchery/signal-2025-11-06-102851_006.jpeg" width="50%" alt="Close-up of egg animatronic mechanism">
+
 *Detail of the egg animatronic showing the servo mechanism and paper mache construction. Note the limited leg extension and positioning.*
 
-![Broken eggs for searching](../assets/hatchery/signal-2025-11-06-102851_008.jpeg)
+<img src="../assets/hatchery/signal-2025-11-06-102851_008.jpeg" width="50%" alt="Broken eggs for searching">
+
 *The four broken eggs that guests searched through to find the baby skeleton with hidden message inside.*
 
 ## What Worked Well

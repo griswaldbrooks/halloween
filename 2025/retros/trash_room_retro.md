@@ -2,16 +2,20 @@
 
 ## Room Photos
 
-![Trash room with hanging skeleton and red lighting](../assets/trash_room/signal-2025-11-06-102851_024.jpeg)
+<img src="../assets/trash_room/signal-2025-11-06-102851_024.jpeg" width="50%" alt="Trash room with hanging skeleton and red lighting">
+
 *The trash room showing a hanging skeleton with interesting death pose and red/pink lighting. Black plastic sheeting creates walls. This demonstrates the "too much visual noise" issue - elaborate death scenes made people wonder if poses were clues.*
 
-![Skeleton on table with off-theme decorations](../assets/trash_room/signal-2025-11-06-102851_019.jpeg)
+<img src="../assets/trash_room/signal-2025-11-06-102851_019.jpeg" width="50%" alt="Skeleton on table with off-theme decorations">
+
 *Example of John's off-theme decoration - hogtied skeleton on operating table doesn't fit spider-consumption narrative.*
 
-![Numbered skeletons for puzzle](../assets/trash_room/signal-2025-11-06-102851_021.jpeg)
+<img src="../assets/trash_room/signal-2025-11-06-102851_021.jpeg" width="50%" alt="Numbered skeletons for puzzle">
+
 *The tick-mark numbering system on skeletons (2, 3, 4, 5 visible with 1 missing and 3+5=8 as answer). The answer skeleton was too hidden initially.*
 
-![Table setup with skeleton](../assets/trash_room/signal-2025-11-06-102851_022.jpeg)
+<img src="../assets/trash_room/signal-2025-11-06-102851_022.jpeg" width="50%" alt="Table setup with skeleton">
+
 *The table that was meant to hold pile of bodies and hide under-table animatronic but ended up just being a spacing element.*
 
 ## What Worked Well

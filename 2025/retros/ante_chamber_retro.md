@@ -2,10 +2,12 @@
 
 ## Room Photos
 
-![Ante chamber setup with skeleton and decorations](../assets/ante_chamber/signal-2025-11-06-102906_004.jpeg)
+<img src="../assets/ante_chamber/signal-2025-11-06-102906_004.jpeg" width="50%" alt="Ante chamber setup with skeleton and decorations">
+
 *The ante chamber setup showing the skeleton prop, spider decorations, and the general room layout. Note the relatively sparse integration of spider theme with the domestic setting.*
 
-![Alternative view of ante chamber](../assets/ante_chamber/signal-2025-11-06-102906_005.jpeg)
+<img src="../assets/ante_chamber/signal-2025-11-06-102906_005.jpeg" width="50%" alt="Alternative view of ante chamber">
+
 *Another angle showing the room configuration and decoration placement.*
 
 ## What Worked Well

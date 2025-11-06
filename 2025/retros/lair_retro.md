@@ -2,19 +2,24 @@
 
 ## Room Photos
 
-![Lair entrance showing narrow entry under garage door](../assets/lair/signal-2025-11-06-103432.jpeg)
+<img src="../assets/lair/signal-2025-11-06-103432.jpeg" width="50%" alt="Lair entrance showing narrow entry under garage door">
+
 *The lair entrance showing the too-narrow, too-low entry under the garage door. Large decorative netting successfully transformed the garage but the entry forced single-file passage and created head injury risk.*
 
-![Interior of lair showing netting coverage](../assets/lair/signal-2025-11-06-103432_002.jpeg)
+<img src="../assets/lair/signal-2025-11-06-103432_002.jpeg" width="50%" alt="Interior of lair showing netting coverage">
+
 *Interior view of the lair demonstrating the "triumph" of the netting - successfully hid all garage elements in darkness. However, team wanted a more minimalist white liminal space aesthetic instead of this cluttered approach.*
 
-![Sally the spider jump scare prop](../assets/lair/signal-2025-11-06-103432_003.jpeg)
+<img src="../assets/lair/signal-2025-11-06-103432_003.jpeg" width="50%" alt="Sally the spider jump scare prop">
+
 *Sally, the paper mache spider jump scare, mounted on linear rail. Shows the limited extension - needed to come out 2-3x farther. Also shows visibility issue - spider partially visible before jump scare.*
 
-![View of netting barrier and entry](../assets/lair/signal-2025-11-06-103432_004.jpeg)
+<img src="../assets/lair/signal-2025-11-06-103432_004.jpeg" width="50%" alt="View of netting barrier and entry">
+
 *The netting barrier attached to middle garage door handle that blocked half the entry width and forced narrow single-file passage.*
 
-![Garage with projector setup](../assets/lair/signal-2025-11-06-103432_005.jpeg)
+<img src="../assets/lair/signal-2025-11-06-103432_005.jpeg" width="50%" alt="Garage with projector setup">
+
 *Projector position and netting arrangement. Projector had low contrast on netting and was blocked by other layers, making spider projection ineffective.*
 
 ## What Worked Well

@@ -2,19 +2,24 @@
 
 ## Room Photos
 
-![Victim room with twitching animatronic and cocoons](../assets/victim_room/signal-2025-11-06-102851_015.jpeg)
+<img src="../assets/victim_room/signal-2025-11-06-102851_015.jpeg" width="50%" alt="Victim room with twitching animatronic and cocoons">
+
 *The victim room showing the twitching animatronic body at center with black plastic diffuser overhead blocking UV light, and static cocoons hanging from ceiling. The pink/red tent lighting creates an unsettling atmosphere.*
 
-![Close-up of twitching victim animatronic](../assets/victim_room/signal-2025-11-06-102851_010.jpeg)
+<img src="../assets/victim_room/signal-2025-11-06-102851_010.jpeg" width="50%" alt="Close-up of twitching victim animatronic">
+
 *The twitching victim animatronic wrapped in gauze/netting with visible servo mechanisms. This was highly effective but servo noise was an issue from adjacent rooms.*
 
-![Static cocoons hanging above](../assets/victim_room/signal-2025-11-06-102851_012.jpeg)
+<img src="../assets/victim_room/signal-2025-11-06-102851_012.jpeg" width="50%" alt="Static cocoons hanging above">
+
 *Static cocoons made from air-filled black trash bags wrapped in gauze, hanging from ceiling. Many guests didn't notice these above head height in the darkness.*
 
-![Blood splatter on walls](../assets/victim_room/signal-2025-11-06-102851_014.jpeg)
+<img src="../assets/victim_room/signal-2025-11-06-102851_014.jpeg" width="50%" alt="Blood splatter on walls">
+
 *Blood splatter painted on black plastic walls - unfortunately invisible in darkness despite coverage. UV paint quality and visibility was a major issue.*
 
-![Room layout showing tent structure](../assets/victim_room/signal-2025-11-06-102851_016.jpeg)
+<img src="../assets/victim_room/signal-2025-11-06-102851_016.jpeg" width="50%" alt="Room layout showing tent structure">
+
 *Overall room layout showing tent geometry that made animatronic mounting challenging. Note the black plastic diffuser panel overhead.*
 
 ## What Worked Well

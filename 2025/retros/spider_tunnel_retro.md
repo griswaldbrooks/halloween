@@ -2,19 +2,24 @@
 
 ## Room Photos
 
-![Spider tunnel with UV lighting and cobwebs](../assets/spider_tunnel/signal-2025-11-06-102906.jpeg)
+<img src="../assets/spider_tunnel/signal-2025-11-06-102906.jpeg" width="50%" alt="Spider tunnel with UV lighting and cobwebs">
+
 *The spider tunnel showing the purple UV lighting, webbing overhead, and the twisting corridor. Black plastic walls create the tunnel effect, with visible cobweb decorations.*
 
-![View through tunnel showing stairwell obstacle](../assets/spider_tunnel/signal-2025-11-06-102851_027.jpeg)
+<img src="../assets/spider_tunnel/signal-2025-11-06-102851_027.jpeg" width="50%" alt="View through tunnel showing stairwell obstacle">
+
 *The head hazard area with foam padding on the stairwell overhang - note how visible it is in daylight but was a safety concern in darkness.*
 
-![Skeleton with first clue](../assets/spider_tunnel/signal-2025-11-06-102851_030.jpeg)
+<img src="../assets/spider_tunnel/signal-2025-11-06-102851_030.jpeg" width="50%" alt="Skeleton with first clue">
+
 *The skeleton holding the first message - this needed to be more prominently positioned with hand extended further to block the path.*
 
-![Window scare setup](../assets/spider_tunnel/signal-2025-11-06-102906_002.jpeg)
+<img src="../assets/spider_tunnel/signal-2025-11-06-102906_002.jpeg" width="50%" alt="Window scare setup">
+
 *The window jump scare display - effective visually but completely ineffective without sound.*
 
-![Web barrier forcing pause](../assets/spider_tunnel/signal-2025-11-06-102906_003.jpeg)
+<img src="../assets/spider_tunnel/signal-2025-11-06-102906_003.jpeg" width="50%" alt="Web barrier forcing pause">
+
 *Spider web barrier that was added to force guests to stop and look at the skeleton - initially people rushed past without noticing.*
 
 ## What Worked Well
