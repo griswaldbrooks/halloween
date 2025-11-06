@@ -14,10 +14,10 @@ nodejs = "20.*"
 install-arduino-cli = "mkdir -p .pixi/bin && curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=.pixi/bin sh"
 
 setup-arduino = { cmd = """
-mkdir -p .arduino15
-.pixi/bin/arduino-cli config init --config-file .arduino15/arduino-cli.yaml || true
-.pixi/bin/arduino-cli core update-index --config-file .arduino15/arduino-cli.yaml
-.pixi/bin/arduino-cli core install arduino:avr --config-file .arduino15/arduino-cli.yaml
+mkdir -p .arduino15 && \
+(.pixi/bin/arduino-cli config init --config-file .arduino15/arduino-cli.yaml || true) && \
+.pixi/bin/arduino-cli core update-index --config-file .arduino15/arduino-cli.yaml && \
+.pixi/bin/arduino-cli core install arduino:avr --config-file .arduino15/arduino-cli.yaml && \
 echo "✓ Arduino AVR core installed"
 """, depends-on = ["install-arduino-cli"] }
 
