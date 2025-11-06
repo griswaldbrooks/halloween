@@ -11,7 +11,7 @@ nodejs = "20.*"
 
 [tasks]
 # === Initial Setup ===
-install-arduino-cli = "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=.pixi/bin sh"
+install-arduino-cli = "mkdir -p .pixi/bin && curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=.pixi/bin sh"
 
 setup-arduino = { cmd = """
 .pixi/bin/arduino-cli config init --config-file .arduino15/arduino-cli.yaml || true
