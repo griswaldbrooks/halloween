@@ -19,7 +19,7 @@ let config = {
     sizeVariation: 0.5,      // 0 = all same size, 1 = full range
     speedVariation: 0.5,     // 0 = all same speed, 1 = full range
     paused: false,
-    animationMode: 'procedural', // 'keyframe', 'procedural', or 'hopping'
+    animationMode: 'procedural', // 'procedural' or 'hopping'
     // Hopping parameters
     hopDistanceMin: 6.0,     // Minimum hop distance multiplier (× body size)
     hopDistanceMax: 10.0,    // Maximum hop distance multiplier (× body size)
@@ -31,25 +31,11 @@ let config = {
 // Animation state
 let spiders = [];
 let animationId = null;
-let keyframeAnimation = null; // Will load from keyframe-animation.json
 
 // FPS tracking
 let fps = 0;
 let frameCount = 0;
 let lastFpsUpdate = Date.now();
-
-// Load keyframe animation
-fetch('keyframe-animation.json')
-    .then(response => response.json())
-    .then(data => {
-        keyframeAnimation = data;
-        console.log('✅ Loaded keyframe animation:', data.name);
-        console.log('   Keyframes:', data.keyframes.length);
-        console.log('   Duration:', data.duration + 'ms');
-    })
-    .catch(err => {
-        console.warn('⚠️ Could not load keyframe animation, using default positions');
-    });
 
 // Resize canvas to window
 function resizeCanvas() {
@@ -98,7 +84,6 @@ class Spider {
         this.body = new SpiderBody(this.bodySize);
 
         // Animation state
-        this.animationTime = Math.random() * 1000; // Keyframe animation time
         this.gaitPhase = 0;           // Procedural gait phase (0-5)
         this.gaitTimer = 0;           // Procedural phase timer
         this.stepProgress = 0;        // Procedural step progress (0-1)
@@ -123,9 +108,7 @@ class Spider {
             const attachment = this.body.getAttachment(i);
 
             // TOP-DOWN VIEW: Elbow bias determines which IK solution (knee position)
-            // Load pattern from keyframe animation if available, otherwise use default
-            const defaultPattern = [-1, 1, -1, 1, 1, -1, 1, -1];
-            const elbowBiasPattern = keyframeAnimation?.elbowBiasPattern || defaultPattern;
+            const elbowBiasPattern = [-1, 1, -1, 1, 1, -1, 1, -1];
             const elbowBias = elbowBiasPattern[i];
 
             const leg = new Leg2D({
@@ -173,9 +156,7 @@ class Spider {
         const speedMultiplier = this.speedMultiplier;
         const dt = 16.67; // ~60fps
 
-        if (config.animationMode === 'keyframe') {
-            this.updateKeyframe(dt, speedMultiplier);
-        } else if (config.animationMode === 'hopping') {
+        if (config.animationMode === 'hopping') {
             this.updateHopping(dt, speedMultiplier);
         } else {
             this.updateProcedural(dt, speedMultiplier);
@@ -194,223 +175,6 @@ class Spider {
         }
     }
 
-    updateKeyframe(dt, speedMultiplier) {
-        if (!keyframeAnimation) return; // Wait for keyframes to load
-
-        // Store previous time to calculate body movement
-        const prevTime = this.animationTime;
-
-        // Advance animation time
-        this.animationTime += dt * speedMultiplier;
-
-        // Loop the animation
-        const duration = keyframeAnimation.duration;
-        if (this.animationTime >= duration) {
-            // When looping, calculate the delta across the boundary
-            const deltaBeforeLoop = duration - prevTime;
-            const deltaAfterLoop = this.animationTime - duration;
-
-            // Apply movement from both segments
-            this.applyBodyMovementFromKeyframes(prevTime, duration, speedMultiplier);
-            this.animationTime = 0;
-            this.applyBodyMovementFromKeyframes(0, deltaAfterLoop, speedMultiplier);
-        } else {
-            // Normal case: calculate body movement from leg changes
-            this.applyBodyMovementFromKeyframes(prevTime, this.animationTime, speedMultiplier);
-        }
-
-        // Interpolate leg positions from keyframes
-        this.interpolateKeyframes(this.animationTime);
-
-        // Small lateral drift
-        this.y += this.vy * speedMultiplier;
-    }
-
-    applyBodyMovementFromKeyframes(startTime, endTime, speedMultiplier) {
-        // CORRECT APPROACH: Divide the cycle into swing and stance phases
-        // - During SWING: feet move in body coords, body stays still in world
-        // - During STANCE: feet stay in body coords, body moves in world
-        // Since keyframes are body-relative and planted feet don't move in body coords,
-        // we need to move the body to compensate!
-
-        const { before: startBefore, after: startAfter, t: startT } = this.getKeyframesAtTime(startTime);
-        const { before: endBefore, after: endAfter, t: endT } = this.getKeyframesAtTime(endTime);
-
-        const startPose = this.interpolatePose(startBefore, startAfter, startT);
-        const endPose = this.interpolatePose(endBefore, endAfter, endT);
-
-        const velocityThreshold = 5.0;
-
-        let plantedDeltaX = 0; // How much planted feet moved in body coords
-        let plantedCount = 0;
-        let swingingDeltaX = 0;
-        let swingingCount = 0;
-
-        for (let i = 0; i < 8; i++) {
-            const deltaX = endPose[i].x - startPose[i].x;
-            const deltaY = endPose[i].y - startPose[i].y;
-            const velocity = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            if (velocity < velocityThreshold) {
-                // PLANTED: foot stays at same body-relative position
-                // In world space, this means body is moving relative to foot
-                plantedDeltaX += deltaX;
-                plantedCount++;
-            } else {
-                // SWINGING: foot is moving in body coords
-                swingingDeltaX += deltaX;
-                swingingCount++;
-            }
-        }
-
-        // Debug logging
-        if (this.debugCounter === undefined) this.debugCounter = 0;
-        if (this.debugCounter % 60 === 0 && this.index === 0) {
-            console.log(`[Keyframe Debug] Time: ${startTime.toFixed(0)}→${endTime.toFixed(0)}ms`);
-            console.log(`  Planted: ${plantedCount}/8, AvgΔX: ${plantedCount > 0 ? (plantedDeltaX/plantedCount).toFixed(2) : 'N/A'}`);
-            console.log(`  Swinging: ${swingingCount}/8, AvgΔX: ${swingingCount > 0 ? (swingingDeltaX/swingingCount).toFixed(2) : 'N/A'}`);
-        }
-        this.debugCounter++;
-
-        const scale = this.bodySize / 100;
-        let bodyMovement = 0;
-
-        // Use a hybrid approach: prefer planted feet, but use swinging if no planted
-        if (plantedCount >= 4) {
-            // Enough planted feet - they define the reference frame
-            // If planted feet don't move in body coords (deltaX = 0),
-            // body doesn't move in world coords during this frame
-            // If planted feet DO move slightly, compensate
-            const avgPlantedDeltaX = plantedDeltaX / plantedCount;
-            bodyMovement = avgPlantedDeltaX * scale;
-        } else if (swingingCount > 0) {
-            // Mostly swinging - use swing motion with reduced factor
-            const avgSwingingDeltaX = swingingDeltaX / swingingCount;
-            bodyMovement = avgSwingingDeltaX * scale * 0.3; // Much smaller factor during swing
-        }
-
-        if (this.debugCounter % 60 === 0 && this.index === 0) {
-            console.log(`  Body movement: ${bodyMovement.toFixed(4)}`);
-        }
-
-        this.x += bodyMovement;
-    }
-
-    getKeyframesAtTime(time) {
-        const keyframes = keyframeAnimation.keyframes;
-        if (keyframes.length === 0) return { before: null, after: null, t: 0 };
-        if (keyframes.length === 1) return { before: keyframes[0], after: keyframes[0], t: 0 };
-
-        let beforeKf = keyframes[0];
-        let afterKf = keyframes[keyframes.length - 1];
-
-        for (let i = 0; i < keyframes.length - 1; i++) {
-            if (keyframes[i].time <= time && keyframes[i + 1].time >= time) {
-                beforeKf = keyframes[i];
-                afterKf = keyframes[i + 1];
-                break;
-            }
-        }
-
-        const duration = afterKf.time - beforeKf.time;
-        const elapsed = time - beforeKf.time;
-        const t = duration > 0 ? elapsed / duration : 0;
-
-        return { before: beforeKf, after: afterKf, t };
-    }
-
-    interpolatePose(keyframe1, keyframe2, t) {
-        const result = [];
-        for (let i = 0; i < 8; i++) {
-            result.push({
-                x: keyframe1.legs[i].x + (keyframe2.legs[i].x - keyframe1.legs[i].x) * t,
-                y: keyframe1.legs[i].y + (keyframe2.legs[i].y - keyframe1.legs[i].y) * t
-            });
-        }
-        return result;
-    }
-
-    updateProcedural(dt, speedMultiplier) {
-        // Gait timing (6-phase alternating tetrapod)
-        const phaseDurations = [200, 150, 100, 200, 150, 100]; // ms
-
-        this.gaitTimer += dt * speedMultiplier;
-
-        if (this.gaitTimer >= phaseDurations[this.gaitPhase]) {
-            this.gaitTimer = 0;
-            this.gaitPhase = (this.gaitPhase + 1) % 6;
-            this.stepProgress = 0;
-        }
-
-        this.stepProgress = this.gaitTimer / phaseDurations[this.gaitPhase];
-
-        // Update legs based on gait phase
-        for (const leg of this.legs) {
-            this.updateLegProcedural(leg);
-        }
-
-        // Body movement during lurch phases
-        if (this.gaitPhase === 1 || this.gaitPhase === 4) {
-            const lurchDistance = this.bodySize * 0.4;
-            const lurchDelta = (lurchDistance / phaseDurations[this.gaitPhase]) * dt * speedMultiplier;
-
-            this.x += lurchDelta;
-            this.y += this.vy * speedMultiplier;
-        }
-    }
-
-    interpolateKeyframes(time) {
-        const keyframes = keyframeAnimation.keyframes;
-        if (keyframes.length === 0) return;
-        if (keyframes.length === 1) {
-            // Only one keyframe, use it directly
-            this.applyKeyframe(keyframes[0]);
-            return;
-        }
-
-        // Find surrounding keyframes
-        let beforeKf = keyframes[0];
-        let afterKf = keyframes[keyframes.length - 1];
-
-        for (let i = 0; i < keyframes.length - 1; i++) {
-            if (keyframes[i].time <= time && keyframes[i + 1].time >= time) {
-                beforeKf = keyframes[i];
-                afterKf = keyframes[i + 1];
-                break;
-            }
-        }
-
-        // Calculate interpolation factor
-        const duration = afterKf.time - beforeKf.time;
-        const elapsed = time - beforeKf.time;
-        const t = duration > 0 ? elapsed / duration : 0;
-
-        // Interpolate each leg position
-        const scale = this.bodySize / 100; // Scale from reference size (100) to actual size
-
-        for (let i = 0; i < 8; i++) {
-            const before = beforeKf.legs[i];
-            const after = afterKf.legs[i];
-
-            // Linear interpolation
-            const interpX = before.x + (after.x - before.x) * t;
-            const interpY = before.y + (after.y - before.y) * t;
-
-            // Apply to world position (scaled and offset by spider position)
-            this.legs[i].worldFootX = this.x + interpX * scale;
-            this.legs[i].worldFootY = this.y + interpY * scale;
-        }
-    }
-
-    applyKeyframe(keyframe) {
-        const scale = this.bodySize / 100;
-
-        for (let i = 0; i < 8; i++) {
-            const legPos = keyframe.legs[i];
-            this.legs[i].worldFootX = this.x + legPos.x * scale;
-            this.legs[i].worldFootY = this.y + legPos.y * scale;
-        }
-    }
 
     updateLegProcedural(leg) {
         const isSwinging = (this.gaitPhase === 0 && leg.group === 'A') ||

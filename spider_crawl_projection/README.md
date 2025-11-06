@@ -2,7 +2,7 @@
 
 Black spiders walking left-to-right with proper inverse kinematics and alternating tetrapod gait.
 
-**Status:** ✅ COMPLETE! Procedural animation working perfectly! Keyframe editor available!
+**Status:** ✅ COMPLETE! Procedural animation working perfectly!
 
 ## Quick Start
 
@@ -12,7 +12,6 @@ pixi run serve                # Start server → http://localhost:8080
 pixi run kill-server          # Stop server
 pixi run open                 # Main animation (procedural mode)
 pixi run open-editor          # Interactive leg editor (drag feet, export config)
-pixi run open-keyframe-editor # Keyframe animation editor
 pixi run open-visual-test     # Single spider with annotations
 ```
 
@@ -28,11 +27,10 @@ The spider animation supports two modes (switchable via dropdown in UI):
    - Zero leg intersections during animation
    - Uses verified foot positions from `spider-config.json`
 
-2. **Keyframe Mode (Experimental)** ⚠️
-   - Custom keyframe-based animation
-   - Edit keyframes with `pixi run open-keyframe-editor`
-   - Supports body movement with planted/swinging foot detection
-   - Note: Body-relative coordinates make stance phase encoding complex
+2. **Hopping Mode** ✅
+   - Jumping spider locomotion
+   - Configurable hop distance and frequency
+   - Mixed crawl and hop behavior
 
 ## Architecture
 
@@ -40,12 +38,10 @@ The spider animation supports two modes (switchable via dropdown in UI):
 
 - `leg-kinematics.js` - IK/FK for 2-segment legs with elbow bias
 - `spider-model.js` - Body anatomy model (top-down view)
-- `spider-animation.js` - **Animation system with dual modes** (procedural + keyframe)
+- `spider-animation.js` - Animation system with procedural gait
 - `spider-config.json` - Verified foot positions (zero intersections)
 - `index.html` - Main animation page with mode switcher
 - `spider-editor.html` - Interactive leg position editor
-- `keyframe-editor.html` - **Keyframe animation editor** (move feet/body, plant feet, export)
-- `keyframe-animation.json` - Current keyframe animation data
 - `test-visual-output.html` - Single spider with position annotations
 
 ### Reference
@@ -56,7 +52,7 @@ The spider animation supports two modes (switchable via dropdown in UI):
 
 ### Documentation
 
-- `AGENT_HANDOFF.md` - **Complete handoff for next agent** (CRITICAL)
+- `AGENT_HANDOFF.md` - **Complete handoff for next agent**
 - `CHANGELOG.md` - Detailed version history
 - `ISSUES.md` - Current known issues
 - `spider-config.json` - Verified non-intersecting leg configuration
@@ -64,11 +60,13 @@ The spider animation supports two modes (switchable via dropdown in UI):
 ## Testing
 
 ### Run All Tests
+
 ```bash
-pixi run test              # Run complete test suite (11/12 tests passing)
+pixi run test              # Run complete test suite (8 tests passing)
 ```
 
 ### Core Tests
+
 ```bash
 pixi run test-kinematics   # IK/FK + elbow bias flip (✓ ALL PASS)
 pixi run test-model        # Body model validation (✓ PASS)
@@ -80,22 +78,14 @@ pixi run test-leg-drawing  # Visual leg geometry (✓ ALL PASS)
 ```
 
 ### Configuration Tests
+
 ```bash
 pixi run test-user-config  # Verify zero leg intersections (✓ PASS!)
 pixi run test-intersections # Generic intersection detection
 ```
 
-### Animation Tests
-```bash
-pixi run node test-keyframe-animation.js  # Keyframe system (✓ interpolation, ⚠️ intersections)
-pixi run node test-animation-modes.js     # Mode switching (✓ PASS)
-pixi run node test-keyframe-body-movement.js  # Body movement diagnostic (✓ PASS)
-pixi run node test-keyframe-direction.js  # Direction analysis (✓ PASS)
-pixi run node test-keyframe-phases.js     # Phase-by-phase analysis (diagnostic)
-pixi run node extract-procedural-keyframes.js # Extract keyframes from procedural gait
-```
-
 ### Optimization Tools
+
 ```bash
 pixi run optimize-legs      # Find non-intersecting reach values
 pixi run optimize-individual # Fine-tune individual leg positions
@@ -105,7 +95,7 @@ pixi run optimize-individual # Fine-tune individual leg positions
 
 ## Current Status
 
-### ✅ Completed (All Tests Pass)
+### ✅ Completed
 
 1. **IK Elbow Bias Fix (2025-10-21)** - Critical bug fix
    - Fixed elbow bias flip: both coxa AND femur angles now change
@@ -148,43 +138,15 @@ pixi run optimize-individual # Fine-tune individual leg positions
    - Forward/inverse kinematics working correctly
    - Zero error throughout system
 
-9. **Dual Animation Modes (2025-10-21)** - Procedural + Keyframe
-   - Procedural mode: Tetrapod gait with automatic stance/swing
-   - Keyframe mode: Custom animation with editor support
-   - Mode switcher in UI
-   - 12 comprehensive tests covering both modes
-
-10. **Keyframe Animation System (2025-10-21)** - Full editor
-    - Interactive keyframe editor with timeline
-    - Two edit modes: Move Feet | Move Body
-    - Planted feet feature (pin feet, move body around them)
-    - Auto-rename keyframes with Enter/blur
-    - Export/import JSON animations
-    - Body movement calculation from keyframe data
-
-11. **Body Movement from Keyframes (2025-10-21)** - Physics-based
-    - Detects planted vs swinging feet by velocity
-    - Hybrid algorithm: uses planted feet when available
-    - Diagnostic tests for direction analysis
-    - Procedural keyframe extraction tool
-
-### ⚠️ Known Limitations
-
-1. **Keyframe Mode Body Movement** - Complex issue
-   - Body-relative coordinates don't encode stance phase movement well
-   - Planted feet staying at same body coords = body doesn't move in world
-   - Procedural mode recommended for realistic walking
-   - Keyframe mode better for custom/artistic animations
-
-2. **Extracted Procedural Keyframes** - Have intersections
-   - Live procedural animation has zero intersections
-   - Extracted keyframes show intersections during swing phase
-   - This is because keyframes interpolate linearly, procedural doesn't
-   - Use procedural mode for zero-intersection guarantee
+9. **Procedural Gait System** - Tetrapod crawling
+   - Realistic alternating tetrapod gait
+   - Automatic stance/swing phase management
+   - Body movement coupled to leg motion
+   - Zero leg intersections guaranteed
 
 ## How Animation Works
 
-### Procedural Gait System (Not Pose Lists!)
+### Procedural Gait System
 
 The animation uses a **6-phase alternating tetrapod gait**:
 
@@ -217,17 +179,18 @@ Phase 5 (100ms): Pause
 ## For Next Agent
 
 ### Start Here
+
 1. **Read `AGENT_HANDOFF.md`** - Complete system documentation (CRITICAL!)
 2. **Run `pixi run open-editor`** - Try the interactive editor
 3. **Run `pixi run test`** - Verify all 8 tests pass
 4. **Run `pixi run test-user-config`** - Confirm zero intersections
-5. **Read `ISSUES.md`** - Current problems to fix (locomotion)
+5. **Read `ISSUES.md`** - Current problems to fix (if any)
 
 ### Key Insights
 
 - **Top-down view** (not side view!) - X=forward/back, Y=left/right
 - **Reference template** at `spider_template1.png` shows correct geometry
-- **All geometry tests pass** - focus on locomotion refinement now
+- **All geometry tests pass** - focus on refinement if needed
 - **Zero leg intersections** - configuration verified
 - Use `pixi run` for everything (reproducible environment)
 
@@ -271,11 +234,10 @@ pixi run test-ik-accuracy # Verify IK is perfect (0.0 error)
 - Core: kinematics, model, integration, topdown, ik-accuracy, rendering, leg-drawing
 - Config: test-user-config (✓ zero intersections!)
 
-**Documentation (4 files):**
+**Documentation (3 files):**
 - `README.md` - This file
 - `AGENT_HANDOFF.md` - Complete handoff
 - `CHANGELOG.md` - History
-- `ISSUES.md` - Known issues
 
 ## Development Environment
 
