@@ -1,3 +1,4 @@
+[![Unit Tests](https://github.com/griswaldbrooks/halloween/actions/workflows/test.yml/badge.svg)](https://github.com/griswaldbrooks/halloween/actions/workflows/test.yml)
 # Halloween Haunted House - Reusable Components
 
 A collection of Arduino-based animatronics and effects for annual Halloween haunted house experiences.
