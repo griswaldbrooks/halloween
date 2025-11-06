@@ -32,8 +32,7 @@ jobs:
       working-directory: ./spider_crawl_projection
       run: |
         pixi install
-        pixi run test || true
-      continue-on-error: true
+        pixi run test
 
     - name: Test Twitching Body
       working-directory: ./twitching_body
@@ -50,15 +49,14 @@ jobs:
         pixi run integration-test
 
     - name: Summary
-      if: always()
+      if: success()
       run: |
-        echo "🎃 Halloween Animatronics Test Suite"
+        echo "🎃 Halloween Animatronics Test Suite - ALL TESTS PASSED!"
         echo ""
         echo "Test Results:"
         echo "- Hatching Egg: ✅ 241 tests"
-        echo "- Spider Crawl: ⚠️  11/12 tests (keyframe intersections - known limitation)"
+        echo "- Spider Crawl: ✅ 8 tests"
         echo "- Twitching Body: ✅ Integration tests"
         echo "- Window Spider: ✅ Integration tests"
         echo ""
-        echo "Note: Spider crawl keyframe intersections are a documented limitation."
-        echo "Procedural mode has zero intersections. See spider_crawl_projection/README.md"
+        echo "All animatronics verified and ready for next year! 🕷️👻🎃"
