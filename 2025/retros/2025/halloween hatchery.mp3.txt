@@ -1,0 +1,755 @@
+00:00:00,820 --> 00:00:13,180 [Speaker 0]
+Okay. We are now entering the hatchery. The hatchery is made out of, uh, clear plastic where it has a bunch of balloons and paper mache eggshells hanging from the ceiling. 
+
+00:00:13,180 --> 00:00:27,480 [Speaker 1]
+Uh, the game mechanic for this one was that, uh, four of the eggs are clearly broken open. Uh, players had to stick a hand into y- the eggs to find the message that was held by a baby skeleton. 
+
+00:00:27,480 --> 00:00:49,300 [Speaker 0]
+Right. And so there's one, there's one, um, egg that is moving where there's a spider trying to get out, and there was a wire going to the, the m- egg with the message in it that would trigger, uh, that to react more violently. It did not react violently enough. It had too long of a ramp-up time, uh, so next time, that needs to be really violent. 
+
+00:00:49,300 --> 00:00:49,720 [Speaker 2]
+Yes. 
+
+00:00:49,720 --> 00:00:59,860 [Speaker 0]
+Uh, we covered the wire just by having a little bit of netting on the ceiling. And in the daylight, it's like, "Oh, that's super obvious." But at night, it's just, you can't see it whatsoever. 
+
+00:00:59,860 --> 00:00:59,900 [Speaker 1]
+Yeah. 
+
+00:00:59,900 --> 00:01:17,980 [Speaker 2]
+Okay. I have a lot of comments about this room because I actually had a different vision of this room that I put work into making happen. But because I wasn't involved with the actual assembly, I didn't get to see my vision come to light. So if you don't mind, I will talk about it. 
+
+00:01:17,980 --> 00:01:18,440 [Speaker 0]
+Yup. 
+
+00:01:18,440 --> 00:01:38,980 [Speaker 2]
+So, this guy, first of all, same problem. So the... I'm talking about the animatronic egg. Um, one of the comments that people kept making was that, "Yes. Oh, yeah. It was moving slowly, and then I guess it got more aggressive." But it's way too ... those two states are way too close. 
+
+00:01:38,980 --> 00:01:39,320 [Speaker 1]
+Yeah. 
+
+00:01:39,320 --> 00:01:43,039 [Speaker 2]
+So the initial state needs to be gentler. 
+
+00:01:43,040 --> 00:01:43,700 [Speaker 0]
+Yup. 
+
+00:01:43,700 --> 00:01:51,300 [Speaker 2]
+I also think that we need to make sure that we have a sound for, like, skittering to mask the 
+
+00:01:51,300 --> 00:01:53,100 [Speaker 2]
+animatronic sound. Same thing as this. 
+
+00:01:53,100 --> 00:01:53,550 [Speaker 0]
+The servo sound. 
+
+00:01:53,550 --> 00:01:54,300 [Speaker 2]
+The servo sound. 
+
+00:01:54,300 --> 00:01:54,860 [Speaker 0]
+Yup. 
+
+00:01:54,860 --> 00:02:06,240 [Speaker 2]
+Because it sounds like a robot when it shouldn't. Um, so we need to dial down the initial state to being gentle, and then when it's triggered by the switch, it becomes aggressive. 
+
+00:02:06,240 --> 00:02:08,090 [Speaker 0]
+It needs to be very, very aggressive. 
+
+00:02:08,090 --> 00:02:08,120 [Speaker 2]
+Yes. 
+
+00:02:08,120 --> 00:02:17,780 [Speaker 0]
+So what we have checked into the code right now, the ending aggressin- aggression should at least be the starting aggression, if not even more aggressive than that. 
+
+00:02:17,780 --> 00:02:20,900 [Speaker 2]
+I actually think that the legs need to come out. 
+
+00:02:20,900 --> 00:02:21,560 [Speaker 1]
+Farther? Yeah. 
+
+00:02:21,560 --> 00:02:28,440 [Speaker 2]
+Yes. We can put something like... We- we had talked about putting, um, like, you know, the legs from- 
+
+00:02:28,440 --> 00:02:28,860 [Speaker 0]
+Look, look, that far? 
+
+00:02:28,860 --> 00:02:30,740 [Speaker 2]
+Yeah. N- no, no, further. 
+
+00:02:30,740 --> 00:02:31,260 [Speaker 0]
+No, further than that. 
+
+00:02:31,260 --> 00:02:39,060 [Speaker 2]
+Further. What I think it needs to have is also not just two legs. I think it needs to have multiple of the spider legs ac- 
+
+00:02:39,060 --> 00:02:39,360 [Speaker 0]
+Mm-hmm. 
+
+00:02:39,360 --> 00:02:48,600 [Speaker 2]
+And you know, like, we have those s- spiders that have the, the, the, 
+
+00:02:48,600 --> 00:02:49,680 [Speaker 2]
+the bendy legs? 
+
+00:02:49,680 --> 00:02:54,560 [Speaker 0]
+Yeah. So Tamara's getting one of the bendy spiders. 
+
+00:02:54,560 --> 00:02:56,120 [Speaker 2]
+So these have bendy legs. 
+
+00:02:56,120 --> 00:02:56,620 [Speaker 0]
+Yup. 
+
+00:02:56,620 --> 00:03:01,739 [Speaker 2]
+This is fine if it touches you. This is not fine if it touches you and smacks you in the face when it's aggressive. 
+
+00:03:01,780 --> 00:03:02,000 [Speaker 0]
+Right. 
+
+00:03:02,000 --> 00:03:08,840 [Speaker 2]
+So what I think we should do is have, um, a pulley system inside legs 
+
+00:03:08,840 --> 00:03:10,980 [Speaker 2]
+that 
+
+00:03:10,980 --> 00:03:14,620 [Speaker 2]
+pull them in and out or something. I'm not sure exactly how to work it out. 
+
+00:03:14,620 --> 00:03:15,740 [Speaker 0]
+I, I can handle the robotics of it. 
+
+00:03:15,740 --> 00:03:22,380 [Speaker 2]
+You can handle the robotics. Basically, have the legs be the things that, that extend out, and have them be big- 
+
+00:03:22,380 --> 00:03:22,800 [Speaker 0]
+Yup 
+
+00:03:22,800 --> 00:03:25,359 [Speaker 2]
+... so that they touch you. 
+
+00:03:25,360 --> 00:03:27,960 [Speaker 2]
+So that when you're leaving- 
+
+00:03:27,960 --> 00:03:28,390 [Speaker 1]
+I will say- 
+
+00:03:28,390 --> 00:03:32,390 [Speaker 2]
+... it reaches out and touches you, but it's, it's not painful. 
+
+00:03:32,390 --> 00:03:38,580 [Speaker 1]
+So, yes, uh, been... With the current position of the animatronic, it is at some people's eye levels. 
+
+00:03:38,580 --> 00:03:38,590 [Speaker 2]
+Yeah. 
+
+00:03:38,590 --> 00:03:40,840 [Speaker 1]
+I still would not want to get hit in the eye- 
+
+00:03:40,840 --> 00:03:41,000 [Speaker 2]
+Okay. Okay 
+
+00:03:41,000 --> 00:03:41,790 [Speaker 1]
+... with one of the bendier legs. 
+
+00:03:41,790 --> 00:03:42,040 [Speaker 2]
+Sure. 
+
+00:03:42,040 --> 00:03:46,760 [Speaker 0]
+Yeah. I don't, I don't like it when... I don't think it's a good idea to have anything intentionally touch people. 
+
+00:03:46,760 --> 00:03:49,180 [Speaker 2]
+What if it's lower so it touches your body? 
+
+00:03:49,180 --> 00:03:50,520 [Speaker 1]
+Better, but, um- 
+
+00:03:50,520 --> 00:03:50,980 [Speaker 2]
+Okay 
+
+00:03:51,040 --> 00:03:52,420 [Speaker 1]
+... still need to be discussed. 
+
+00:03:52,420 --> 00:03:58,200 [Speaker 0]
+I, I think if it... I think y- your suggestion about there being more arms and it being more dramatic will make it enough of an effect. 
+
+00:03:58,200 --> 00:03:58,579 [Speaker 1]
+Yeah. 
+
+00:03:58,580 --> 00:04:03,180 [Speaker 2]
+So maybe just have it further back, but it's like something that does reach outward more. 
+
+00:04:03,180 --> 00:04:03,329 [Speaker 0]
+Yeah. 
+
+00:04:03,329 --> 00:04:03,340 [Speaker 1]
+Yeah. 
+
+00:04:03,340 --> 00:04:05,420 [Speaker 2]
+So it catches your eye. 
+
+00:04:05,420 --> 00:04:05,660 [Speaker 1]
+Yup. 
+
+00:04:05,660 --> 00:04:06,300 [Speaker 0]
+Yeah. 
+
+00:04:06,300 --> 00:04:06,600 [Speaker 2]
+Yeah. 
+
+00:04:06,600 --> 00:04:13,280 [Speaker 1]
+I will say, uh, I only have to comment on the animatronics. You, you brought up the noise of it. 
+
+00:04:13,280 --> 00:04:13,760 [Speaker 2]
+Mm-hmm. 
+
+00:04:13,760 --> 00:04:18,730 [Speaker 1]
+As someone who does not work with robots, animatronics- 
+
+00:04:18,730 --> 00:04:18,730 [Speaker 2]
+Yeah 
+
+00:04:18,730 --> 00:04:22,400 [Speaker 1]
+... this noise to me actually does kinda sound like skittering. 
+
+00:04:22,400 --> 00:04:22,750 [Speaker 2]
+Oh, okay. Yeah. 
+
+00:04:22,750 --> 00:04:22,770 [Speaker 0]
+Hmm. 
+
+00:04:22,770 --> 00:04:31,180 [Speaker 1]
+The noise that I'm, that I think defeats the, the mood is when these legs slam back into the base and there's a thud. 
+
+00:04:31,180 --> 00:04:32,080 [Speaker 2]
+I see. 
+
+00:04:32,080 --> 00:04:32,810 [Speaker 1]
+That, that, the- 
+
+00:04:32,810 --> 00:04:33,290 [Speaker 0]
+That's funny. 
+
+00:04:33,290 --> 00:04:33,320 [Speaker 2]
+Interesting. 
+
+00:04:33,320 --> 00:04:37,880 [Speaker 1]
+That thud, to me, is that's a prop. But this, like, like, stress- 
+
+00:04:37,880 --> 00:04:38,910 [Speaker 2]
+Squeeze, squeeze, squeeze, squeeze, squeeze, squeeze, squeeze. 
+
+00:04:38,910 --> 00:04:40,220 [Speaker 1]
+... groaning, squeaking- 
+
+00:04:40,220 --> 00:04:40,380 [Speaker 2]
+Yeah 
+
+00:04:40,380 --> 00:04:42,750 [Speaker 1]
+... sort of bit, to me, that sounds appropriate. 
+
+00:04:42,750 --> 00:04:42,760 [Speaker 0]
+Uh-huh. 
+
+00:04:42,760 --> 00:04:44,500 [Speaker 1]
+It's them... 
+
+00:04:44,500 --> 00:04:48,900 [Speaker 0]
+The thud. That's funny 'cause the thud is actually just a physical occurrence. There's- 
+
+00:04:48,900 --> 00:04:49,180 [Speaker 1]
+Yeah. 
+
+00:04:49,180 --> 00:04:49,760 [Speaker 0]
+Yeah. 
+
+00:04:49,760 --> 00:04:53,480 [Speaker 1]
+I presume that the legs or the cardboard or something hitting the paper mache. 
+
+00:04:53,480 --> 00:04:53,860 [Speaker 0]
+It is. 
+
+00:04:53,860 --> 00:04:54,330 [Speaker 2]
+Yeah. 
+
+00:04:54,330 --> 00:04:59,420 [Speaker 1]
+Yeah. And so, yeah, that thud I don't like, but the, the... to me, the skittering, I thought was, was fine. 
+
+00:04:59,420 --> 00:05:00,080 [Speaker 0]
+Okay. 
+
+00:05:00,080 --> 00:05:04,240 [Speaker 2]
+But we can get around that by not having it have paper mache in its way. 
+
+00:05:04,240 --> 00:05:05,160 [Speaker 1]
+Totall- Yes. Yeah. 
+
+00:05:05,160 --> 00:05:08,159 [Speaker 0]
+Yeah. Uh, but you were commenting that you had a, a- 
+
+00:05:08,160 --> 00:05:08,390 [Speaker 2]
+I had a- 
+
+00:05:08,390 --> 00:05:09,170 [Speaker 0]
+... more vision? So- 
+
+00:05:09,170 --> 00:05:11,560 [Speaker 2]
+So I had more of a vision of what this room was gonna be. 
+
+00:05:11,560 --> 00:05:11,680 [Speaker 0]
+Yup. 
+
+00:05:11,680 --> 00:05:15,180 [Speaker 2]
+So the egg sacs hanging from the ceiling- 
+
+00:05:15,180 --> 00:05:15,330 [Speaker 0]
+Yes. 
+
+00:05:15,330 --> 00:05:35,380 [Speaker 2]
+What I had initially imagined it and we had talked about was having a balloon and other sized balloons and eggs. I don't think that this room should be, um, you walk in and there's a, there's, like, a couple of party balloons that off in the corner. I think it should be big sacs- 
+
+00:05:35,380 --> 00:05:35,800 [Speaker 1]
+Yeah 
+
+00:05:35,800 --> 00:05:41,000 [Speaker 2]
+... that pervade the space, and you have to navigate around them. 
+
+00:05:41,000 --> 00:05:42,800 [Speaker 0]
+I completely agree with you. 
+
+00:05:42,800 --> 00:05:44,750 [Speaker 2]
+I just, it just didn't end up that way because we- 
+
+00:05:44,750 --> 00:05:44,750 [Speaker 0]
+Yup 
+
+00:05:44,750 --> 00:05:46,290 [Speaker 2]
+... didn't have the time to do that. 
+
+00:05:46,290 --> 00:05:46,320 [Speaker 1]
+So- 
+
+00:05:46,320 --> 00:05:46,480 [Speaker 0]
+Yup 
+
+00:05:46,480 --> 00:05:49,780 [Speaker 2]
+... I blew up more balloons that people didn't use. 
+
+00:05:49,780 --> 00:05:52,150 [Speaker 0]
+No, I, and I, I, I tried to get Paul to use them. 
+
+00:05:52,150 --> 00:05:52,159 [Speaker 2]
+Yeah. 
+
+00:05:52,160 --> 00:05:53,159 [Speaker 0]
+And we were just short on time. 
+
+00:05:53,160 --> 00:05:54,400 [Speaker 2]
+Yeah, we were just short on time. So I- 
+
+00:05:54,400 --> 00:05:54,660 [Speaker 0]
+Yup. 
+
+00:05:54,660 --> 00:06:05,020 [Speaker 1]
+Is this whole... So pointing to the left of the garage door, there's this whole space here where one could totally build a huge bulbous multi-egg egg sac. 
+
+00:06:05,020 --> 00:06:05,540 [Speaker 0]
+Yup. 
+
+00:06:05,540 --> 00:06:12,068 [Speaker 2]
+We can have more than one multi-Yeah. So this is a stack of wood that we ran outta time to move. 
+
+00:06:12,068 --> 00:06:12,308 [Speaker 0]
+Yep. 
+
+00:06:12,308 --> 00:06:12,428 [Speaker 1]
+Yeah. Yeah. Oh, yeah. 
+
+00:06:12,428 --> 00:06:14,468 [Speaker 2]
+We were planning on moving it, but- 
+
+00:06:14,468 --> 00:06:14,748 [Speaker 1]
+Yeah. 
+
+00:06:14,748 --> 00:06:14,888 [Speaker 2]
+Yeah. 
+
+00:06:14,888 --> 00:06:16,478 [Speaker 1]
+Just like, there is- there is- 
+
+00:06:16,478 --> 00:06:17,687 [Speaker 2]
+This whole space is not used. 
+
+00:06:17,688 --> 00:06:18,808 [Speaker 1]
+Yeah. 
+
+00:06:18,808 --> 00:06:19,198 [Speaker 2]
+Because- 
+
+00:06:19,198 --> 00:06:19,788 [Speaker 0]
+More space, yeah 
+
+00:06:19,788 --> 00:06:23,927 [Speaker 2]
+... we left the thing in the way, making it hard to assemble stuff. 
+
+00:06:23,928 --> 00:06:25,168 [Speaker 0]
+Yep. 
+
+00:06:25,168 --> 00:06:47,028 [Speaker 0]
+Um, okay, a technical comment about, uh, this room, is that, um, something about where it is in the wind or- or whatnot, uh, and the way that the- the- the f- rope rigging is working, is that, um, it does still tear from the- the ceiling at- at high winds. 
+
+00:06:47,028 --> 00:06:47,678 [Speaker 2]
+Okay. 
+
+00:06:47,678 --> 00:06:52,888 [Speaker 0]
+So, uh, something about this would need to be, um, adjusted to make it more durable. 
+
+00:06:52,888 --> 00:06:53,168 [Speaker 2]
+Yes. 
+
+00:06:53,168 --> 00:07:00,488 [Speaker 0]
+Something about the way that the tents work that never quite hap- quite happens, so, um, there's a physical, uh, improvement to make in here. 
+
+00:07:00,488 --> 00:07:04,768 [Speaker 2]
+Yes. I think also having the clear polyfill, um- 
+
+00:07:04,768 --> 00:07:08,068 [Speaker 0]
+Yeah. Uh, she's talking about the clear plastic sheeting. 
+
+00:07:08,068 --> 00:07:12,608 [Speaker 2]
+So I don't remember if in the dark it was obvious. 
+
+00:07:12,608 --> 00:07:13,068 [Speaker 0]
+What? 
+
+00:07:13,068 --> 00:07:13,128 [Speaker 1]
+What was obvious? 
+
+00:07:13,128 --> 00:07:14,828 [Speaker 2]
+Like, the clear polyfill. 
+
+00:07:14,828 --> 00:07:20,688 [Speaker 1]
+Uh, everyone ... Well, everyone knew the limits of the room. I'm not sure what you're looking for by "notice the polyfill." 
+
+00:07:20,688 --> 00:07:24,308 [Speaker 2]
+Could you notice, like, the wood? Did you notice it was plastic? 
+
+00:07:24,308 --> 00:07:27,768 [Speaker 1]
+Oh. Um, 
+
+00:07:27,768 --> 00:07:31,308 [Speaker 1]
+[sighs] frankly, it did not 
+
+00:07:31,368 --> 00:07:33,898 [Speaker 1]
+occ- ... I- I'm also maybe not the one to ask, 'cause I- I've s- 
+
+00:07:33,898 --> 00:07:33,898 [Speaker 2]
+Okay 
+
+00:07:33,898 --> 00:07:39,488 [Speaker 1]
+... I've seen the place multiple times. But everyone understood where the barriers were. 
+
+00:07:39,488 --> 00:07:44,888 [Speaker 2]
+The- the reason I'm saying that is because I kinda want the whole thing to be covered in- in cobwebs. 
+
+00:07:44,888 --> 00:07:45,568 [Speaker 1]
+Oh, okay. 
+
+00:07:45,568 --> 00:07:47,148 [Speaker 2]
+Just- just, like, a layer of cobweb. 
+
+00:07:47,148 --> 00:07:48,368 [Speaker 0]
+So- so I will- 
+
+00:07:48,368 --> 00:07:48,378 [Speaker 1]
+And I think as long as 
+
+00:07:48,378 --> 00:07:57,448 [Speaker 0]
+... say one of the- one of the limitations here, um, now I'm pointing at the huge, uh, netting that we ended up using in the garage, is Paul and I didn't realize we had this resource- 
+
+00:07:57,448 --> 00:07:57,798 [Speaker 2]
+Yeah, yeah, yeah 
+
+00:07:57,798 --> 00:07:59,308 [Speaker 0]
+... until late in the game. 
+
+00:07:59,308 --> 00:07:59,457 [Speaker 2]
+That's why. 
+
+00:07:59,457 --> 00:08:02,486 [Speaker 0]
+And this stuff is so big, it would've been actually really easy- 
+
+00:08:02,488 --> 00:08:02,658 [Speaker 2]
+To just- yeah 
+
+00:08:02,658 --> 00:08:07,648 [Speaker 0]
+... to take this and dress the room with it to cover up the- the fact that the walls are just plastic. 
+
+00:08:07,648 --> 00:08:08,348 [Speaker 2]
+Yeah. Yeah. 
+
+00:08:08,348 --> 00:08:13,828 [Speaker 0]
+One of the things that I noticed when I- I walked through and I actually asked people, is that in the dark ... 
+
+00:08:13,828 --> 00:08:14,668 [Speaker 2]
+You can't see it. 
+
+00:08:14,668 --> 00:08:23,188 [Speaker 0]
+Yeah. The- the- the ... It's not a dis- the polyfill being just ... Sorry. The plastic sheeting just being naked plastic sheeting is not a distraction to people. 
+
+00:08:23,188 --> 00:08:23,268 [Speaker 2]
+Okay. 
+
+00:08:23,268 --> 00:08:26,528 [Speaker 0]
+Um, but it was originally supposed to be black and not clear. 
+
+00:08:26,528 --> 00:08:34,488 [Speaker 2]
+I also want to point out something that, um, is happening, is Dan is tall. He has cobweb in-face. 
+
+00:08:34,488 --> 00:08:35,207 [Speaker 1]
+Yes. 
+
+00:08:35,207 --> 00:08:50,387 [Speaker 2]
+So for ... In terms of navigable space, maybe we have it be, like, things that you have to explicitly hold out of your way, but not accidentally walk into and get caught in. 
+
+00:08:50,388 --> 00:08:50,788 [Speaker 2]
+Okay. 
+
+00:08:50,788 --> 00:08:56,148 [Speaker 0]
+So the pol- so the- so the netting should be a little bit higher so it's not in their face? 
+
+00:08:56,148 --> 00:08:56,768 [Speaker 2]
+A little bit. 
+
+00:08:56,768 --> 00:08:59,208 [Speaker 1]
+Uh, I think the 
+
+00:08:59,208 --> 00:09:03,828 [Speaker 1]
+... Let's- let's- let's say the fundamental set dressing should be higher. 
+
+00:09:03,828 --> 00:09:03,968 [Speaker 2]
+Yeah. 
+
+00:09:03,968 --> 00:09:13,328 [Speaker 1]
+I ... 'Cause, yeah, again, I'm six-foot-two, and, uh, I mean, honestly, the wire that's connecting the, uh, the animatronic to the trigger, that would hit my forehead- 
+
+00:09:13,328 --> 00:09:13,338 [Speaker 2]
+Yeah 
+
+00:09:13,338 --> 00:09:15,528 [Speaker 1]
+... if not for the barrier. Like ... Uh- 
+
+00:09:15,528 --> 00:09:15,988 [Speaker 2]
+Yeah. 
+
+00:09:15,988 --> 00:09:21,338 [Speaker 1]
+The fundamental set dressing, the wire, all that, I think, should be taller, up more flush with the ceiling. 
+
+00:09:21,338 --> 00:09:21,448 [Speaker 2]
+Yeah. 
+
+00:09:21,508 --> 00:09:28,388 [Speaker 1]
+I am not opposed, though, to the idea of additional, um, 
+
+00:09:28,388 --> 00:09:28,748 [Speaker 1]
+yeah, drapery. 
+
+00:09:28,748 --> 00:09:29,668 [Speaker 0]
+Egg sacs. 
+
+00:09:29,668 --> 00:09:30,688 [Speaker 1]
+Or egg sacs- 
+
+00:09:30,688 --> 00:09:30,698 [Speaker 2]
+Yes. Yes. Yes. 
+
+00:09:30,698 --> 00:09:32,778 [Speaker 1]
+... and spiderweb drapery- 
+
+00:09:32,778 --> 00:09:32,778 [Speaker 2]
+Yes 
+
+00:09:32,778 --> 00:09:34,848 [Speaker 1]
+... as- as a barrier to push. Like, that's- that's fine. 
+
+00:09:34,848 --> 00:09:36,318 [Speaker 2]
+But I think it's the- 
+
+00:09:36,318 --> 00:09:36,367 [Speaker 0]
+Yep. 
+
+00:09:36,367 --> 00:09:44,948 [Speaker 2]
+So- so the issue I th- worry about is, it's totally fine if there's drapery that if you walk through it, it moves aside or you can hold it aside. 
+
+00:09:44,948 --> 00:09:45,268 [Speaker 1]
+Mm-hmm. 
+
+00:09:45,268 --> 00:09:50,068 [Speaker 2]
+It's another thing that if you push this, you might actually be moving a wire. 
+
+00:09:50,068 --> 00:09:51,788 [Speaker 1]
+Correct. And this is why I think this needs to be way higher. 
+
+00:09:51,828 --> 00:09:52,268 [Speaker 2]
+Yes. Yes. 
+
+00:09:52,268 --> 00:09:52,548 [Speaker 0]
+Yep. 
+
+00:09:52,548 --> 00:09:53,988 [Speaker 1]
+Yes. So yes. 
+
+00:09:53,988 --> 00:09:54,008 [Speaker 0]
+Yep. 
+
+00:09:54,008 --> 00:09:57,968 [Speaker 1]
+O- once- once the wire and the fundamental set dressing is up outta the way- 
+
+00:09:57,968 --> 00:09:58,428 [Speaker 2]
+Yeah 
+
+00:09:58,428 --> 00:10:02,148 [Speaker 1]
+... um, then yeah, we-w-we ... There's room to have fun- 
+
+00:10:02,148 --> 00:10:02,728 [Speaker 2]
+Yes. Yes. Yes. 
+
+00:10:02,728 --> 00:10:05,728 [Speaker 1]
+With drapery, with how to organize the egg sacks- 
+
+00:10:05,728 --> 00:10:05,788 [Speaker 2]
+Yes 
+
+00:10:05,788 --> 00:10:11,988 [Speaker 1]
+... to maybe make it a bit more of a, uh, a maze or at least claustrophobic- 
+
+00:10:11,988 --> 00:10:12,738 [Speaker 2]
+Yeah. Yeah, yeah, yeah. Claustrophobic, yes 
+
+00:10:12,738 --> 00:10:13,968 [Speaker 1]
+... to try to find- 
+
+00:10:13,968 --> 00:10:13,998 [Speaker 0]
+Yeah 
+
+00:10:13,998 --> 00:10:14,698 [Speaker 2]
+Yes 
+
+00:10:14,698 --> 00:10:16,928 [Speaker 1]
+... the egg sack with the- the message. 
+
+00:10:16,928 --> 00:10:17,098 [Speaker 2]
+Yes. 
+
+00:10:17,098 --> 00:10:34,028 [Speaker 0]
+Yeah. I tried to tell Paul that, um, like, when you're doing, like, interior design for functional spaces that people want to be in, right? People like to have, like, not have to walk around things, things being clear, nice lines of sight. And that way when you're doing haunted houses you should do the opposite of that. 
+
+00:10:34,028 --> 00:10:34,198 [Speaker 2]
+Yes. 
+
+00:10:34,198 --> 00:10:34,387 [Speaker 1]
+Yeah. 
+
+00:10:34,387 --> 00:10:42,418 [Speaker 0]
+You should try to put things in peoples' way. You should have to make them maneuver around things. And so I tried to encourage him to put up more egg sacks, like, in- in the way. 
+
+00:10:42,418 --> 00:10:42,428 [Speaker 2]
+Yes. 
+
+00:10:42,428 --> 00:10:43,748 [Speaker 0]
+But again, we just ran out of time. 
+
+00:10:43,748 --> 00:10:52,268 [Speaker 2]
+Yeah, yeah, yeah. I think basically going for more, but something that is an obvious thing that you have to move aside. 
+
+00:10:52,268 --> 00:10:52,808 [Speaker 0]
+Okay. 
+
+00:10:52,808 --> 00:10:56,068 [Speaker 2]
+Um, and also give people the space to move things aside. 
+
+00:10:56,068 --> 00:10:56,468 [Speaker 0]
+Yep. 
+
+00:10:56,468 --> 00:11:02,188 [Speaker 2]
+Um, what was the other thing? I wanted to just give a comment about this line being here. Especially if- 
+
+00:11:02,188 --> 00:11:03,328 [Speaker 0]
+She's talking about the wire. 
+
+00:11:03,328 --> 00:11:05,647 [Speaker 2]
+So the wire going from this guy to this guy. 
+
+00:11:05,647 --> 00:11:07,988 [Speaker 0]
+From the animatronic to the message. 
+
+00:11:07,988 --> 00:11:10,627 [Speaker 2]
+So, um, 
+
+00:11:10,627 --> 00:11:20,108 [Speaker 2]
+having ... In the dark you couldn't see it. I will ... I- I- I'd like to say it was super cool because nobody understood 
+
+00:11:20,108 --> 00:11:22,668 [Speaker 2]
+what was happening with why this got more aggressive. 
+
+00:11:22,668 --> 00:11:22,838 [Speaker 1]
+Yeah. 
+
+00:11:22,838 --> 00:11:24,448 [Speaker 2]
+And I think that was a triumph. 
+
+00:11:24,448 --> 00:11:24,867 [Speaker 0]
+Awesome. 
+
+00:11:24,867 --> 00:11:27,928 [Speaker 2]
+I had people actually be like, "How did that work?" And I explained- 
+
+00:11:27,928 --> 00:11:27,938 [Speaker 0]
+Yeah 
+
+00:11:27,938 --> 00:11:32,488 [Speaker 2]
+... to them like, "Oh, look up there. There's a wire." They're like, "Oh, that's so cool. That's so cool." People are into it. 
+
+00:11:32,488 --> 00:11:32,688 [Speaker 0]
+Yeah. 
+
+00:11:32,688 --> 00:11:37,598 [Speaker 2]
+So it's good. Um, if we hide the animatronics up high, uh, like the- the- 
+
+00:11:37,598 --> 00:11:37,967 [Speaker 0]
+The wiring 
+
+00:11:37,968 --> 00:11:46,228 [Speaker 2]
+... the wiring up high, and ... But- but still have, like, things that, you know, over here trigger over there- 
+
+00:11:46,228 --> 00:11:46,627 [Speaker 0]
+Yes 
+
+00:11:46,627 --> 00:11:48,127 [Speaker 2]
+... is really cool. 
+
+00:11:48,127 --> 00:11:49,008 [Speaker 0]
+Yep. 
+
+00:11:49,008 --> 00:11:57,948 [Speaker 2]
+Um, I have another comment about kind of the- the next room, and I'm not sure if I should make it here or there. Maybe I'll just make it there. 
+
+00:11:57,948 --> 00:11:58,298 [Speaker 0]
+Okay. 
+
+00:11:58,298 --> 00:11:58,328 [Speaker 2]
+Okay. 
+
+00:11:58,328 --> 00:11:59,777 [Speaker 0]
+So we're gonna ... We're done- 
+
+00:11:59,777 --> 00:11:59,777 [Speaker 2]
+Sure 
+
+00:11:59,777 --> 00:12:00,838 [Speaker 0]
+... taking notes for this room. 
+
+00:12:00,838 --> 00:12:01,168 [Speaker 2]
+Okay. Keep recording. 
+
+00:12:01,168 --> 00:12:02,168 [Speaker 0]
+I'm stopping the recording.
