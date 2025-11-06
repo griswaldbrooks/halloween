@@ -1,346 +1,412 @@
-# Claude Code Agent Instructions - Halloween 2025 Project
+# Claude Code Agent Instructions - Halloween Animatronics Repository
 
-## Project Overview
+[![Unit Tests](https://github.com/griswaldbrooks/halloween/actions/workflows/test.yml/badge.svg)](https://github.com/griswaldbrooks/halloween/actions/workflows/test.yml)
 
-Halloween 2025 Spider Haunted House - **Window Spider Trigger** system for Chamber 2.
+## Repository Overview
 
-**Current State:** ✅ Fully functional
-- Single-video playback system (paused → trigger → play → reset → pause)
-- DFRobot Beetle on Pin 9 with momentary switch
-- Pixi-managed environment
-- Automated testing suite
+**Multi-year Halloween haunted house animatronics** - Production-ready, reusable components.
+
+**Status:** ✅ **All systems operational, CI passing, ready for next year**
+
+This repository contains 4 complete animatronic projects that can be reused year after year:
+- **hatching_egg** - Spider egg with 4 servos (241 tests ✅)
+- **spider_crawl_projection** - Procedural spider animation (8 tests ✅)
+- **twitching_body** - 3-servo victim animatronic (5 tests ✅)
+- **window_spider_trigger** - Video scare system (integration tests ✅)
 
 ---
 
-## Critical: Documentation Protocol
+## 🎯 Quick Start for New Agents
 
-**This project experienced agent shutdowns. Always document progress immediately.**
+### 1. Understand the Structure
 
-### Update Files As You Work
-
-**Primary documentation** (update these):
-1. **TROUBLESHOOTING.md** - Problems encountered and solutions
-2. **CHANGELOG.md** - All changes made
-3. **README.md** - User-facing features/config changes only
-
-**Do NOT create new docs** unless absolutely necessary. Everything should fit in the above files.
-
-### Documentation Template
-
-When encountering issues or making changes:
-
-```markdown
-## [Timestamp] - [Brief Description]
-
-**Problem:** What went wrong
-**Cause:** Root cause analysis
-**Solution:** What fixed it
-**Testing:** How you verified the fix
-**Files changed:** List of modified files
-
-Example command: `pixi run integration-test`
+```
+halloween/                    # ← You are here
+├── hatching_egg/            # Reusable: Spider egg animatronic
+├── spider_crawl_projection/ # Reusable: Browser animation
+├── twitching_body/          # Reusable: Twitching victim
+├── window_spider_trigger/   # Reusable: Video trigger
+├── 2025/                    # Year-specific: 2025 event materials
+│   ├── PROJECT_PLAN.md      # 6-chamber spider haunted house
+│   ├── SHOPPING_LIST.md
+│   └── retros/
+├── README.md                # Main documentation
+└── .github/workflows/       # CI tests (ALL PASSING ✅)
 ```
 
----
+### 2. Run Tests Immediately
 
-## Testing First, Always
-
-Before doing ANYTHING, run diagnostics:
+**Before doing anything, verify everything works:**
 
 ```bash
-# 1. System check
-pixi run status
+# Test each project
+cd hatching_egg && pixi run test                  # 241 tests
+cd spider_crawl_projection && pixi run test       # 8 tests
+cd twitching_body && pixi run integration-test    # 5 tests
+cd window_spider_trigger && pixi run integration-test
 
-# 2. Integration test (auto-fixes video issues)
-pixi run integration-test
-
-# 3. Hardware test (if Beetle connected)
-pixi run beetle-test
+# Or run CI locally (requires all projects)
+# GitHub Actions will run all tests on push
 ```
 
-**Document test results in TROUBLESHOOTING.md immediately.**
+### 3. Choose Your Task
+
+**Option A: Work on existing animatronics**
+- Read project's `README.md` and `AGENT_HANDOFF.md`
+- Run tests first
+- Make changes
+- Run tests again
+- Update project's `CHANGELOG.md`
+
+**Option B: Create new animatronic for next year**
+- Study existing projects as templates
+- Create new directory in root (e.g., `new_effect/`)
+- Use Pixi for environment management
+- Write tests from day one
+- Follow existing project structure
+
+**Option C: Prepare for new year (e.g., 2026)**
+- Create `2026/` directory
+- Copy templates from `2025/`
+- Update plans for new theme
+- Test all animatronics still work
 
 ---
 
-## Pixi Environment - Mandatory
+## 🧪 Testing Philosophy
 
-**ALL operations MUST use Pixi:**
+**ALL CODE MUST HAVE TESTS - NO EXCEPTIONS**
+
+Each project has comprehensive testing:
+- Unit tests for logic
+- Integration tests for hardware setup
+- CI runs automatically on every push
+
+**If tests fail in CI, DO NOT MERGE.** Fix the tests first.
+
+---
+
+## 🛠️ Development Environment - Pixi
+
+**CRITICAL: ALL projects use Pixi for reproducibility**
+
 ```bash
-pixi run <command>    # Always use this
-.pixi/bin/<tool>      # Direct tool access if needed
-pixi shell            # Interactive shell with environment
+# Install Pixi (one-time)
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Every project has:
+cd <project>/
+pixi install           # Install dependencies
+pixi run test          # Run tests
+pixi run deploy        # Deploy to hardware
 ```
 
-**NEVER:**
-- Install system packages
-- Run npm/node/arduino-cli from system PATH
+**Why Pixi?**
+- Reproducible environments across years
+- No system dependencies
+- Works on any machine
+- Ensures projects work in CI
+
+**Never:**
+- Install system packages for project dependencies
+- Use system python/node/arduino-cli
 - Modify global configuration
 
 ---
 
-## Common Tasks
+## 📁 Project Structure Standards
 
-### Testing
+Every animatronic project should follow this structure:
+
+```
+project_name/
+├── README.md                # Quick start, features, usage
+├── AGENT_HANDOFF.md         # Technical details for next agent
+├── CHANGELOG.md             # Version history
+├── pixi.toml                # Environment + commands
+├── arduino/                 # Arduino sketches (if hardware)
+│   └── main/main.ino
+├── scripts/                 # Shell scripts
+│   └── integration_test.sh
+├── test*.js                 # Unit tests (Node.js projects)
+└── docs/                    # Additional docs (optional)
+    ├── TROUBLESHOOTING.md
+    └── WIRING.md
+```
+
+**Documentation Guidelines:**
+- `README.md` - User-facing, focus on "how to use"
+- `AGENT_HANDOFF.md` - Technical, focus on "how it works"
+- `CHANGELOG.md` - Update with EVERY commit
+- Keep docs concise and actionable
+
+---
+
+## 🤖 Hardware Projects (Arduino)
+
+Three projects use **DFRobot Beetle** (Leonardo):
+- hatching_egg
+- twitching_body
+- window_spider_trigger
+
+**Standard Setup Process:**
 ```bash
-pixi run status              # System overview
-pixi run integration-test    # Full system test + auto-fix
-pixi run beetle-test         # Hardware verification
-pixi run beetle-monitor-test # Interactive switch test
+pixi run setup              # Install arduino-cli + cores
+pixi run arduino-compile    # Verify sketch compiles
+pixi run arduino-flash      # Upload to Beetle
+pixi run arduino-monitor    # View serial output
 ```
 
-### Development
+**Hardware Testing:**
+- Integration tests verify setup without hardware
+- Manual testing required for actual hardware
+- Document hardware setup in project's WIRING.md
+
+---
+
+## 🎨 Browser Projects (Animation)
+
+One project uses browser-based animation:
+- spider_crawl_projection
+
+**Standard Development:**
 ```bash
-pixi run arduino-flash       # Upload to Beetle
-pixi run deploy              # Flash + start server
-pixi run dev                 # Development mode (auto-reload)
-pixi run arduino-monitor     # Serial monitor
+pixi run serve              # Start HTTP server
+pixi run open               # Open in browser
+pixi run test               # Run unit tests
 ```
 
-### Fixes
+**Animation Testing:**
+- Unit tests for geometry/kinematics
+- Visual inspection in browser
+- No hardware required
+
+---
+
+## 📊 Continuous Integration
+
+**GitHub Actions runs all tests automatically**
+
+Workflow: `.github/workflows/test.yml`
+
+**What runs in CI:**
+1. Hatching Egg - 241 unit tests
+2. Spider Crawl - 8 geometry tests
+3. Twitching Body - 5 integration tests (setup + compile)
+4. Window Spider - 5 integration tests (setup + compile)
+
+**Current Status:** ✅ ALL TESTS PASSING
+
+**If you break CI:**
+1. Check the Actions tab on GitHub
+2. Read the error logs
+3. Fix locally and test: `pixi run test`
+4. Push fix
+
+---
+
+## 🗂️ Year-Specific Materials
+
+**2025 Event:** Spider haunted house (6 chambers)
+- Location: `2025/`
+- Completed: Oct 2025
+- All animatronics worked successfully
+
+**For Future Years:**
 ```bash
-pixi run fix-videos          # Fix missing video symlinks
-pixi run fix-permissions     # Fix Arduino permissions
-pixi run clean-all           # Clean build artifacts
+# Create new year folder
+mkdir 2026
+cp 2025/PROJECT_PLAN.md 2026/
+cp 2025/SHOPPING_LIST.md 2026/
+
+# Update for new theme
+# Test all animatronics still work
+# Customize layouts
 ```
+
+**What goes in year folders:**
+- PROJECT_PLAN.md (chamber layouts, theme)
+- SHOPPING_LIST.md (budget, materials)
+- LAYOUT_MAP.txt (physical layout)
+- Scripts/dialogue (tamari_script.txt, etc.)
+- Event photos/videos
+- Retrospectives
+
+**What stays in root:**
+- Reusable animatronics (code + hardware)
+- Shared documentation (GIT_LFS_SETUP.md, etc.)
+- CI configuration
 
 ---
 
-## File Structure
+## 🔧 Common Tasks
 
-**Keep these files:**
-- `README.md` - Main documentation (user-facing)
-- `TROUBLESHOOTING.md` - Problems & solutions + testing guide
-- `BEETLE_PINOUT.md` - Hardware pin reference
-- `CHANGELOG.md` - Version history
-
-**Session files** (git-ignored, for temporary notes):
-- Use `/tmp/agent_notes.md` for scratch work
-- Don't commit session notes
-
----
-
-## Hardware Configuration
-
-**DFRobot Beetle (DFR0282):**
-- Pin 9: Switch input (INPUT_PULLUP)
-- Pin 13: LED indicator
-- GND: Ground
-- Detected as: Arduino Leonardo at `/dev/ttyACM0`
-
-**Wiring:**
-```
-Pin 9 → Switch Terminal 1
-GND   → Switch Terminal 2
-```
-
----
-
-## Video System
-
-**Current behavior:**
-1. Load → video paused at first frame
-2. Trigger → plays from start
-3. End → resets to start and pauses
-4. Ready for next trigger
-
-**Video file:**
-- `public/videos/spider_jump1.mp4`
-
-**If loading screen hangs:**
+### Testing Everything
 ```bash
-pixi run integration-test  # Auto-creates symlinks
+# Quick verification all projects work
+cd hatching_egg && pixi run test && cd ..
+cd spider_crawl_projection && pixi run test && cd ..
+cd twitching_body && pixi run integration-test && cd ..
+cd window_spider_trigger && pixi run integration-test && cd ..
+```
+
+### Adding a New Animatronic
+1. Create directory in root: `mkdir new_effect/`
+2. Add `pixi.toml` (copy from similar project)
+3. Create `README.md`, `AGENT_HANDOFF.md`, `CHANGELOG.md`
+4. Write code + tests
+5. Add to CI workflow (`.github/workflows/test.yml`)
+6. Verify CI passes
+
+### Updating Documentation
+- Update each project's `CHANGELOG.md` with changes
+- Update `README.md` if user-facing changes
+- Update `AGENT_HANDOFF.md` if technical changes
+- Keep root `README.md` updated with project list
+
+### Git Workflow
+```bash
+# Make changes
+pixi run test               # Verify locally
+
+# Commit
+git add -A
+git commit -m "Brief description
+
+Detailed explanation of changes.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+# Push and verify CI
+git push origin main
+# Check Actions tab on GitHub
 ```
 
 ---
 
-## Troubleshooting Workflow
+## 📚 Key Documentation
 
-1. **Identify problem**
-2. **Run diagnostics:**
-   ```bash
-   pixi run status
-   pixi run integration-test
-   pixi run beetle-test      # If hardware related
-   ```
-3. **Check TROUBLESHOOTING.md** for known issues
-4. **Apply fix**
-5. **Test fix:**
-   ```bash
-   pixi run integration-test  # Verify system works
-   ```
-6. **Document in TROUBLESHOOTING.md:**
-   - Problem description
-   - Root cause
-   - Solution applied
-   - Verification steps
+**Root Level:**
+- `README.md` - Repository overview + CI status
+- `MIGRATION_2025_TO_MULTI_YEAR.md` - Migration history
+- `GIT_LFS_SETUP.md` - Binary file handling
+
+**Each Project:**
+- `README.md` - Quick start + features
+- `AGENT_HANDOFF.md` - Complete technical details
+- `CHANGELOG.md` - Version history (KEEP UPDATED!)
+
+**2025 Event:**
+- `2025/PROJECT_PLAN.md` - 6-chamber layout
+- `2025/README.md` - Event summary
+- `2025/retros/` - Post-event notes
 
 ---
 
-## Git Workflow
+## 🚨 Important Notes
 
-**Before committing:**
-1. Test changes: `pixi run integration-test`
-2. Update CHANGELOG.md with changes
-3. Stage and commit:
-   ```bash
-   git add -A
-   git commit -m "Brief description
+### Git LFS
+Binary files are tracked with Git LFS:
+- `*.mp4` (videos)
+- `*.png` (images)
+- `*.mp3` (audio)
 
-   Details of what changed and why.
+Don't commit large binaries without LFS!
 
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
+### Pixi.toml Format
+All projects now use `[workspace]` not `[project]`:
+```toml
+[workspace]  # ✅ Correct
+name = "project-name"
+```
 
-   Co-Authored-By: Claude <noreply@anthropic.com>"
-   ```
+### Arduino-CLI Setup
+Hardware projects need directory setup:
+```bash
+mkdir -p .pixi/bin .arduino15  # Required before setup
+pixi run setup                  # Install arduino-cli
+```
 
-**Git LFS** is configured for `*.mp4` and `*.png` files.
-
----
-
-## Common Issues & Quick Fixes
-
-| Problem | Quick Fix |
-|---------|-----------|
-| Loading screen stuck | `pixi run integration-test` |
-| Arduino not detected | `pixi run fix-permissions` then logout/login |
-| Port 3000 in use | `pkill -f "node server.js"` |
-| Switch not triggering | `pixi run beetle-monitor-test` to diagnose |
-| Video won't play | Check browser console (F12) |
-| Upload fails | Close serial monitors, retry |
-
-See `TROUBLESHOOTING.md` for complete guide.
-
----
-
-## Testing Checklist
-
-When verifying system (copy to TROUBLESHOOTING.md and check off):
-
-```markdown
-- [ ] `pixi run status` - Node.js 20.x, packages OK
-- [ ] `pixi run arduino-detect` - Beetle at /dev/ttyACM0
-- [ ] `pixi run arduino-compile` - No errors
-- [ ] `pixi run arduino-flash` - Upload successful
-- [ ] `pixi run beetle-monitor-test` - STARTUP, READY
-- [ ] Press switch → TRIGGER, SWITCH_RELEASED
-- [ ] `pixi run integration-test` - All 5 tests pass
-- [ ] `pixi run deploy` - Server starts, serial connects
-- [ ] Browser localhost:3000 - Video loads paused
-- [ ] Press `T` - Video plays, resets, pauses
-- [ ] Press switch - Same as `T`
-- [ ] Multiple triggers - Works correctly
-
-✅ All pass = System operational
+### Shell Scripts with set -e
+Use `$((var + 1))` not `((var++))`:
+```bash
+set -e
+TESTS_PASSED=$((TESTS_PASSED + 1))  # ✅ Works with set -e
 ```
 
 ---
 
-## Emergency Recovery
+## 🎯 Current Status (2025-11-06)
 
-If agent shuts down unexpectedly:
+### Repository
+- ✅ Reorganized for multi-year reuse
+- ✅ CI passing (all tests green)
+- ✅ No deprecation warnings
+- ✅ Ready for next year
 
-1. **Check recent changes:**
-   ```bash
-   git log --oneline -5
-   git diff HEAD~1
-   ```
+### Projects Status
+| Project | Tests | Status | Notes |
+|---------|-------|--------|-------|
+| hatching_egg | 241 ✅ | Complete | Production ready |
+| spider_crawl_projection | 8 ✅ | Complete | Keyframe mode removed |
+| twitching_body | 5 ✅ | Complete | Production ready |
+| window_spider_trigger | 5 ✅ | Complete | Production ready |
 
-2. **Run diagnostics:**
-   ```bash
-   pixi run status
-   pixi run integration-test
-   ```
-
-3. **Check documentation:**
-   - Read last entry in CHANGELOG.md
-   - Check TROUBLESHOOTING.md for recent issues
-
-4. **Resume work** based on test results and documentation
+### Recent Changes
+- Removed unused keyframe feature from spider_crawl_projection
+- Fixed CI: arduino-cli setup, integration tests
+- Refactored pixi.toml to use `workspace`
+- All tests passing in CI
 
 ---
 
-## Project Hygiene
+## 📖 For Your First Session
 
-**Code audit approach** - Periodically review the entire codebase:
+**Day 1 Checklist:**
+1. ✅ Read this file completely
+2. ✅ Read root `README.md`
+3. ✅ Check CI badge (should be green)
+4. ✅ Run tests on all projects
+5. ✅ Read `2025/PROJECT_PLAN.md` for context
+6. ✅ Choose a project to work on
+7. ✅ Read that project's `AGENT_HANDOFF.md`
+8. ✅ Make a small test change
+9. ✅ Verify tests pass
+10. ✅ Now you're ready to work!
 
-1. **Find unused code** by reading all files and understanding dependencies
-   - Check HTML/JS for referenced files
-   - Check scripts for what they actually use
-   - Remove unused CSS, functions, imports
+**Resources:**
+- [Pixi Documentation](https://pixi.sh)
+- [Arduino-CLI Documentation](https://arduino.github.io/arduino-cli/)
+- Project READMEs (each has quick start guide)
 
-2. **Find unnecessary files**:
-   - Symlinks not referenced in code
-   - Old documentation
-   - Deprecated scripts
+---
 
-3. **Audit Pixi commands**:
-   - Remove commands for removed features
-   - Update command descriptions to match current behavior
-   - Remove obsolete workflows
-
-4. **Test thoroughly** after cleanup:
-   - Run `pixi run integration-test`
-   - Verify nothing broke
-   - Update documentation
-
-**When in doubt, read the code** - Don't assume files are needed, verify by tracing usage.
-
-## Best Practices
+## 💡 Best Practices
 
 ✅ **DO:**
 - Test immediately after ANY change
-- Document problems and solutions as they occur
+- Update CHANGELOG.md with every commit
 - Use `pixi run` for all operations
-- Update CHANGELOG.md with each commit
-- Keep documentation concise and actionable
-- Run `pixi run integration-test` before committing
-- Periodically audit entire codebase for unused elements
+- Keep documentation concise
+- Run tests before pushing
+- Follow existing project structure
+- Read code to understand before changing
 
 ❌ **DON'T:**
 - Skip testing
-- Create new documentation files
-- Batch changes before testing
-- Use system tools (always use Pixi)
-- Write verbose documentation
 - Commit without updating CHANGELOG.md
-- Leave unused code/files "just in case"
+- Use system tools (always use Pixi)
+- Create new docs without good reason
+- Break CI (fix before merging)
+- Leave unused code
+- Guess - read the code!
 
 ---
 
-## Quick Reference
+**Last Updated:** 2025-11-06
+**Status:** ✅ All systems operational, CI passing
+**Next Steps:** Ready for 2026 planning or new animatronics
 
-**Start here:**
-1. `pixi run status`
-2. `pixi run integration-test`
-3. Check TROUBLESHOOTING.md if issues
-4. Make changes
-5. Test: `pixi run integration-test`
-6. Document in CHANGELOG.md
-7. Commit
-
-**Key files:**
-- `README.md` - Setup and usage
-- `TROUBLESHOOTING.md` - Testing and fixes
-- `BEETLE_PINOUT.md` - Hardware reference
-- `CHANGELOG.md` - Change history
-
-**Key commands:**
-- `pixi run deploy` - Full deployment
-- `pixi run integration-test` - System verification
-- `pixi run beetle-test` - Hardware test
-- `pixi run status` - System overview
-
----
-
-**Last verified:** 2025-10-14 23:45
-**Status:** ✅ All systems operational - Window Spider Trigger COMPLETE
-
-**Next task:** Twitching Body Animatronic (Chamber 4 or 5)
-- Create servo-controlled body twitching system
-- Integrate with trigger mechanism
-- Test and deploy
-
-**Next agent:**
-1. Read `/PROJECT_PLAN.md` for animatronic details
-2. Review this session's work in `window_spider_trigger/` as reference
-3. Apply same hygiene standards: test-first, document-as-you-go, audit for unused code
+**For help:** Read project's `AGENT_HANDOFF.md` and `TROUBLESHOOTING.md`

@@ -1,6 +1,8 @@
 # Repository Migration Guide - Multi-Year Setup
 
-This document explains the reorganization completed on 2025-11-05.
+**Status:** ✅ **COMPLETE** - All tests passing, CI operational
+
+This document explains the reorganization completed on 2025-11-05/06.
 
 ## What Changed
 
@@ -163,16 +165,38 @@ All tests should pass as before!
 - web_projection/spiders_spread1.png (unused)
 - web_projection/spiders_spread2.png (unused)
 
-## Next Steps
+## Final Status
 
 1. ✅ Repository reorganized locally
-2. ✅ Changes committed (commit 64bf440)
-3. ⏳ Rename GitHub repo (see above)
-4. ⏳ Push to GitHub
-5. ⏳ Verify CI tests pass on GitHub
+2. ✅ All changes committed (10 commits total)
+3. ✅ GitHub repo renamed: `halloween_2025` → `halloween`
+4. ✅ Pushed to GitHub
+5. ✅ CI tests passing (all green!)
+
+### CI Fixes Applied
+
+During migration, several CI issues were identified and fixed:
+
+1. **Pixi auto-install** - Disabled, added explicit install per project
+2. **Setup dependencies** - Added `pixi run setup` before integration tests
+3. **Directory creation** - Created `.pixi/bin` and `.arduino15` before use
+4. **Shell command chaining** - Added explicit `&&` separators in multi-line commands
+5. **Counter increments** - Fixed `((var++))` to `$((var + 1))` for `set -e` compatibility
+6. **Deprecated fields** - Refactored `[project]` to `[workspace]` in all pixi.toml files
+7. **Keyframe cleanup** - Removed unused keyframe feature from spider_crawl_projection
+
+### Test Results
+
+**All projects passing:**
+- Hatching Egg: 241/241 tests ✅
+- Spider Crawl Projection: 8/8 tests ✅
+- Twitching Body: 5/5 integration tests ✅
+- Window Spider Trigger: 5/5 integration tests ✅
+
+**Total:** ~260 tests, all passing ✅
 
 ---
 
-**Migration completed:** 2025-11-05
-**Commit:** 64bf440
-**Status:** Ready to push to GitHub
+**Migration completed:** 2025-11-06
+**Commits:** 64bf440...28066f3 (10 commits)
+**Status:** ✅ Complete and operational
