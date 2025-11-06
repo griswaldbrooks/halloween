@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "spider-crawl-projection"
 version = "0.1.0"
 description = "Spider crawling animation for haunted house projection"

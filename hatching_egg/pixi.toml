@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "hatching_egg"
 version = "0.1.0"
 description = "Hatching spider egg animatronic with kinematic preview"
