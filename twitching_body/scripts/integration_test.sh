@@ -16,10 +16,10 @@ TESTS_FAILED=0
 echo "▶ Test 1: Pixi environment"
 if command -v pixi &> /dev/null; then
     echo "  ✅ Pixi installed"
-    ((TESTS_PASSED++))
+    TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo "  ❌ Pixi not found. Install from https://pixi.sh"
-    ((TESTS_FAILED++))
+    TESTS_FAILED=$((TESTS_FAILED + 1))
 fi
 echo ""
 
@@ -28,10 +28,10 @@ echo "▶ Test 2: Arduino CLI"
 if [ -f ".pixi/bin/arduino-cli" ]; then
     VERSION=$(.pixi/bin/arduino-cli version)
     echo "  ✅ Arduino CLI installed ($VERSION)"
-    ((TESTS_PASSED++))
+    TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo "  ❌ Arduino CLI not installed. Run: pixi run setup"
-    ((TESTS_FAILED++))
+    TESTS_FAILED=$((TESTS_FAILED + 1))
 fi
 echo ""
 
@@ -39,10 +39,10 @@ echo ""
 echo "▶ Test 3: Arduino AVR core"
 if .pixi/bin/arduino-cli core list --config-file .arduino15/arduino-cli.yaml 2>&1 | grep -q "arduino:avr"; then
     echo "  ✅ Arduino AVR core installed"
-    ((TESTS_PASSED++))
+    TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo "  ❌ Arduino AVR core not installed. Run: pixi run setup"
-    ((TESTS_FAILED++))
+    TESTS_FAILED=$((TESTS_FAILED + 1))
 fi
 echo ""
 
@@ -51,10 +51,10 @@ echo "▶ Test 4: Arduino sketch"
 if [ -f "arduino/twitching_servos/twitching_servos.ino" ]; then
     LINES=$(wc -l < arduino/twitching_servos/twitching_servos.ino)
     echo "  ✅ Sketch found (${LINES} lines)"
-    ((TESTS_PASSED++))
+    TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo "  ❌ Sketch not found"
-    ((TESTS_FAILED++))
+    TESTS_FAILED=$((TESTS_FAILED + 1))
 fi
 echo ""
 
@@ -62,10 +62,10 @@ echo ""
 echo "▶ Test 5: Sketch compilation"
 if .pixi/bin/arduino-cli compile --fqbn arduino:avr:leonardo --config-file .arduino15/arduino-cli.yaml arduino/twitching_servos &> /dev/null; then
     echo "  ✅ Sketch compiles successfully"
-    ((TESTS_PASSED++))
+    TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo "  ❌ Compilation failed. Run: pixi run arduino-compile"
-    ((TESTS_FAILED++))
+    TESTS_FAILED=$((TESTS_FAILED + 1))
 fi
 echo ""
 
