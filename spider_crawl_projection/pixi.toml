@@ -27,6 +27,7 @@ test-ik-accuracy = "node test-ik-accuracy.js"
 test-rendering = "node test-rendering.js"
 test-leg-drawing = "node test-leg-drawing.js"
 test-script-loading = "node test-script-loading.js"
+test-method-calls = "node test-method-calls.js"
 
 # Configuration Tests
 test-intersections = "node test-leg-intersections.js"
