@@ -1,5 +1,25 @@
 # Changelog
 
+## 2025-11-06 - Race Condition Fix + Script Loading Test ✅
+
+### Fixed Critical Bug
+**Issue:** Spiders weren't appearing when page loaded
+- Root cause: setTimeout(100ms) race condition waiting for dependencies
+- Scripts (leg-kinematics.js, spider-model.js) loaded dynamically but 100ms wasn't enough
+- Animation started before SpiderBody class was available
+
+**Solution:**
+- Replaced setTimeout with proper onload event handlers
+- Track script loading with counter (scriptsLoaded)
+- Start animation only after all dependencies confirm loaded
+- Added onerror handlers for debugging
+
+**Testing:**
+- Created `test-script-loading.js` (7 tests)
+- Verifies onload handlers, error handlers, initialization order
+- Prevents future race condition regressions
+- Added to test suite (9 tests total, all passing)
+
 ## 2025-10-21 (Part 3) - Dual Animation Modes + Keyframe Editor ✅
 
 ### Added Keyframe Animation System

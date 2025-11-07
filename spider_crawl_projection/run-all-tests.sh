@@ -33,6 +33,7 @@ run_test "Top-Down Geometry" "test-topdown-shape.js"
 run_test "IK Accuracy" "test-ik-accuracy.js"
 run_test "Rendering Output" "test-rendering.js"
 run_test "Leg Drawing" "test-leg-drawing.js"
+run_test "Script Loading (Race Condition Prevention)" "test-script-loading.js"
 
 # Configuration Tests
 run_test "User Configuration (No Intersections)" "test-user-config.js"

@@ -2,11 +2,26 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// Load dependencies
-const scripts = ['leg-kinematics.js', 'spider-model.js'];
-scripts.forEach(src => {
+// Load dependencies with proper load tracking
+let scriptsLoaded = 0;
+const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js'];
+
+function onScriptLoaded() {
+    scriptsLoaded++;
+    if (scriptsLoaded === scriptsToLoad.length) {
+        // All scripts loaded, start animation
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animate();
+        console.log('🕷️ Spider Animation V2 (Kinematics) Started');
+    }
+}
+
+scriptsToLoad.forEach(src => {
     const script = document.createElement('script');
     script.src = src;
+    script.onload = onScriptLoaded;
+    script.onerror = () => console.error(`Failed to load ${src}`);
     document.head.appendChild(script);
 });
 
@@ -644,10 +659,4 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Wait for kinematics to load, then start
-setTimeout(() => {
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    animate();
-    console.log('🕷️ Spider Animation V2 (Kinematics) Started');
-}, 100);
+// Animation starts after scripts load (see onScriptLoaded() above)
