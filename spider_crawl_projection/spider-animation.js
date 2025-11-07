@@ -203,6 +203,36 @@ class Spider {
     }
 
 
+    updateProcedural(dt, speedMultiplier) {
+        // Gait timing (6-phase alternating tetrapod)
+        const phaseDurations = [200, 150, 100, 200, 150, 100]; // ms
+
+        this.gaitTimer += dt * speedMultiplier;
+
+        if (this.gaitTimer >= phaseDurations[this.gaitPhase]) {
+            this.gaitTimer = 0;
+            this.gaitPhase = (this.gaitPhase + 1) % 6;
+            this.stepProgress = 0;
+        }
+
+        this.stepProgress = this.gaitTimer / phaseDurations[this.gaitPhase];
+
+        // Update legs based on gait phase
+        for (const leg of this.legs) {
+            this.updateLegProcedural(leg);
+        }
+
+        // Phase 1 (lurch): Body moves forward
+        // Phase 4 (lurch): Body moves forward
+        if (this.gaitPhase === 1 || this.gaitPhase === 4) {
+            const lurchSpeed = (this.bodySize * 0.4) / phaseDurations[this.gaitPhase];
+            this.x += lurchSpeed * dt * speedMultiplier;
+        }
+
+        // Small lateral drift
+        this.y += this.vy * speedMultiplier;
+    }
+
     updateLegProcedural(leg) {
         const isSwinging = (this.gaitPhase === 0 && leg.group === 'A') ||
                           (this.gaitPhase === 3 && leg.group === 'B');
@@ -503,18 +533,36 @@ function resetSpiders() {
     for (let i = 0; i < config.spiderCount; i++) {
         spiders.push(new Spider(i));
     }
+    console.log(`Created ${spiders.length} spiders`);
+    if (spiders.length > 0) {
+        const s = spiders[0];
+        console.log(`First spider: x=${s.x}, y=${s.y}, bodySize=${s.bodySize}, legs=${s.legs.length}`);
+    }
 }
 
 // Main animation loop
+let animateFrameCount = 0;
 function animate() {
+    animateFrameCount++;
+
     // Clear canvas
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Debug: Draw a test circle to verify canvas is working
+    if (animateFrameCount === 1) {
+        console.log(`Animation starting: canvas ${canvas.width}x${canvas.height}, ${spiders.length} spiders`);
+    }
 
     // Update and draw spiders
     for (const spider of spiders) {
         spider.update();
         spider.draw();
+    }
+
+    // Debug first frame
+    if (animateFrameCount === 1 && spiders.length > 0) {
+        console.log(`After first draw: spider 0 at (${spiders[0].x}, ${spiders[0].y})`);
     }
 
     // Update FPS

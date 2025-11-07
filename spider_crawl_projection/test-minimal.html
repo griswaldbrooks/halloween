@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal Spider Test</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: monospace; }
+        canvas { border: 1px solid black; display: block; margin-bottom: 10px; }
+        #log { background: #f0f0f0; padding: 10px; max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h2>Spider Animation Debugging</h2>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div id="log"></div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const logDiv = document.getElementById('log');
+
+        function log(msg) {
+            console.log(msg);
+            logDiv.innerHTML += msg + '<br>';
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        log('Starting...');
+
+        // Load dependencies
+        let scriptsLoaded = 0;
+        const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js'];
+
+        function onScriptLoaded() {
+            scriptsLoaded++;
+            log(`Script loaded (${scriptsLoaded}/${scriptsToLoad.length})`);
+
+            if (scriptsLoaded === scriptsToLoad.length) {
+                log('All scripts loaded!');
+                log(`SpiderBody available: ${typeof SpiderBody !== 'undefined'}`);
+                log(`Leg2D available: ${typeof Leg2D !== 'undefined'}`);
+
+                if (typeof SpiderBody === 'undefined') {
+                    log('ERROR: SpiderBody not available!');
+                    return;
+                }
+
+                try {
+                    // Test creating a spider body
+                    const testBody = new SpiderBody(10);
+                    log(`✓ Created SpiderBody with size ${testBody.size}`);
+
+                    // Test creating a leg
+                    const testLeg = new Leg2D({
+                        attachX: 0,
+                        attachY: 0,
+                        upperLength: 10,
+                        lowerLength: 10
+                    });
+                    log(`✓ Created Leg2D`);
+
+                    // Now let's try to draw a simple spider
+                    startAnimation();
+                } catch (e) {
+                    log(`ERROR creating classes: ${e.message}`);
+                    log(`Stack: ${e.stack}`);
+                }
+            }
+        }
+
+        scriptsToLoad.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = onScriptLoaded;
+            script.onerror = (e) => log(`ERROR loading ${src}`);
+            document.head.appendChild(script);
+        });
+
+        function startAnimation() {
+            log('Starting animation...');
+
+            // Create one simple spider
+            const spider = {
+                x: 100,
+                y: 200,
+                body: new SpiderBody(10)
+            };
+
+            log(`Spider created at (${spider.x}, ${spider.y})`);
+
+            let frame = 0;
+            function draw() {
+                frame++;
+
+                // Clear canvas
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw spider body
+                ctx.fillStyle = '#000000';
+                ctx.beginPath();
+                ctx.arc(spider.x, spider.y, spider.body.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw a simple leg
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(spider.x, spider.y);
+                ctx.lineTo(spider.x + 30, spider.y + 30);
+                ctx.stroke();
+
+                // Move spider
+                spider.x += 0.5;
+                if (spider.x > canvas.width) {
+                    spider.x = -20;
+                }
+
+                if (frame % 60 === 0) {
+                    log(`Frame ${frame}: spider at (${spider.x.toFixed(1)}, ${spider.y})`);
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+            log('Animation loop started!');
+        }
+    </script>
+</body>
+</html>

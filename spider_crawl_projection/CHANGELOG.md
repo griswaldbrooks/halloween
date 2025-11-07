@@ -1,5 +1,23 @@
 # Changelog
 
+## 2025-11-07 - Fix Missing updateProcedural Method ✅
+
+### Fixed Critical Bug #3
+**Issue:** Spiders STILL not appearing - JavaScript error preventing animation
+- Root cause: `updateProcedural()` method accidentally deleted in commit 331c522
+- When removing unused keyframe feature, the method was removed but call site remained
+- Animation crashed on first frame with: `TypeError: this.updateProcedural is not a function`
+
+**Solution:**
+- Restored `updateProcedural()` method from commit 37332d2
+- Implements 6-phase alternating tetrapod gait animation
+- Updates leg positions and body movement
+- Added debug logging to catch similar issues
+
+**Testing:**
+- All 9 tests still passing
+- Spiders now animate correctly!
+
 ## 2025-11-07 - Module Export Fix (Browser vs Node.js) ✅
 
 ### Fixed Critical Bug #2
