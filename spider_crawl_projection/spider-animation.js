@@ -8,8 +8,20 @@ const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js'];
 
 function onScriptLoaded() {
     scriptsLoaded++;
+    console.log(`Script loaded (${scriptsLoaded}/${scriptsToLoad.length})`);
+
     if (scriptsLoaded === scriptsToLoad.length) {
-        // All scripts loaded, start animation
+        // All scripts loaded, verify classes are available
+        console.log('All scripts loaded, checking class availability...');
+        console.log('SpiderBody available:', typeof SpiderBody !== 'undefined');
+        console.log('Leg2D available:', typeof Leg2D !== 'undefined');
+
+        if (typeof SpiderBody === 'undefined' || typeof Leg2D === 'undefined') {
+            console.error('ERROR: Required classes not available after script load!');
+            return;
+        }
+
+        // All scripts loaded and classes available, start animation
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
         animate();

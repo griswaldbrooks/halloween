@@ -107,6 +107,12 @@ class SpiderBody {
 }
 
 // Export for browser and Node.js
+// Export for Node.js (tests)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { SpiderBody };
+}
+
+// Export for browser (make available globally)
+if (typeof window !== 'undefined') {
+    window.SpiderBody = SpiderBody;
 }

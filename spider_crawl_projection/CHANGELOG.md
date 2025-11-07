@@ -1,8 +1,27 @@
 # Changelog
 
+## 2025-11-07 - Module Export Fix (Browser vs Node.js) ✅
+
+### Fixed Critical Bug #2
+**Issue:** Spiders STILL weren't appearing - classes not available in browser
+- Root cause: Classes only exported for Node.js via `module.exports`
+- In browser, `module` is undefined, so exports didn't run
+- Classes (SpiderBody, Leg2D) existed but weren't globally accessible
+- Animation started but couldn't create Spider instances
+
+**Solution:**
+- Added browser export to `leg-kinematics.js`: `window.Leg2D = Leg2D`
+- Added browser export to `spider-model.js`: `window.SpiderBody = SpiderBody`
+- Now works in both Node.js (tests) and browser (runtime)
+- Added console.log debugging to verify class availability
+
+**Testing:**
+- All 9 tests still passing
+- Classes now properly exported in both environments
+
 ## 2025-11-06 - Race Condition Fix + Script Loading Test ✅
 
-### Fixed Critical Bug
+### Fixed Critical Bug #1
 **Issue:** Spiders weren't appearing when page loaded
 - Root cause: setTimeout(100ms) race condition waiting for dependencies
 - Scripts (leg-kinematics.js, spider-model.js) loaded dynamically but 100ms wasn't enough

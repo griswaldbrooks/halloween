@@ -110,6 +110,12 @@ class Leg2D {
 }
 
 // Export for use in browser and Node.js
+// Export for Node.js (tests)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { Leg2D };
+}
+
+// Export for browser (make available globally)
+if (typeof window !== 'undefined') {
+    window.Leg2D = Leg2D;
 }

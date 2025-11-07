@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Test</title>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div id="status"></div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+
+        // Load dependencies with proper load tracking
+        let scriptsLoaded = 0;
+        const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js'];
+
+        function onScriptLoaded() {
+            scriptsLoaded++;
+            statusDiv.innerHTML += `Loaded ${scriptsLoaded}/${scriptsToLoad.length}<br>`;
+
+            if (scriptsLoaded === scriptsToLoad.length) {
+                // Check if classes are available
+                statusDiv.innerHTML += `SpiderBody available: ${typeof SpiderBody !== 'undefined'}<br>`;
+                statusDiv.innerHTML += `Leg2D available: ${typeof Leg2D !== 'undefined'}<br>`;
+
+                if (typeof SpiderBody !== 'undefined') {
+                    try {
+                        const testBody = new SpiderBody(10);
+                        statusDiv.innerHTML += `✓ SpiderBody created successfully!<br>`;
+                        statusDiv.innerHTML += `Body size: ${testBody.size}<br>`;
+                    } catch (e) {
+                        statusDiv.innerHTML += `✗ Error creating SpiderBody: ${e.message}<br>`;
+                    }
+                } else {
+                    statusDiv.innerHTML += `✗ SpiderBody is not defined!<br>`;
+                }
+            }
+        }
+
+        scriptsToLoad.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = onScriptLoaded;
+            script.onerror = (e) => {
+                statusDiv.innerHTML += `✗ Failed to load ${src}<br>`;
+                console.error(`Failed to load ${src}`, e);
+            };
+            document.head.appendChild(script);
+        });
+    </script>
+</body>
+</html>
