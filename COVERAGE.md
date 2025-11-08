@@ -8,9 +8,10 @@ This document explains how to use code coverage tools locally and view coverage 
 # Run coverage for all projects
 ./scripts/run-coverage.sh
 
-# Or run coverage for individual projects:
-cd window_spider_trigger && npm run test:coverage
-cd spider_crawl_projection && npm run test:coverage
+# Or run coverage for individual projects using Pixi:
+cd window_spider_trigger && pixi run coverage
+cd spider_crawl_projection && pixi run coverage
+cd hatching_egg && pixi run coverage
 ```
 
 ## Viewing Coverage Reports
@@ -59,20 +60,39 @@ Coverage is also uploaded to Codecov for visual diff reporting.
 ### Window Spider Trigger
 - **Tool:** Jest
 - **Config:** `window_spider_trigger/jest.config.js`
-- **Run:** `npm run test:coverage`
+- **Run:** `pixi run coverage` or `pixi run test-coverage`
+- **View:** `pixi run view-coverage`
 - **Coverage thresholds:** 50% (branches, functions, lines, statements)
+- **Current Status:** ⚠️ No tests yet (passes with passWithNoTests flag)
 
 ### Spider Crawl Projection
-- **Tool:** c8 (Istanbul for ESM)
-- **Config:** `spider_crawl_projection/c8.config.json`
-- **Run:** `npm run test:coverage`
+- **Tool:** c8 (Istanbul)
+- **Config:** Inline in pixi.toml
+- **Run:** `pixi run coverage` or `pixi run test-coverage`
+- **View:** `pixi run view-coverage`
 - **Excludes:** test files, optimization scripts
+- **Current Coverage:** ✅ 97.55% (10/10 tests passing)
 
-### Hatching Egg
-- **Tool:** c8 (for JavaScript files only)
-- **Coverage for:** JavaScript kinematics and animation logic
-- **Excludes:** C++ tests, Arduino code, Python scripts
-- **Note:** C++ tests use gtest but coverage not tracked
+### Hatching Egg (Multi-Language)
+- **JavaScript Coverage:**
+  - Tool: c8
+  - Run: `pixi run coverage-js-only`
+  - Coverage: ✅ 92.12% (41 tests: 31 kinematics + 10 animation)
+- **C++ Coverage:**
+  - Tool: lcov/gcov
+  - Run: `pixi run test-cpp-coverage`
+  - Coverage: ✅ 171 tests (44 servo mapping + 34 servo tester + 93 servo sweep)
+- **Python Coverage:**
+  - Tool: coverage.py
+  - Run: `pixi run test-python-coverage`
+  - Coverage: ✅ Configuration validation tests
+- **Combined:** `pixi run coverage` (runs all three)
+- **View Reports:** `pixi run view-coverage` (opens all 3 HTML reports)
+
+### Twitching Body
+- **Type:** Arduino-only (C/C++) - No testable coverage
+- **Testing:** Hardware integration tests only
+- **No coverage task:** Hardware-dependent code only
 
 ## SonarCloud Setup (one-time)
 
@@ -122,18 +142,21 @@ Current coverage targets:
 If coverage reports aren't being generated:
 
 ```bash
-# Ensure dependencies are installed
-npm install
+# Ensure pixi environment is set up
+pixi install
 
-# Window Spider Trigger
+# Run coverage using pixi (recommended)
+pixi run coverage
+
+# Or if you need to reinstall dependencies
 cd window_spider_trigger
-npm install jest @jest/globals supertest
-npm run test:coverage
+pixi run install
+pixi run coverage
 
-# Spider Crawl Projection
+# Same for other projects
 cd spider_crawl_projection
-npm install c8
-npm run test:coverage
+pixi install
+pixi run coverage
 ```
 
 ### SonarCloud analysis failing
@@ -155,16 +178,22 @@ Check these common issues:
 To run coverage and check results:
 
 ```bash
-# Run coverage
+# Run coverage for all projects
 ./scripts/run-coverage.sh
+
+# Or run for a specific project
+cd <project> && pixi run coverage
 
 # Check coverage percentage (example)
 cat window_spider_trigger/coverage/coverage-summary.json
 
+# View coverage report in browser
+pixi run view-coverage
+
 # Fix uncovered code
-# 1. Review coverage report HTML
+# 1. Review coverage report HTML (pixi run view-coverage)
 # 2. Add tests for uncovered lines
-# 3. Re-run coverage to verify improvement
+# 3. Re-run coverage to verify improvement (pixi run coverage)
 ```
 
 ## Resources

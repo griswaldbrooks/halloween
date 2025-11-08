@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Browser-based spider walking animation with procedural tetrapod gait",
   "main": "spider-model.js",
-  "type": "module",
   "scripts": {
     "test": "node run-all-tests.sh",
     "test:coverage": "c8 node run-all-tests.sh",

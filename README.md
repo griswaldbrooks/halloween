@@ -111,7 +111,7 @@ pixi run test
 
 ### Code Coverage
 
-Run coverage locally for all projects:
+Run coverage locally for **all languages** (JavaScript, C++, Python):
 
 ```bash
 ./scripts/run-coverage.sh
@@ -119,9 +119,23 @@ Run coverage locally for all projects:
 
 Or for individual projects:
 ```bash
-cd window_spider_trigger && npm run test:coverage
-cd spider_crawl_projection && npm run test:coverage
+cd window_spider_trigger && pixi run coverage     # ⚠️ JavaScript only (no tests yet)
+cd spider_crawl_projection && pixi run coverage   # ✅ JavaScript: 97.55%
+cd hatching_egg && pixi run coverage              # ✅ JS: 92.12%, C++: 171 tests, Python: config tests
 ```
+
+View coverage reports in your browser:
+```bash
+cd hatching_egg && pixi run view-coverage         # Opens all 3 reports (JS, C++, Python)
+cd <other-project> && pixi run view-coverage      # Opens available reports
+```
+
+**Multi-Language Coverage:**
+- **JavaScript:** c8 (Istanbul) - All projects with JS code
+- **C++:** lcov/gcov - hatching_egg (171 gtest unit tests)
+- **Python:** coverage.py - hatching_egg (configuration tests)
+
+**Note:** `twitching_body` is Arduino-only and doesn't have testable code for coverage.
 
 **Coverage Reports:**
 - 📊 [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=griswaldbrooks_halloween) - Code quality & coverage

@@ -23,35 +23,25 @@ jobs:
         pixi-version: latest
         run-install: false
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-
-    - name: Install root dependencies
-      run: npm install
-
     - name: Test Hatching Egg with Coverage
       working-directory: ./hatching_egg
       run: |
         pixi install
-        pixi run test:coverage || true
+        pixi run coverage || true
       continue-on-error: true
 
     - name: Test Spider Crawl Projection with Coverage
       working-directory: ./spider_crawl_projection
       run: |
         pixi install
-        npm install c8
-        npm run test:coverage || true
+        pixi run coverage || true
       continue-on-error: true
 
     - name: Test Window Spider Trigger with Coverage
       working-directory: ./window_spider_trigger
       run: |
         pixi install
-        npm install
-        npm run test:coverage || true
+        pixi run coverage || true
       continue-on-error: true
 
     - name: Upload coverage reports to Codecov

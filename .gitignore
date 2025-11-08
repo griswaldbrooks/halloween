@@ -7,10 +7,18 @@ package-lock.json
 
 # Coverage reports
 coverage/
+coverage-js/
+coverage-cpp/
+coverage-python/
 .nyc_output/
 *.lcov
+*.gcov
+*.gcda
+*.gcno
 coverage-reports/
 .coverage
+coverage*.info
+htmlcov/
 
 # Environment files
 .env

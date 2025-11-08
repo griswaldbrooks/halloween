@@ -12,6 +12,7 @@ module.exports = {
     '**/__tests__/**/*.js',
     '**/?(*.)+(spec|test).js'
   ],
+  passWithNoTests: true,
   coverageThreshold: {
     global: {
       branches: 50,

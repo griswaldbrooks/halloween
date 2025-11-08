@@ -84,6 +84,12 @@ beetle-monitor-test = "bash scripts/beetle_monitor_test.sh"
 # === Integration Testing ===
 integration-test = "bash scripts/integration_test.sh"
 
+# === Unit Testing & Coverage ===
+test = "npm test"
+test-coverage = "npm run test:coverage"
+coverage = { depends-on = ["test-coverage"] }
+view-coverage = "xdg-open coverage/index.html"
+
 [environments]
 default = { solve-group = "default" }
 dev = { features = ["dev"], solve-group = "default" }

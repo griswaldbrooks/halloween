@@ -12,6 +12,19 @@ arduino/*/build/
 *.hex
 *.elf
 
+# Coverage reports and artifacts
+coverage-js/
+coverage-cpp/
+coverage-python/
+*.gcov
+*.gcda
+*.gcno
+*.info
+.coverage
+htmlcov/
+*_cov
+*_cov.exe
+
 # Editor files
 .vscode/
 *.swp
