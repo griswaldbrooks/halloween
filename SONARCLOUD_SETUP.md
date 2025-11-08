@@ -69,7 +69,28 @@
 
 ---
 
-## Step 5: Verify Configuration
+## Step 5: Disable Automatic Analysis
+
+**IMPORTANT:** SonarCloud has "Automatic Analysis" enabled by default, which conflicts with CI-based analysis.
+
+1. **Go to Project Settings:**
+   - Open: https://sonarcloud.io/project/administration/analysis_method?id=griswaldbrooks_halloween
+   - Or navigate: Project → Administration → Analysis Method
+
+2. **Disable Automatic Analysis:**
+   - You'll see two options:
+     - "SonarCloud Automatic Analysis" (currently enabled)
+     - "GitHub Actions" (what we want)
+   - Click on "GitHub Actions"
+   - This will disable Automatic Analysis and enable CI-based analysis
+
+3. **Verify:**
+   - The "GitHub Actions" option should now be selected
+   - You should see a message confirming it's active
+
+---
+
+## Step 6: Verify Configuration
 
 1. **Check sonar-project.properties:**
    ```bash
@@ -90,7 +111,7 @@
 
 ---
 
-## Step 6: Test the Integration
+## Step 7: Test the Integration
 
 1. **Commit and Push:**
    ```bash
