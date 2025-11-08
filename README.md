@@ -1,4 +1,8 @@
 [![Unit Tests](https://github.com/griswaldbrooks/halloween/actions/workflows/test.yml/badge.svg)](https://github.com/griswaldbrooks/halloween/actions/workflows/test.yml)
+[![Code Coverage](https://github.com/griswaldbrooks/halloween/actions/workflows/coverage.yml/badge.svg)](https://github.com/griswaldbrooks/halloween/actions/workflows/coverage.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=griswaldbrooks_halloween&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=griswaldbrooks_halloween)
+[![codecov](https://codecov.io/gh/griswaldbrooks/halloween/branch/main/graph/badge.svg)](https://codecov.io/gh/griswaldbrooks/halloween)
+
 # Halloween Haunted House - Reusable Components
 
 A collection of Arduino-based animatronics and effects for annual Halloween haunted house experiences.
@@ -94,7 +98,7 @@ pixi install
 pixi run setup
 ```
 
-## 🧪 Testing
+## 🧪 Testing & Code Coverage
 
 Each project has comprehensive unit tests:
 
@@ -104,6 +108,27 @@ pixi run test
 ```
 
 **Total test coverage across all projects: 500+ tests**
+
+### Code Coverage
+
+Run coverage locally for all projects:
+
+```bash
+./scripts/run-coverage.sh
+```
+
+Or for individual projects:
+```bash
+cd window_spider_trigger && npm run test:coverage
+cd spider_crawl_projection && npm run test:coverage
+```
+
+**Coverage Reports:**
+- 📊 [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=griswaldbrooks_halloween) - Code quality & coverage
+- 📈 [Codecov](https://codecov.io/gh/griswaldbrooks/halloween) - Visual coverage reports
+- 📝 [Coverage Guide](COVERAGE.md) - Complete documentation for local coverage
+
+All coverage metrics are automatically tracked and reported on GitHub PRs.
 
 ## 📋 Year-Specific Materials
 

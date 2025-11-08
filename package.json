@@ -1,0 +1,25 @@
+{
+  "name": "halloween-monorepo",
+  "version": "1.0.0",
+  "description": "Halloween Haunted House - Reusable Components Monorepo",
+  "private": true,
+  "workspaces": [
+    "window_spider_trigger",
+    "spider_crawl_projection",
+    "hatching_egg"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces",
+    "test:coverage": "npm run test:coverage --workspaces",
+    "coverage:report": "node scripts/merge-coverage.js",
+    "sonar": "sonar-scanner"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "@jest/globals": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

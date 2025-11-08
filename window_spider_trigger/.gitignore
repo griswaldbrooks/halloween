@@ -36,3 +36,9 @@ Thumbs.db
 build/
 dist/
 arduino/motion_trigger/build/
+
+# Coverage reports
+coverage/
+.nyc_output/
+*.lcov
+.coverage

@@ -1,0 +1,97 @@
+name: Code Coverage
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for SonarCloud
+        lfs: true
+
+    - name: Install Pixi
+      uses: prefix-dev/setup-pixi@v0.5.1
+      with:
+        pixi-version: latest
+        run-install: false
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install root dependencies
+      run: npm install
+
+    - name: Test Hatching Egg with Coverage
+      working-directory: ./hatching_egg
+      run: |
+        pixi install
+        pixi run test:coverage || true
+      continue-on-error: true
+
+    - name: Test Spider Crawl Projection with Coverage
+      working-directory: ./spider_crawl_projection
+      run: |
+        pixi install
+        npm install c8
+        npm run test:coverage || true
+      continue-on-error: true
+
+    - name: Test Window Spider Trigger with Coverage
+      working-directory: ./window_spider_trigger
+      run: |
+        pixi install
+        npm install
+        npm run test:coverage || true
+      continue-on-error: true
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./window_spider_trigger/coverage/lcov.info,./spider_crawl_projection/coverage/lcov.info,./hatching_egg/coverage/lcov.info
+        fail_ci_if_error: false
+        verbose: true
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    - name: Upload coverage artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-reports
+        path: |
+          window_spider_trigger/coverage/
+          spider_crawl_projection/coverage/
+          hatching_egg/coverage/
+        retention-days: 30
+
+    - name: Coverage Summary
+      if: always()
+      run: |
+        echo "📊 Coverage reports generated:"
+        echo ""
+        if [ -d "window_spider_trigger/coverage" ]; then
+          echo "✅ Window Spider Trigger coverage"
+        fi
+        if [ -d "spider_crawl_projection/coverage" ]; then
+          echo "✅ Spider Crawl Projection coverage"
+        fi
+        if [ -d "hatching_egg/coverage" ]; then
+          echo "✅ Hatching Egg coverage"
+        fi
+        echo ""
+        echo "View detailed reports in the artifacts or on SonarCloud"
