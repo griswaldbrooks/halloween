@@ -64,6 +64,8 @@ pixi run open
 - Raspberry Pi audio integration
 - Extensively tuned for dramatic effect
 
+**Status:** ⚠️ Production-ready but needs tests
+
 **Quick Start:**
 ```bash
 cd twitching_body
@@ -135,7 +137,7 @@ cd <other-project> && pixi run view-coverage      # Opens available reports
 - **C++:** lcov/gcov - hatching_egg (171 gtest unit tests)
 - **Python:** coverage.py - hatching_egg (configuration tests)
 
-**Note:** `twitching_body` is Arduino-only and doesn't have testable code for coverage.
+**Note:** `twitching_body` is Arduino-only and currently has no unit tests (needs refactoring to extract testable logic).
 
 **Coverage Reports:**
 - 📊 [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=griswaldbrooks_halloween) - Code quality & coverage

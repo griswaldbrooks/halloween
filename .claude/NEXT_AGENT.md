@@ -40,13 +40,15 @@ Multi-language code coverage has been implemented:
    - Create mocks for Arduino-specific functions
    - Separate business logic from I/O operations
 
-3. **twitching_body**
+3. **twitching_body (C++)**
    - Currently Arduino-only (no unit tests)
+   - Status: PRODUCTION-READY but needs tests
    - To add coverage:
      - Extract animation/state machine logic into separate C++ files
      - Create unit tests similar to hatching_egg pattern
-     - Mock Arduino libraries (Servo, Wire, etc.)
-     - Test algorithms independent of hardware
+     - Mock Arduino libraries (Adafruit_PWMServoDriver, Wire, etc.)
+     - Test state machine logic independent of hardware
+     - Goal: 80% coverage on testable logic
 
 ### SonarCloud Issues
 

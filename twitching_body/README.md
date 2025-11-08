@@ -4,7 +4,7 @@ Servo-controlled twitching body effect for Halloween 2025 haunted house (Chamber
 
 ---
 
-**📋 Project Status:** ✅ COMPLETE AND WORKING
+**📋 Project Status:** ⚠️ PRODUCTION-READY but needs tests
 
 **⭐ Quick Start:** `pixi run deploy` → Upload code and watch it twitch!
 
@@ -360,7 +360,7 @@ See `raspberry_pi_audio/README.md` for details.
 
 ## Project Status
 
-**Twitching Body: COMPLETE** ✅
+**Twitching Body: PRODUCTION-READY** ⚠️ **Needs Unit Tests**
 
 ### Working Features
 - ✅ PCA9685 + HS-755MG integration
