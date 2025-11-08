@@ -110,12 +110,15 @@ class Leg2D {
 }
 
 // Export for use in browser and Node.js
+// BUG FIX (Nov 2025): Must export for BOTH environments!
+
 // Export for Node.js (tests)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { Leg2D };
 }
 
 // Export for browser (make available globally)
+// CRITICAL: Without this, browser gets "Leg2D is not defined" error!
 if (typeof window !== 'undefined') {
     window.Leg2D = Leg2D;
 }

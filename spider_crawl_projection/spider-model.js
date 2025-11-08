@@ -107,12 +107,15 @@ class SpiderBody {
 }
 
 // Export for browser and Node.js
+// BUG FIX (Nov 2025): Must export for BOTH environments!
+
 // Export for Node.js (tests)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { SpiderBody };
 }
 
 // Export for browser (make available globally)
+// CRITICAL: Without this, browser gets "SpiderBody is not defined" error!
 if (typeof window !== 'undefined') {
     window.SpiderBody = SpiderBody;
 }

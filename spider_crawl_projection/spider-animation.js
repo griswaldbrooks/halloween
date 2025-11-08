@@ -3,6 +3,8 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 // Load dependencies with proper load tracking
+// IMPORTANT: This replaces setTimeout(100ms) which caused race conditions!
+// BUG FIX (Nov 2025): Scripts must load completely before animation starts
 let scriptsLoaded = 0;
 const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js'];
 
@@ -16,6 +18,7 @@ function onScriptLoaded() {
         console.log('SpiderBody available:', typeof SpiderBody !== 'undefined');
         console.log('Leg2D available:', typeof Leg2D !== 'undefined');
 
+        // BUG FIX (Nov 2025): Verify classes are exported to window for browser
         if (typeof SpiderBody === 'undefined' || typeof Leg2D === 'undefined') {
             console.error('ERROR: Required classes not available after script load!');
             return;
@@ -203,6 +206,10 @@ class Spider {
     }
 
 
+    // BUG FIX (Nov 2025): This method was accidentally deleted in commit 331c522
+    // when removing the keyframe feature. The call site remained in update(),
+    // causing: TypeError: this.updateProcedural is not a function
+    // CRITICAL: If you modify this method, ensure update() still calls it!
     updateProcedural(dt, speedMultiplier) {
         // Gait timing (6-phase alternating tetrapod)
         const phaseDurations = [200, 150, 100, 200, 150, 100]; // ms

@@ -1,8 +1,34 @@
 # Agent Handoff - Spider Crawl Projection
 
-**Last Updated:** 2025-10-21
-**Status:** ✅ COMPLETE! Procedural animation working perfectly! Keyframe editor available!
-**Project:** Halloween 2025 - Chamber 2 (Spider Web Tunnel)
+**Last Updated:** 2025-11-07
+**Status:** ✅ COMPLETE! All bugs fixed, comprehensive tests added!
+**Project:** Halloween - Spider Crawl Animation (Reusable Component)
+
+---
+
+## 🚨 CRITICAL BUG FIXES (Nov 2025) - READ THIS FIRST!
+
+**Three serious bugs were introduced during the 2025 repo refactor and have been fixed:**
+
+### Bug #1: Race Condition in Script Loading
+- **Symptom:** Spiders don't appear on page load
+- **Cause:** Used `setTimeout(100ms)` to wait for dependencies instead of proper `onload` handlers
+- **Fix:** Implemented proper script load tracking with `scriptsLoaded` counter
+- **Prevention:** `test-script-loading.js` now validates this automatically
+
+### Bug #2: Missing Browser Exports
+- **Symptom:** `SpiderBody is not defined` / `Leg2D is not defined` in browser
+- **Cause:** Classes only exported for Node.js (`module.exports`), not browser (`window`)
+- **Fix:** Added `window.SpiderBody` and `window.Leg2D` exports
+- **Prevention:** `test-method-calls.js` validates browser exports
+
+### Bug #3: Missing Method (THE BIG ONE!)
+- **Symptom:** `TypeError: this.updateProcedural is not a function`
+- **Cause:** Method accidentally deleted when removing keyframe feature (commit 331c522)
+- **Fix:** Restored `updateProcedural()` method from previous version
+- **Prevention:** `test-method-calls.js` performs static analysis to catch this
+
+**⚠️ LESSON LEARNED:** Never rely on manual browser testing! All bugs are now caught by automated tests.
 
 ---
 
@@ -14,22 +40,24 @@
 - ✅ **IK elbow bias bug FIXED** - foot stays in place when flipping
 - ✅ **Leg intersection detection** - user config has ZERO intersections
 - ✅ **Procedural animation working perfectly** - realistic tetrapod gait
-- ✅ **Dual animation modes** - Procedural (default) + Keyframe (experimental)
-- ✅ **Keyframe editor with timeline** - drag feet/body, plant feet, export
-- ✅ 11/12 tests passing (1 keyframe test has expected intersections)
-- ✅ **Interactive editors** - leg position editor + keyframe animation editor
-- ✅ **Code refactored** - clean codebase, well-tested
+- ✅ **Hopping mode** - Jumping spider locomotion (crawl-hop-crawl)
+- ✅ **10 comprehensive tests** - All passing, prevents regressions
+- ✅ **Keyframe feature removed** - Was unused, caused bugs
+- ✅ **Interactive leg editor** - Visual tool for leg positioning
+- ✅ **Code refactored** - Clean codebase, well-tested, production-ready
 
-**Animation Modes:**
-- ✅ **Procedural (Recommended)** - Automatic tetrapod gait, zero intersections
-- ⚠️ **Keyframe (Experimental)** - Custom animations, body movement is complex
+**Test Coverage (10 tests, all passing ✅):**
+- Geometry + Kinematics (7 tests)
+- **Regression prevention (2 tests)** ⭐ NEW!
+  - Script loading validation
+  - Method existence validation (static analysis)
+- Configuration validation (1 test)
 
 **Start Here:**
-1. Run `pixi run test` - **Verify 11/12 tests pass**
-2. Run `pixi run serve` then `pixi run open` - **View procedural animation**
-3. Run `pixi run open-keyframe-editor` - **Try keyframe editor**
-4. Read "Animation Modes" section below to understand both systems
-5. Check git status - may want to commit the keyframe system
+1. Run `pixi run test` - **Verify all 10 tests pass** ✅
+2. Run `pixi run serve` then visit http://localhost:8080 - **View animation**
+3. If spiders don't appear, check browser console for errors (shouldn't happen!)
+4. Read "Recent Bug Fixes" section below for critical lessons learned
 
 ---
 

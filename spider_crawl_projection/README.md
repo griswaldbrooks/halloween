@@ -57,12 +57,26 @@ The spider animation supports two modes (switchable via dropdown in UI):
 - `ISSUES.md` - Current known issues
 - `spider-config.json` - Verified non-intersecting leg configuration
 
+## Recent Bug Fixes (Nov 2025)
+
+**🐛 Three critical bugs were fixed during the 2025 repo refactor:**
+
+1. **Race Condition** - Script loading used `setTimeout(100ms)` instead of proper `onload` handlers
+2. **Missing Exports** - Classes only exported for Node.js, not browser (`window.SpiderBody` missing)
+3. **Missing Method** - `updateProcedural()` accidentally deleted when removing keyframe feature
+
+**✅ All fixed + comprehensive tests added to prevent regression!**
+
+See `CHANGELOG.md` for complete details.
+
 ## Testing
+
+**10 comprehensive tests** ensure code quality and catch regressions.
 
 ### Run All Tests
 
 ```bash
-pixi run test              # Run complete test suite (8 tests passing)
+pixi run test              # Run complete test suite (10/10 tests passing ✅)
 ```
 
 ### Core Tests
@@ -76,6 +90,15 @@ pixi run test-ik-accuracy  # IK solver precision (✓ 0.0 error!)
 pixi run test-rendering    # Actual rendering positions (✓ ALL PASS)
 pixi run test-leg-drawing  # Visual leg geometry (✓ ALL PASS)
 ```
+
+### Regression Prevention Tests ⭐ NEW
+
+```bash
+pixi run test-script-loading # Verify proper script loading (✓ PASS)
+pixi run test-method-calls   # Static analysis - all methods exist (✓ PASS)
+```
+
+**These tests would have caught all 3 bugs automatically!**
 
 ### Configuration Tests
 
