@@ -6,11 +6,11 @@
  */
 
 const express = require('express');
-const http = require('http');
+const http = require('node:http');
 const socketIo = require('socket.io');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
-const path = require('path');
+const path = require('node:path');
 
 // Load environment variables from .env file
 require('dotenv').config();
@@ -18,7 +18,7 @@ require('dotenv').config();
 // Configuration
 const PORT = process.env.PORT || 3000;
 const SERIAL_PORT = process.env.SERIAL_PORT || 'auto'; // Set to 'auto' for auto-detection
-const BAUD_RATE = parseInt(process.env.BAUD_RATE) || 9600;
+const BAUD_RATE = Number.parseInt(process.env.BAUD_RATE) || 9600;
 const ARDUINO_VENDOR_ID = process.env.ARDUINO_VENDOR_ID || '2341'; // Arduino vendor ID
 
 // Initialize Express app
@@ -56,7 +56,7 @@ async function findArduinoPort() {
   // Look for Arduino
   const arduinoPort = ports.find(p =>
     p.vendorId === ARDUINO_VENDOR_ID ||
-    (p.manufacturer && p.manufacturer.toLowerCase().includes('arduino'))
+    p.manufacturer?.toLowerCase().includes('arduino')
   );
 
   if (arduinoPort) {
@@ -67,7 +67,7 @@ async function findArduinoPort() {
   // Fallback: try common Arduino ports
   const fallbackPorts = ['/dev/ttyACM0', '/dev/ttyUSB0', 'COM3'];
   for (const fallback of fallbackPorts) {
-    if (ports.find(p => p.path === fallback)) {
+    if (ports.some(p => p.path === fallback)) {
       console.log(`Using fallback port: ${fallback}`);
       return fallback;
     }
@@ -162,7 +162,7 @@ io.on('connection', (socket) => {
 
   // Handle Arduino command requests
   socket.on('send-command', (command) => {
-    if (port && port.isOpen) {
+    if (port?.isOpen) {
       console.log(`Sending command to Arduino: ${command}`);
       port.write(`${command}\n`);
     } else {
@@ -211,7 +211,7 @@ server.listen(PORT, async () => {
 // Graceful shutdown
 process.on('SIGINT', () => {
   console.log('\nShutting down...');
-  if (port && port.isOpen) {
+  if (port?.isOpen) {
     port.close();
   }
   server.close(() => {

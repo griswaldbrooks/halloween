@@ -22,8 +22,8 @@ function segmentsIntersect(p1, p2, p3, p4) {
     return false;
 }
 
-function direction(p1, p2, p3) {
-    return (p3.x - p1.x) * (p2.y - p1.y) - (p2.x - p1.x) * (p3.y - p1.y);
+function direction(lineP1, lineP2, point) {
+    return (point.x - lineP1.x) * (lineP2.y - lineP1.y) - (lineP2.x - lineP1.x) * (point.y - lineP1.y);
 }
 
 function onSegment(p1, p2, p) {

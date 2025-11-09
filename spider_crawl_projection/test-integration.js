@@ -110,7 +110,7 @@ function testLegIKWithActualPositions() {
 
         if (!success) {
             allReachable = false;
-            const distance = Math.sqrt(relX * relX + relY * relY);
+            const distance = Math.hypot(relX, relY);
             const maxReach = leg.upperLength + leg.lowerLength;
             console.log(`    Distance: ${distance.toFixed(2)}, Max reach: ${maxReach.toFixed(2)}`);
         }
@@ -186,9 +186,9 @@ function testAttachmentInsideBody() {
             // Check if inside ellipse
             const dx = (att.x - cephCenterX) / cephRadiusX;
             const dy = att.y / cephRadiusY;
-            const normalizedDist = Math.sqrt(dx * dx + dy * dy);
+            const normalizedDist = Math.hypot(dx, dy);
 
-            if (normalizedDist > 1.0) {
+            if (normalizedDist > 1) {
                 sizeAllInside = false;
                 allInside = false;
                 outsideCount++;

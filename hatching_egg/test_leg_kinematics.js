@@ -18,7 +18,7 @@ const EGG_CENTER_Y = 300;
 const EGG_WIDTH = 120;
 const UPPER_LENGTH = 80;
 const LOWER_LENGTH = 100;
-const TOLERANCE = 1.0; // pixels
+const TOLERANCE = 1; // pixels
 
 let testsPassed = 0;
 let testsFailed = 0;
@@ -125,10 +125,10 @@ const rightPosMax = rightLegMax.getJointPositions();
 // - Right leg elbow should be to the right of mount (x + upperLength)
 // - Left leg elbow should be to the left of mount (x - upperLength)
 // - Y should stay at mount level
-assertNear("Right elbow Y (horizontal)", EGG_CENTER_Y, rightPosMax.elbow.y, 2.0);
+assertNear("Right elbow Y (horizontal)", EGG_CENTER_Y, rightPosMax.elbow.y, 2);
 assertNear("Right elbow X (perpendicular right)", EGG_CENTER_X + EGG_WIDTH / 2 + UPPER_LENGTH, rightPosMax.elbow.x);
 
-assertNear("Left elbow Y (horizontal)", EGG_CENTER_Y, leftPosMax.elbow.y, 2.0);
+assertNear("Left elbow Y (horizontal)", EGG_CENTER_Y, leftPosMax.elbow.y, 2);
 assertNear("Left elbow X (perpendicular left)", EGG_CENTER_X - EGG_WIDTH / 2 - UPPER_LENGTH, leftPosMax.elbow.x);
 
 // At 90° shoulder + 90° elbow:

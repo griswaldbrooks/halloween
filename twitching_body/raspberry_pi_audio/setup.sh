@@ -4,6 +4,9 @@
 
 set -e  # Exit on error
 
+# Constants
+AUDIO_FILE="audio/crying-ghost.mp3"
+
 echo "========================================"
 echo "  Raspberry Pi Audio Loop Setup"
 echo "  Halloween 2025 - Haunted House"
@@ -43,14 +46,14 @@ if [[ ! -d "audio" ]]; then
 fi
 
 # Copy sample audio if it exists in parent assets directory
-if [[ -f "../assets/crying-ghost.mp3" ]] && [[ ! -f "audio/crying-ghost.mp3" ]]; then
+if [[ -f "../assets/crying-ghost.mp3" ]] && [[ ! -f "$AUDIO_FILE" ]]; then
     cp "../assets/crying-ghost.mp3" audio/
     echo "   ✓ Copied crying-ghost.mp3 from assets"
 fi
 
 # Check if audio file exists and is not an LFS pointer
-if [[ -f "audio/crying-ghost.mp3" ]]; then
-    FILE_SIZE=$(stat -c%s "audio/crying-ghost.mp3" 2>/dev/null || stat -f%z "audio/crying-ghost.mp3" 2>/dev/null || echo "0")
+if [[ -f "$AUDIO_FILE" ]]; then
+    FILE_SIZE=$(stat -c%s "$AUDIO_FILE" 2>/dev/null || stat -f%z "$AUDIO_FILE" 2>/dev/null || echo "0")
     if [[ "$FILE_SIZE" -lt 1000 ]]; then
         echo "   ⚠️  Audio file appears to be a Git LFS pointer ($FILE_SIZE bytes)"
         echo "   Run: git lfs pull"
@@ -61,7 +64,7 @@ if [[ -f "audio/crying-ghost.mp3" ]]; then
     fi
 else
     echo "   ⚠️  No audio file found!"
-    echo "   Please copy your MP3 file to: $SCRIPT_DIR/audio/crying-ghost.mp3"
+    echo "   Please copy your MP3 file to: $SCRIPT_DIR/$AUDIO_FILE"
     echo "   Or update audio-loop.service to point to your file"
     echo
     read -p "Continue anyway? (y/N): " -n 1 -r

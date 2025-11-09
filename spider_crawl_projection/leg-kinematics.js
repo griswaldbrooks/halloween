@@ -44,7 +44,7 @@ class Leg2D {
         // Vector from attachment to target
         const dx = targetX - this.attachX;
         const dy = targetY - this.attachY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const distance = Math.hypot(dx, dy);
 
         // Check if target is reachable
         const maxReach = this.upperLength + this.lowerLength;

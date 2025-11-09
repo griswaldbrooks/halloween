@@ -23,6 +23,7 @@ run_test() {
         ((FAIL++))
     fi
     echo
+    return 0
 }
 
 # Core Tests

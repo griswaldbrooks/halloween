@@ -45,7 +45,7 @@ function testIKAccuracy() {
         // Calculate error
         const errorX = actual.foot.x - targetX;
         const errorY = actual.foot.y - targetY;
-        const errorDist = Math.sqrt(errorX * errorX + errorY * errorY);
+        const errorDist = Math.hypot(errorX, errorY);
 
         console.log(` ${i}  | (${targetX.toFixed(1).padStart(5)},${targetY.toFixed(1).padStart(6)}) | (${actual.foot.x.toFixed(1).padStart(5)},${actual.foot.y.toFixed(1).padStart(6)}) | (${errorX.toFixed(1).padStart(5)},${errorY.toFixed(1).padStart(6)}) | ${errorDist.toFixed(1).padStart(10)}`);
     }

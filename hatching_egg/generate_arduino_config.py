@@ -8,13 +8,9 @@ import json
 import sys
 from pathlib import Path
 
-def generate_arduino_header(config_path, output_path):
-    """Generate Arduino header file from JSON config."""
-
-    with open(config_path, 'r') as f:
-        config = json.load(f)
-
-    header_lines = [
+def generate_header_lines(hw, kin):
+    """Generate hardware and kinematics configuration lines."""
+    lines = [
         "// AUTO-GENERATED - DO NOT EDIT",
         "// Generated from animation-config.json",
         "// Run: pixi run generate-config",
@@ -23,11 +19,6 @@ def generate_arduino_header(config_path, output_path):
         "#define ANIMATION_CONFIG_H",
         "",
         "// Hardware Configuration",
-    ]
-
-    # Hardware config
-    hw = config['hardware']
-    header_lines.extend([
         f"#define I2C_ADDRESS {hw['i2c_address']}",
         f"#define SERVO_FREQ {hw['servo_frequency']}",
         "",
@@ -49,11 +40,6 @@ def generate_arduino_header(config_path, output_path):
         "",
         f"#define TRIGGER_PIN {hw['trigger_pin']}",
         "",
-    ])
-
-    # Kinematics
-    kin = config['kinematics']
-    header_lines.extend([
         "// Kinematics",
         f"#define UPPER_SEGMENT_LENGTH {kin['upper_segment_length']}",
         f"#define LOWER_SEGMENT_LENGTH {kin['lower_segment_length']}",
@@ -62,10 +48,12 @@ def generate_arduino_header(config_path, output_path):
         f"#define ELBOW_MIN_ANGLE {kin['elbow_min_angle']}",
         f"#define ELBOW_MAX_ANGLE {kin['elbow_max_angle']}",
         "",
-    ])
+    ]
+    return lines
 
-    # Animation structures
-    header_lines.extend([
+def generate_animation_structures():
+    """Generate animation structure definitions."""
+    return [
         "// Animation Keyframe Structure",
         "struct Keyframe {",
         "  unsigned long time_ms;",
@@ -83,49 +71,57 @@ def generate_arduino_header(config_path, output_path):
         "  const Keyframe* keyframes;",
         "};",
         "",
-    ])
+    ]
+
+def generate_animation_data(animations):
+    """Generate animation names, keyframes, and array."""
+    lines = []
 
     # Generate animation name strings
-    animations = config['animations']
     for anim_id, anim in animations.items():
-        header_lines.append(f"const char {anim_id.upper()}_NAME[] PROGMEM = \"{anim['name']}\";")
-    header_lines.append("")
+        lines.append(f"const char {anim_id.upper()}_NAME[] PROGMEM = \"{anim['name']}\";")
+    lines.append("")
 
     # Generate keyframes for each animation
     for anim_id, anim in animations.items():
-        header_lines.append(f"// {anim['name']}")
-        header_lines.append(f"const Keyframe {anim_id.upper()}_KEYFRAMES[] PROGMEM = {{")
-
+        lines.append(f"// {anim['name']}")
+        lines.append(f"const Keyframe {anim_id.upper()}_KEYFRAMES[] PROGMEM = {{")
         for kf in anim['keyframes']:
-            header_lines.append(
+            lines.append(
                 f"  {{{kf['time_ms']}, {kf['left_shoulder_deg']}, {kf['left_elbow_deg']}, "
                 f"{kf['right_shoulder_deg']}, {kf['right_elbow_deg']}}},"
             )
-
-        header_lines.append("};")
-        header_lines.append("")
+        lines.append("};")
+        lines.append("")
 
     # Animation array
-    header_lines.extend([
-        "// Animation Definitions",
-        "const Animation ANIMATIONS[] PROGMEM = {",
-    ])
-
+    lines.extend(["// Animation Definitions", "const Animation ANIMATIONS[] PROGMEM = {"])
     for anim_id, anim in animations.items():
         loop_str = "true" if anim['loop'] else "false"
         kf_count = len(anim['keyframes'])
-        header_lines.append(
+        lines.append(
             f"  {{{anim_id.upper()}_NAME, {anim['duration_ms']}, {loop_str}, "
             f"{kf_count}, {anim_id.upper()}_KEYFRAMES}},"
         )
+    lines.append("};")
+    lines.append("")
 
-    # Find default animation index
+    return lines
+
+def generate_arduino_header(config_path, output_path):
+    """Generate Arduino header file from JSON config."""
+    with open(config_path, 'r') as f:
+        config = json.load(f)
+
+    animations = config['animations']
     default_anim_name = config['default_animation']
     default_index = list(animations.keys()).index(default_anim_name)
 
+    header_lines = []
+    header_lines.extend(generate_header_lines(config['hardware'], config['kinematics']))
+    header_lines.extend(generate_animation_structures())
+    header_lines.extend(generate_animation_data(animations))
     header_lines.extend([
-        "};",
-        "",
         f"#define ANIMATION_COUNT {len(animations)}",
         f"#define DEFAULT_ANIMATION {default_index}  // {default_anim_name}",
         "",
@@ -133,7 +129,6 @@ def generate_arduino_header(config_path, output_path):
         ""
     ])
 
-    # Write output
     output = "\n".join(header_lines)
     with open(output_path, 'w') as f:
         f.write(output)
