@@ -27,22 +27,37 @@ jobs:
       working-directory: ./hatching_egg
       run: |
         pixi install
-        pixi run coverage || true
-      continue-on-error: true
+        if pixi task list | grep -q "^coverage"; then
+          pixi run coverage
+        else
+          echo "⚠️  No coverage task defined for hatching_egg"
+          echo "Running tests only"
+          pixi run test
+        fi
 
     - name: Test Spider Crawl Projection with Coverage
       working-directory: ./spider_crawl_projection
       run: |
         pixi install
-        pixi run coverage || true
-      continue-on-error: true
+        if pixi task list | grep -q "^coverage"; then
+          pixi run coverage
+        else
+          echo "⚠️  No coverage task defined for spider_crawl_projection"
+          echo "Running tests only"
+          pixi run test
+        fi
 
     - name: Test Window Spider Trigger with Coverage
       working-directory: ./window_spider_trigger
       run: |
         pixi install
-        pixi run coverage || true
-      continue-on-error: true
+        if pixi task list | grep -q "^coverage"; then
+          pixi run coverage
+        else
+          echo "⚠️  No coverage task defined for window_spider_trigger"
+          echo "Running tests only"
+          pixi run test
+        fi
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4

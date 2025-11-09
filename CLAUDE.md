@@ -233,6 +233,26 @@ pixi run monitor   # Serial monitor
 
 **Important:** Never run tests or builds outside of Pixi. Pixi ensures consistent environments across machines.
 
+### Required Pixi Tasks
+
+**CRITICAL: Every project MUST have these standardized tasks:**
+
+All pixi.toml files must include:
+- `pixi run test` - Run all unit tests
+- `pixi run coverage` - Generate code coverage report
+- `pixi run view-coverage` - Open coverage report in browser
+
+**Enforcement:**
+- CI/CD will check for coverage task presence
+- Missing coverage tasks will cause CI warnings
+- Projects without these tasks are considered incomplete
+
+**Current Status:**
+- ✅ hatching_egg: Has all required tasks
+- ✅ spider_crawl_projection: Has all required tasks (added 2025-11-09)
+- ✅ window_spider_trigger: Has all required tasks
+- ⚠️ twitching_body: Missing coverage tasks (0% coverage project)
+
 ## Documentation Standards
 
 ### README Files

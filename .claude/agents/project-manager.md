@@ -123,6 +123,35 @@ When code is pushed to GitHub:
 - Add exceptions to sonar-project.properties if needed
 - Update CLAUDE.md with patterns to preserve
 
+### Prioritization Strategy
+
+When balancing coverage goals vs SonarCloud issues:
+
+**Priority Order:**
+1. **Functionality** - Code must work correctly
+2. **Test Coverage** - Achieve 80%+ coverage first
+3. **SonarCloud Bugs/Vulnerabilities** - Fix security and correctness issues
+4. **SonarCloud Code Smells** - Address after coverage goals met
+
+**Rationale:**
+- High test coverage catches more bugs than SonarCloud analysis
+- SonarCloud "fixes" can introduce regressions (see browser export incident)
+- Better to have working, tested code than "clean" broken code
+
+**Workflow:**
+1. Implement feature with tests
+2. Achieve 80%+ coverage
+3. Push to GitHub
+4. Review SonarCloud findings
+5. Fix legitimate issues
+6. Ignore/document false positives
+
+**Red Flags - Don't Fix:**
+- SonarCloud changes that break tests
+- Modernization that breaks browser compatibility
+- Style changes that reduce readability
+- Metrics-driven refactoring without functional benefit
+
 ## Documentation Management Practices
 
 **Core Documentation Files:**
@@ -225,5 +254,59 @@ This is a **Halloween haunted house animatronics project** with these key compon
 - Use `pixi run <task>` for all operations (test, coverage, upload, deploy, etc.)
 - No Docker containers - all native execution via Pixi
 - Arduino uploads via PlatformIO
+
+## Pixi Environment Standards
+
+**CRITICAL: All projects MUST have standardized pixi tasks**
+
+Every pixi.toml in the project MUST include these tasks:
+
+### Required Tasks
+- `pixi run test` - Run all unit tests
+- `pixi run coverage` - Generate code coverage report
+- `pixi run view-coverage` - Open coverage report in browser
+
+### Optional But Recommended
+- `pixi run status` - Show project status and available commands
+- `pixi run setup` - One-time setup for development
+- Individual test tasks (test-kinematics, test-integration, etc.)
+
+### Implementation Examples
+
+**JavaScript/Node.js projects:**
+```toml
+test = "bash run-all-tests.sh" # or "npm test"
+test-coverage = "npx c8 --reporter=html --reporter=lcov --reporter=text <test-command>"
+coverage = { depends-on = ["test-coverage"] }
+view-coverage = "xdg-open coverage/index.html"
+```
+
+**C++ projects (Arduino):**
+```toml
+test-cpp = "g++ ... && ./test_binary"
+test-cpp-coverage = "g++ --coverage ... && lcov ... && genhtml ..."
+coverage = { depends-on = ["test-cpp-coverage"] }
+view-coverage = "xdg-open coverage-cpp/index.html"
+```
+
+**Multi-language projects:**
+```toml
+coverage-js = { ... }
+coverage-cpp = { ... }
+coverage-python = { ... }
+coverage-all = { depends-on = ["coverage-js", "coverage-cpp", "coverage-python"] }
+coverage = { depends-on = ["coverage-all"] }
+view-coverage = "xdg-open coverage-*/index.html"
+```
+
+### Enforcement
+
+When creating or modifying projects:
+1. **Check pixi.toml has required tasks**
+2. **Verify tasks work** (`pixi run test`, `pixi run coverage`)
+3. **Update CI/CD** if new tasks added
+4. **Document** in project README.md
+
+Missing coverage tasks = incomplete project setup.
 
 **Current Focus:** Achieving 80%+ test coverage across all projects, particularly window_spider_trigger (Priority 1) and twitching_body (Priority 2).

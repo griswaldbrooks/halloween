@@ -44,6 +44,11 @@ optimize-individual = "node optimize-individual-legs.js"
 test = "bash run-all-tests.sh"
 test-all = { depends-on = ["test"] }
 
+# Coverage
+test-coverage = "npx c8 --reporter=html --reporter=lcov --reporter=text --include='**/*.js' --exclude='test-*.js' --exclude='optimize-*.js' --report-dir=coverage bash run-all-tests.sh"
+coverage = { depends-on = ["test-coverage"], description = "Generate code coverage report" }
+view-coverage = { cmd = "xdg-open coverage/index.html", description = "Open coverage report in browser" }
+
 [tasks.status]
 cmd = """
 echo "=== Spider Crawl Projection ==="
@@ -57,6 +62,8 @@ echo "  pixi run serve        - Start local server on port 8080"
 echo "  pixi run kill-server  - Kill any running servers on port 8080"
 echo "  pixi run open         - Open in browser"
 echo "  pixi run test         - Run all geometry tests"
+echo "  pixi run coverage     - Run tests with coverage report"
+echo "  pixi run view-coverage - Open coverage report in browser"
 echo ""
 echo "Individual tests:"
 echo "  pixi run test-kinematics       - IK/FK tests"
