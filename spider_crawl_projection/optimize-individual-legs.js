@@ -41,9 +41,9 @@ function legsIntersect(leg1, leg1Positions, leg2, leg2Positions, spiderX, spider
     const leg2Foot = { x: spiderX + leg2Positions.foot.x, y: spiderY + leg2Positions.foot.y };
 
     if (segmentsIntersect(leg1Attach, leg1Knee, leg2Attach, leg2Knee)) {
-        const distAttach = Math.sqrt(
-            Math.pow(leg1Attach.x - leg2Attach.x, 2) +
-            Math.pow(leg1Attach.y - leg2Attach.y, 2)
+        const distAttach = Math.hypot(
+            leg1Attach.x - leg2Attach.x,
+            leg1Attach.y - leg2Attach.y
         );
         if (distAttach > 1) return true;
     }
@@ -124,17 +124,14 @@ function optimizeIndividualLegs() {
 
         // For each intersection, try moving one of the legs
         for (const {leg1, leg2} of intersections) {
-            const attachment1 = body.getAttachment(leg1);
-            const attachment2 = body.getAttachment(leg2);
-
             // Try multiple adjustment strategies
             const pos1 = legs[leg1].forwardKinematics();
             const pos2 = legs[leg2].forwardKinematics();
 
             const angle1 = Math.atan2(pos1.foot.y, pos1.foot.x);
             const angle2 = Math.atan2(pos2.foot.y, pos2.foot.x);
-            const radius1 = Math.sqrt(pos1.foot.x * pos1.foot.x + pos1.foot.y * pos1.foot.y);
-            const radius2 = Math.sqrt(pos2.foot.x * pos2.foot.x + pos2.foot.y * pos2.foot.y);
+            const radius1 = Math.hypot(pos1.foot.x, pos1.foot.y);
+            const radius2 = Math.hypot(pos2.foot.x, pos2.foot.y);
 
             let bestCount = intersections.length;
             let bestPos1 = { x: pos1.foot.x, y: pos1.foot.y };
@@ -216,15 +213,15 @@ function optimizeIndividualLegs() {
             return {
                 index: i,
                 baseAngle: attachment.baseAngle,
-                baseAngleDeg: parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
+                baseAngleDeg: Number.parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
                 elbowBias: elbowBiasPattern[i],
                 foot: {
-                    x: parseFloat((spiderX + pos.foot.x).toFixed(1)),
-                    y: parseFloat((spiderY + pos.foot.y).toFixed(1))
+                    x: Number.parseFloat((spiderX + pos.foot.x).toFixed(1)),
+                    y: Number.parseFloat((spiderY + pos.foot.y).toFixed(1))
                 },
                 knee: {
-                    x: parseFloat((spiderX + pos.knee.x).toFixed(1)),
-                    y: parseFloat((spiderY + pos.knee.y).toFixed(1))
+                    x: Number.parseFloat((spiderX + pos.knee.x).toFixed(1)),
+                    y: Number.parseFloat((spiderY + pos.knee.y).toFixed(1))
                 }
             };
         }),

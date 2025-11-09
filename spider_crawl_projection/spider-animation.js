@@ -703,7 +703,7 @@ function updateHopFrequencyMax(value) {
 }
 
 function updateHopFlightDuration(value) {
-    config.hopFlightDuration = parseInt(value);
+    config.hopFlightDuration = Number.parseInt(value);
     document.getElementById('hopFlightDurationLabel').textContent = value;
 }
 

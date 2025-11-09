@@ -116,6 +116,6 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // Export for browser (make available globally)
 // CRITICAL: Without this, browser gets "SpiderBody is not defined" error!
-if (typeof globalThis.window !== 'undefined') {
+if (globalThis.window !== undefined) {
     globalThis.SpiderBody = SpiderBody;
 }
