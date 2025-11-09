@@ -1,41 +1,5 @@
 # Changelog
 
-## 2025-11-07 - Comprehensive Test Suite to Prevent Future Regressions ✅
-
-### Added Automated Tests (No More Manual Browser Testing!)
-**Motivation:** Had to manually check browser console to find bugs - unacceptable!
-- The updateProcedural bug should have been caught automatically
-- Unit tests should verify all code works before it reaches the browser
-
-**New Tests Added:**
-1. **`test-method-calls.js`** - Static analysis to catch missing methods
-   - Parses Spider class to find all method definitions
-   - Finds all `this.method()` calls
-   - Verifies every call has a corresponding definition
-   - **Would have caught the missing updateProcedural() bug!**
-   - Tests for common typos in method names
-   - Verifies critical methods exist (update, draw, reset, etc.)
-
-**Additional Validations:**
-- Checks SpiderBody and Leg2D are exported for browser
-- Verifies script loading uses onload handlers (not setTimeout)
-- Validates update() calls updateProcedural or updateHopping
-- All tests run in CI automatically
-
-**Test Suite Now Has 10 Tests (All Passing):**
-1. Kinematics (IK/FK)
-2. Body Model
-3. Integration
-4. Top-Down Geometry
-5. IK Accuracy
-6. Rendering Output
-7. Leg Drawing
-8. Script Loading (prevents race conditions)
-9. **Method Call Validation (prevents missing methods)** ⭐ NEW
-10. User Configuration
-
-**Result:** Future regressions will be caught by CI, not by manual browser testing!
-
 ## 2025-11-07 - Fix Missing updateProcedural Method ✅
 
 ### Fixed Critical Bug #3
@@ -51,7 +15,7 @@
 - Added debug logging to catch similar issues
 
 **Testing:**
-- All tests passing (now 10 total)
+- All 9 tests still passing
 - Spiders now animate correctly!
 
 ## 2025-11-07 - Module Export Fix (Browser vs Node.js) ✅

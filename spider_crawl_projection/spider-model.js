@@ -15,8 +15,8 @@ class SpiderBody {
         };
 
         this.abdomen = {
-            length: size,  // Large round abdomen
-            width: size,   // Round
+            length: size * 1.0,  // Large round abdomen
+            width: size * 1.0,   // Round
             center: -size * 0.5  // Behind body origin
         };
 
@@ -36,6 +36,7 @@ class SpiderBody {
         // 4 pairs of legs distributed along cephalothorax length
         // Pairs go from front to back
         const cephStart = this.cephalothorax.center + this.cephalothorax.length / 2;
+        const cephEnd = this.cephalothorax.center - this.cephalothorax.length / 2;
         const cephWidth = this.cephalothorax.width;
 
         const attachments = [];
@@ -51,22 +52,21 @@ class SpiderBody {
             // Left and right attachment points
             // Legs point outward from sides
             // FIXED: Use 60% of width to ensure attachments are well inside ellipse
-            attachments.push(
-                {
-                    pair: pair,
-                    side: 1,  // Right
-                    x: x,
-                    y: cephWidth / 2 * 0.6,  // 60% of radius for safety
-                    baseAngle: this.getLegBaseAngle(pair, 1)
-                },
-                {
-                    pair: pair,
-                    side: -1, // Left
-                    x: x,
-                    y: -cephWidth / 2 * 0.6,  // 60% of radius for safety
-                    baseAngle: this.getLegBaseAngle(pair, -1)
-                }
-            );
+            attachments.push({
+                pair: pair,
+                side: 1,  // Right
+                x: x,
+                y: cephWidth / 2 * 0.6,  // 60% of radius for safety
+                baseAngle: this.getLegBaseAngle(pair, 1)
+            });
+
+            attachments.push({
+                pair: pair,
+                side: -1, // Left
+                x: x,
+                y: -cephWidth / 2 * 0.6,  // 60% of radius for safety
+                baseAngle: this.getLegBaseAngle(pair, -1)
+            });
         }
 
         return attachments;
@@ -107,15 +107,12 @@ class SpiderBody {
 }
 
 // Export for browser and Node.js
-// BUG FIX (Nov 2025): Must export for BOTH environments!
-
 // Export for Node.js (tests)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { SpiderBody };
 }
 
 // Export for browser (make available globally)
-// CRITICAL: Without this, browser gets "SpiderBody is not defined" error!
 if (typeof window !== 'undefined') {
     window.SpiderBody = SpiderBody;
 }

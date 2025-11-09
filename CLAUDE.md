@@ -102,6 +102,39 @@ TEST(Logic, CalculateServoAngle) {
 - Mock external dependencies in tests (serialport, Socket.IO)
 - Use descriptive variable names
 
+**CRITICAL - Browser Compatibility:**
+- **ALWAYS use `typeof window !== 'undefined'` for browser detection**
+- **NEVER use `globalThis.window !== undefined` or similar patterns**
+- The `typeof` operator is REQUIRED for safe browser/Node.js dual compatibility
+- Changing this pattern WILL break browser functionality (classes won't export)
+- See spider_crawl_projection regression (Nov 2025) where globalThis changes broke browser exports
+
+**Correct browser export pattern:**
+```javascript
+// Node.js export
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { MyClass };
+}
+
+// Browser export - MUST use typeof for safety
+if (typeof window !== 'undefined') {
+    window.MyClass = MyClass;
+}
+```
+
+**WRONG patterns that will break browser:**
+```javascript
+// ❌ WRONG - Will fail in browser
+if (globalThis.window !== undefined) {
+    globalThis.MyClass = MyClass;
+}
+
+// ❌ WRONG - May cause reference errors
+if (window !== undefined) {
+    window.MyClass = MyClass;
+}
+```
+
 **Testing Pattern:**
 ```javascript
 // Mock external dependencies

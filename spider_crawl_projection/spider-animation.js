@@ -3,8 +3,6 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 // Load dependencies with proper load tracking
-// IMPORTANT: This replaces setTimeout(100ms) which caused race conditions!
-// BUG FIX (Nov 2025): Scripts must load completely before animation starts
 let scriptsLoaded = 0;
 const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js'];
 
@@ -18,7 +16,6 @@ function onScriptLoaded() {
         console.log('SpiderBody available:', typeof SpiderBody !== 'undefined');
         console.log('Leg2D available:', typeof Leg2D !== 'undefined');
 
-        // BUG FIX (Nov 2025): Verify classes are exported to window for browser
         if (typeof SpiderBody === 'undefined' || typeof Leg2D === 'undefined') {
             console.error('ERROR: Required classes not available after script load!');
             return;
@@ -32,27 +29,27 @@ function onScriptLoaded() {
     }
 }
 
-for (const src of scriptsToLoad) {
+scriptsToLoad.forEach(src => {
     const script = document.createElement('script');
     script.src = src;
     script.onload = onScriptLoaded;
     script.onerror = () => console.error(`Failed to load ${src}`);
     document.head.appendChild(script);
-}
+});
 
 // Configuration
 let config = {
     spiderCount: 5,
-    spiderSpeed: 1,
+    spiderSpeed: 1.0,
     spiderSizeMin: 0.5,
-    spiderSizeMax: 3,
+    spiderSizeMax: 3.0,
     sizeVariation: 0.5,      // 0 = all same size, 1 = full range
     speedVariation: 0.5,     // 0 = all same speed, 1 = full range
     paused: false,
     animationMode: 'procedural', // 'procedural' or 'hopping'
     // Hopping parameters
-    hopDistanceMin: 6,     // Minimum hop distance multiplier (× body size)
-    hopDistanceMax: 10,    // Maximum hop distance multiplier (× body size)
+    hopDistanceMin: 6.0,     // Minimum hop distance multiplier (× body size)
+    hopDistanceMax: 10.0,    // Maximum hop distance multiplier (× body size)
     hopFrequencyMin: 1,      // Minimum crawl cycles between hops
     hopFrequencyMax: 13,     // Maximum crawl cycles between hops
     hopFlightDuration: 60    // Flight phase duration in ms
@@ -206,10 +203,6 @@ class Spider {
     }
 
 
-    // BUG FIX (Nov 2025): This method was accidentally deleted in commit 331c522
-    // when removing the keyframe feature. The call site remained in update(),
-    // causing: TypeError: this.updateProcedural is not a function
-    // CRITICAL: If you modify this method, ensure update() still calls it!
     updateProcedural(dt, speedMultiplier) {
         // Gait timing (6-phase alternating tetrapod)
         const phaseDurations = [200, 150, 100, 200, 150, 100]; // ms
@@ -273,84 +266,6 @@ class Spider {
         }
     }
 
-    updateHoppingCrawlMode(dt, speedMultiplier, crawlPhaseDurations) {
-        this.crawlTimer += dt * speedMultiplier;
-
-        if (this.crawlTimer >= crawlPhaseDurations[this.crawlPhase]) {
-            this.crawlTimer = 0;
-            this.crawlPhase = (this.crawlPhase + 1) % 6;
-
-            // Completed one crawl cycle?
-            if (this.crawlPhase === 0) {
-                this.crawlCyclesRemaining--;
-                if (this.crawlCyclesRemaining <= 0) {
-                    // Done crawling, prepare to hop again
-                    this.hopPhase = 0;
-                    this.hopTimer = 0;
-                    // New random crawl count based on config
-                    const cycleRange = config.hopFrequencyMax - config.hopFrequencyMin;
-                    this.crawlCyclesRemaining = Math.floor(Math.random() * cycleRange) + config.hopFrequencyMin;
-                }
-            }
-        }
-
-        const stepProgress = this.crawlTimer / crawlPhaseDurations[this.crawlPhase];
-
-        // Update legs using procedural crawl
-        for (const leg of this.legs) {
-            this.updateLegProceduralForHopping(leg, this.crawlPhase, stepProgress);
-        }
-
-        // Body movement during crawl lurch phases
-        if (this.crawlPhase === 1 || this.crawlPhase === 4) {
-            const lurchDistance = this.bodySize * 0.4;
-            const lurchDelta = (lurchDistance / crawlPhaseDurations[this.crawlPhase]) * dt * speedMultiplier;
-            this.x += lurchDelta;
-            this.y += this.vy * speedMultiplier;
-        }
-    }
-
-    updateHoppingJumpMode(dt, speedMultiplier, hopPhaseDurations) {
-        this.hopTimer += dt * speedMultiplier;
-
-        if (this.hopTimer >= hopPhaseDurations[this.hopPhase]) {
-            this.hopTimer = 0;
-            this.hopPhase = (this.hopPhase + 1) % 4;
-            this.hopProgress = 0;
-
-            // Initialize hop distance at start of takeoff
-            if (this.hopPhase === 1) {
-                this.hopStartX = this.x;
-                // Hop distance based on config range
-                const distanceRange = config.hopDistanceMax - config.hopDistanceMin;
-                const hopMultiplier = config.hopDistanceMin + Math.random() * distanceRange;
-                this.hopTargetX = this.x + (this.bodySize * hopMultiplier);
-            }
-
-            // After landing, switch to crawl mode
-            if (this.hopPhase === 0) {
-                this.hopPhase = 4;
-                this.crawlPhase = 0;
-                this.crawlTimer = 0;
-            }
-        }
-
-        this.hopProgress = this.hopTimer / hopPhaseDurations[this.hopPhase];
-
-        // Update legs based on hop phase
-        for (const leg of this.legs) {
-            this.updateLegHopping(leg);
-        }
-
-        // Body movement during flight phase
-        if (this.hopPhase === 2) {
-            const hopDistance = this.hopTargetX - this.hopStartX;
-            const hopDelta = (hopDistance / hopPhaseDurations[2]) * dt * speedMultiplier;
-            this.x += hopDelta;
-            this.y += this.vy * speedMultiplier;
-        }
-    }
-
     updateHopping(dt, speedMultiplier) {
         // Hopping gait with crawling in between
         // Phase 4 is now "crawl mode" - spider crawls for configurable cycles before next hop
@@ -358,9 +273,82 @@ class Spider {
         const crawlPhaseDurations = [200, 150, 100, 200, 150, 100]; // Same as procedural gait
 
         if (this.hopPhase === 4) {
-            this.updateHoppingCrawlMode(dt, speedMultiplier, crawlPhaseDurations);
+            // CRAWL MODE: Use procedural gait
+            this.crawlTimer += dt * speedMultiplier;
+
+            if (this.crawlTimer >= crawlPhaseDurations[this.crawlPhase]) {
+                this.crawlTimer = 0;
+                this.crawlPhase = (this.crawlPhase + 1) % 6;
+
+                // Completed one crawl cycle?
+                if (this.crawlPhase === 0) {
+                    this.crawlCyclesRemaining--;
+                    if (this.crawlCyclesRemaining <= 0) {
+                        // Done crawling, prepare to hop again
+                        this.hopPhase = 0;
+                        this.hopTimer = 0;
+                        // New random crawl count based on config
+                        const cycleRange = config.hopFrequencyMax - config.hopFrequencyMin;
+                        this.crawlCyclesRemaining = Math.floor(Math.random() * cycleRange) + config.hopFrequencyMin;
+                    }
+                }
+            }
+
+            const stepProgress = this.crawlTimer / crawlPhaseDurations[this.crawlPhase];
+
+            // Update legs using procedural crawl
+            for (const leg of this.legs) {
+                this.updateLegProceduralForHopping(leg, this.crawlPhase, stepProgress);
+            }
+
+            // Body movement during crawl lurch phases
+            if (this.crawlPhase === 1 || this.crawlPhase === 4) {
+                const lurchDistance = this.bodySize * 0.4;
+                const lurchDelta = (lurchDistance / crawlPhaseDurations[this.crawlPhase]) * dt * speedMultiplier;
+                this.x += lurchDelta;
+                this.y += this.vy * speedMultiplier;
+            }
+
         } else {
-            this.updateHoppingJumpMode(dt, speedMultiplier, hopPhaseDurations);
+            // HOP MODE: Phases 0-3
+            this.hopTimer += dt * speedMultiplier;
+
+            if (this.hopTimer >= hopPhaseDurations[this.hopPhase]) {
+                this.hopTimer = 0;
+                this.hopPhase = (this.hopPhase + 1) % 4;
+                this.hopProgress = 0;
+
+                // Initialize hop distance at start of takeoff
+                if (this.hopPhase === 1) {
+                    this.hopStartX = this.x;
+                    // Hop distance based on config range
+                    const distanceRange = config.hopDistanceMax - config.hopDistanceMin;
+                    const hopMultiplier = config.hopDistanceMin + Math.random() * distanceRange;
+                    this.hopTargetX = this.x + (this.bodySize * hopMultiplier);
+                }
+
+                // After landing, switch to crawl mode
+                if (this.hopPhase === 0) {
+                    this.hopPhase = 4;
+                    this.crawlPhase = 0;
+                    this.crawlTimer = 0;
+                }
+            }
+
+            this.hopProgress = this.hopTimer / hopPhaseDurations[this.hopPhase];
+
+            // Update legs based on hop phase
+            for (const leg of this.legs) {
+                this.updateLegHopping(leg);
+            }
+
+            // Body movement during flight phase
+            if (this.hopPhase === 2) {
+                const hopDistance = this.hopTargetX - this.hopStartX;
+                const hopDelta = (hopDistance / hopPhaseDurations[2]) * dt * speedMultiplier;
+                this.x += hopDelta;
+                this.y += this.vy * speedMultiplier;
+            }
         }
     }
 
@@ -411,13 +399,7 @@ class Spider {
 
         } else if (this.hopPhase === 3) {
             // LANDING: Front legs extend first, back legs follow
-            if (isBackLeg) {
-                // Back legs stay retracted during landing
-                const targetX = this.x + relPos.x * scale * 0.7;
-                const targetY = this.y + relPos.y * scale * 0.7;
-                leg.worldFootX += (targetX - leg.worldFootX) * 0.6;
-                leg.worldFootY += (targetY - leg.worldFootY) * 0.6;
-            } else {
+            if (!isBackLeg) {
                 // Front legs extend to catch landing (1.1x reach)
                 const extendFactor = 1.1;
                 const targetX = this.x + relPos.x * scale * extendFactor;
@@ -604,33 +586,33 @@ function toggleControls() {
 }
 
 function toggleFullscreen() {
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    } else {
+    if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
     }
 }
 
 function updateSpiderCount(value) {
-    config.spiderCount = Number.parseInt(value);
+    config.spiderCount = parseInt(value);
     document.getElementById('spiderCountLabel').textContent = value;
     resetSpiders();
 }
 
 function updateSpeed(value) {
-    config.spiderSpeed = Number.parseFloat(value);
+    config.spiderSpeed = parseFloat(value);
     document.getElementById('speedLabel').textContent = value + 'x';
     resetSpiders(); // Reset to apply new speed distribution
 }
 
 function updateSpeedVariation(value) {
-    config.speedVariation = Number.parseFloat(value);
+    config.speedVariation = parseFloat(value);
     document.getElementById('speedVariationLabel').textContent = value;
     resetSpiders(); // Reset to apply new speed variation
 }
 
 function updateSizeMin(value) {
-    config.spiderSizeMin = Number.parseFloat(value);
+    config.spiderSizeMin = parseFloat(value);
     document.getElementById('sizeMinLabel').textContent = value + 'x';
     // Make sure min doesn't exceed max
     if (config.spiderSizeMin > config.spiderSizeMax) {
@@ -642,7 +624,7 @@ function updateSizeMin(value) {
 }
 
 function updateSizeMax(value) {
-    config.spiderSizeMax = Number.parseFloat(value);
+    config.spiderSizeMax = parseFloat(value);
     document.getElementById('sizeMaxLabel').textContent = value + 'x';
     // Make sure max doesn't go below min
     if (config.spiderSizeMax < config.spiderSizeMin) {
@@ -654,7 +636,7 @@ function updateSizeMax(value) {
 }
 
 function updateSizeVariation(value) {
-    config.sizeVariation = Number.parseFloat(value);
+    config.sizeVariation = parseFloat(value);
     document.getElementById('sizeVariationLabel').textContent = value;
     resetSpiders(); // Reset to apply new size variation
 }
@@ -674,7 +656,7 @@ function updateAnimationMode(mode) {
 }
 
 function updateHopDistanceMin(value) {
-    config.hopDistanceMin = Number.parseFloat(value);
+    config.hopDistanceMin = parseFloat(value);
     document.getElementById('hopDistanceMinLabel').textContent = value + 'x';
     if (config.hopDistanceMin > config.hopDistanceMax) {
         config.hopDistanceMax = config.hopDistanceMin;
@@ -684,7 +666,7 @@ function updateHopDistanceMin(value) {
 }
 
 function updateHopDistanceMax(value) {
-    config.hopDistanceMax = Number.parseFloat(value);
+    config.hopDistanceMax = parseFloat(value);
     document.getElementById('hopDistanceMaxLabel').textContent = value + 'x';
     if (config.hopDistanceMax < config.hopDistanceMin) {
         config.hopDistanceMin = config.hopDistanceMax;
@@ -694,7 +676,7 @@ function updateHopDistanceMax(value) {
 }
 
 function updateHopFrequencyMin(value) {
-    config.hopFrequencyMin = Number.parseInt(value);
+    config.hopFrequencyMin = parseInt(value);
     document.getElementById('hopFrequencyMinLabel').textContent = value;
     if (config.hopFrequencyMin > config.hopFrequencyMax) {
         config.hopFrequencyMax = config.hopFrequencyMin;
@@ -704,7 +686,7 @@ function updateHopFrequencyMin(value) {
 }
 
 function updateHopFrequencyMax(value) {
-    config.hopFrequencyMax = Number.parseInt(value);
+    config.hopFrequencyMax = parseInt(value);
     document.getElementById('hopFrequencyMaxLabel').textContent = value;
     if (config.hopFrequencyMax < config.hopFrequencyMin) {
         config.hopFrequencyMin = config.hopFrequencyMax;
@@ -714,7 +696,7 @@ function updateHopFrequencyMax(value) {
 }
 
 function updateHopFlightDuration(value) {
-    config.hopFlightDuration = Number.parseInt(value);
+    config.hopFlightDuration = parseInt(value);
     document.getElementById('hopFlightDurationLabel').textContent = value;
 }
 

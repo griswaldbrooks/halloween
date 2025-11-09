@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>Simple Test</title>
 </head>
@@ -23,9 +23,7 @@
                 statusDiv.innerHTML += `SpiderBody available: ${typeof SpiderBody !== 'undefined'}<br>`;
                 statusDiv.innerHTML += `Leg2D available: ${typeof Leg2D !== 'undefined'}<br>`;
 
-                if (typeof SpiderBody === 'undefined') {
-                    statusDiv.innerHTML += `✗ SpiderBody not available<br>`;
-                } else {
+                if (typeof SpiderBody !== 'undefined') {
                     try {
                         const testBody = new SpiderBody(10);
                         statusDiv.innerHTML += `✓ SpiderBody created successfully!<br>`;
@@ -33,11 +31,13 @@
                     } catch (e) {
                         statusDiv.innerHTML += `✗ Error creating SpiderBody: ${e.message}<br>`;
                     }
+                } else {
+                    statusDiv.innerHTML += `✗ SpiderBody is not defined!<br>`;
                 }
             }
         }
 
-        for (const src of scriptsToLoad) {
+        scriptsToLoad.forEach(src => {
             const script = document.createElement('script');
             script.src = src;
             script.onload = onScriptLoaded;
@@ -46,7 +46,7 @@
                 console.error(`Failed to load ${src}`, e);
             };
             document.head.appendChild(script);
-        }
+        });
     </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>Spider Leg Editor - Interactive</title>
     <style>
@@ -22,14 +22,12 @@
         }
         .controls {
             background: white;
-            color: #000;
             padding: 15px;
             border: 1px solid #ccc;
             margin-bottom: 10px;
         }
         .info {
             background: #e8f4f8;
-            color: #000;
             padding: 10px;
             border: 1px solid #b3d9e6;
             margin-bottom: 10px;
@@ -40,8 +38,8 @@
             cursor: pointer;
         }
         .selected {
-            background: #2E7D32;
-            color: #fff;
+            background: #4CAF50;
+            color: white;
         }
         #output {
             background: #2b2b2b;
@@ -321,6 +319,7 @@
 
                 for (let i = 0; i < this.legs.length; i++) {
                     const leg = this.legs[i];
+                    const attachment = this.body.getAttachment(i);
 
                     const targetX = leg.worldFootX - this.x;
                     const targetY = leg.worldFootY - this.y;
@@ -357,7 +356,7 @@
 
                     const dx = positions.foot.x - localX;
                     const dy = positions.foot.y - localY;
-                    const dist = Math.hypot(dx, dy);
+                    const dist = Math.sqrt(dx * dx + dy * dy);
 
                     if (dist < 10) return i;
                 }
@@ -465,15 +464,15 @@
                 config.legs.push({
                     index: i,
                     baseAngle: attachment.baseAngle,
-                    baseAngleDeg: Number.parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
+                    baseAngleDeg: parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
                     elbowBias: spider.getElbowBias(i),
                     foot: {
-                        x: Number.parseFloat(leg.worldFootX.toFixed(1)),
-                        y: Number.parseFloat(leg.worldFootY.toFixed(1))
+                        x: parseFloat(leg.worldFootX.toFixed(1)),
+                        y: parseFloat(leg.worldFootY.toFixed(1))
                     },
                     knee: {
-                        x: Number.parseFloat((spider.x + positions.knee.x).toFixed(1)),
-                        y: Number.parseFloat((spider.y + positions.knee.y).toFixed(1))
+                        x: parseFloat((spider.x + positions.knee.x).toFixed(1)),
+                        y: parseFloat((spider.y + positions.knee.y).toFixed(1))
                     }
                 });
             }

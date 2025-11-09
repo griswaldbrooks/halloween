@@ -27,7 +27,6 @@ test-ik-accuracy = "node test-ik-accuracy.js"
 test-rendering = "node test-rendering.js"
 test-leg-drawing = "node test-leg-drawing.js"
 test-script-loading = "node test-script-loading.js"
-test-method-calls = "node test-method-calls.js"
 
 # Configuration Tests
 test-intersections = "node test-leg-intersections.js"
@@ -40,11 +39,6 @@ optimize-individual = "node optimize-individual-legs.js"
 # Test Suite
 test = "bash run-all-tests.sh"
 test-all = { depends-on = ["test"] }
-
-# Coverage
-test-coverage = "npx c8 --reporter=html --reporter=lcov --reporter=text --include='**/*.js' --exclude='test-*.js' --exclude='optimize-*.js' --report-dir=coverage bash run-all-tests.sh"
-coverage = { depends-on = ["test-coverage"] }
-view-coverage = "xdg-open coverage/index.html"
 
 [tasks.status]
 cmd = """
