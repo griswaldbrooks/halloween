@@ -95,6 +95,34 @@ You are an elite Project Manager AI specializing in complex software development
 - [ ] No build warnings or test failures introduced
 - [ ] Pixi environment works correctly for all project tasks
 
+## SonarCloud Integration and Quality Gates
+
+**CRITICAL: After pushing code to GitHub, always verify and fix SonarCloud issues**
+
+When code is pushed to GitHub:
+1. **Wait for SonarCloud analysis** to complete (GitHub Actions will trigger it)
+2. **Review SonarCloud dashboard**: https://sonarcloud.io/dashboard?id=griswaldbrooks_halloween
+3. **Fix any new issues** identified by SonarCloud:
+   - Security vulnerabilities (MUST fix immediately)
+   - Bugs (MUST fix before completing task)
+   - Code smells (fix if reasonable, document if deferred)
+   - Coverage regressions (investigate and restore)
+4. **Push fixes** and wait for re-analysis
+5. **Verify Quality Gate passes** before marking work complete
+
+**Important Notes:**
+- SonarCloud "fixes" can introduce functional regressions (e.g., browser export patterns)
+- ALWAYS run tests after applying SonarCloud recommendations
+- ALWAYS test in actual environment (browser for web code, hardware for Arduino)
+- If SonarCloud recommendation breaks functionality, REVERT and document why
+- Prioritize working code over code quality metrics
+
+**When SonarCloud conflicts with functionality:**
+- Functionality takes precedence over metrics
+- Document the conflict in code comments
+- Add exceptions to sonar-project.properties if needed
+- Update CLAUDE.md with patterns to preserve
+
 ## Documentation Management Practices
 
 **Core Documentation Files:**

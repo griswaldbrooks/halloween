@@ -62,8 +62,13 @@ The spider animation supports two modes (switchable via dropdown in UI):
 ### Run All Tests
 
 ```bash
-pixi run test              # Run complete test suite (8 tests passing)
+pixi run test              # Run complete test suite (11 test suites, all passing)
 ```
+
+**Test Coverage:**
+- 9 core/configuration test suites (existing geometry and config tests)
+- 2 regression prevention test suites (static analysis + browser simulation)
+- Total: 11 test suites with 15+ individual tests
 
 ### Core Tests
 
@@ -83,6 +88,17 @@ pixi run test-leg-drawing  # Visual leg geometry (✓ ALL PASS)
 pixi run test-user-config  # Verify zero leg intersections (✓ PASS!)
 pixi run test-intersections # Generic intersection detection
 ```
+
+### Regression Prevention Tests
+
+```bash
+pixi run test-method-calls     # Static analysis: method definitions (✓ 11 tests)
+pixi run test-browser-exports  # Browser simulation with jsdom (✓ 4 tests)
+```
+
+**What they prevent:**
+- **Method calls test:** Catches missing method definitions, broken export patterns, race conditions
+- **Browser exports test:** Verifies classes export to window (not globalThis) in real browser environment
 
 ### Optimization Tools
 
@@ -144,6 +160,12 @@ pixi run optimize-individual # Fine-tune individual leg positions
    - Body movement coupled to leg motion
    - Zero leg intersections guaranteed
 
+10. **Regression Prevention Tests (2025-11-09)** - Prevent past bugs
+    - Static analysis test (11 tests): Catches missing methods, broken export patterns, race conditions
+    - Browser simulation test (4 tests): Verifies exports work in real browser (jsdom)
+    - Both tests catch globalThis vs window export bugs automatically
+    - Would have caught the updateProcedural() missing method bug
+
 ## How Animation Works
 
 ### Procedural Gait System
@@ -182,7 +204,7 @@ Phase 5 (100ms): Pause
 
 1. **Read `AGENT_HANDOFF.md`** - Complete system documentation (CRITICAL!)
 2. **Run `pixi run open-editor`** - Try the interactive editor
-3. **Run `pixi run test`** - Verify all 8 tests pass
+3. **Run `pixi run test`** - Verify all 11 test suites pass
 4. **Run `pixi run test-user-config`** - Confirm zero intersections
 5. **Read `ISSUES.md`** - Current problems to fix (if any)
 
@@ -202,9 +224,9 @@ pixi run serve            # Start development server
 pixi run kill-server      # Stop server on port 8080
 pixi run open             # Main animation
 pixi run open-editor      # Interactive leg editor
-pixi run test             # Run all 8 tests
+pixi run test             # Run all 11 test suites
 pixi run test-user-config # Verify zero intersections
-pixi run test-ik-accuracy # Verify IK is perfect (0.0 error)
+pixi run test-method-calls # Verify export patterns (regression prevention)
 ```
 
 ### Debugging
@@ -230,9 +252,10 @@ pixi run test-ik-accuracy # Verify IK is perfect (0.0 error)
 - `spider-editor.html` - Interactive editor
 - `test-visual-output.html` - Debug view
 
-**Tests (8 files, all passing):**
-- Core: kinematics, model, integration, topdown, ik-accuracy, rendering, leg-drawing
+**Tests (11 test suites, all passing):**
+- Core: kinematics, model, integration, topdown, ik-accuracy, rendering, leg-drawing, script-loading
 - Config: test-user-config (✓ zero intersections!)
+- Regression prevention: test-method-calls (11 tests), test-browser-exports (4 tests)
 
 **Documentation (3 files):**
 - `README.md` - This file

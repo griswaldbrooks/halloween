@@ -203,6 +203,124 @@ test('No common typos in method names', () => {
     }
 });
 
+// Test 9: Exact browser export pattern validation
+test('Browser exports use correct typeof window pattern', () => {
+    const kinematicsCode = fs.readFileSync(path.join(__dirname, 'leg-kinematics.js'), 'utf8');
+    const modelCode = fs.readFileSync(path.join(__dirname, 'spider-model.js'), 'utf8');
+
+    const errors = [];
+
+    // Check leg-kinematics.js has correct pattern
+    if (!kinematicsCode.includes("typeof window !== 'undefined'")) {
+        errors.push('leg-kinematics.js: Missing "typeof window !== \'undefined\'" check');
+    }
+
+    // Check spider-model.js has correct pattern
+    if (!modelCode.includes("typeof window !== 'undefined'")) {
+        errors.push('spider-model.js: Missing "typeof window !== \'undefined\'" check');
+    }
+
+    // Fail if globalThis.window pattern is found (incorrect)
+    if (kinematicsCode.includes('globalThis.window')) {
+        errors.push('leg-kinematics.js: Found "globalThis.window" - should use "typeof window !== \'undefined\'"');
+    }
+    if (modelCode.includes('globalThis.window')) {
+        errors.push('spider-model.js: Found "globalThis.window" - should use "typeof window !== \'undefined\'"');
+    }
+
+    // Fail if globalThis exports are found (incorrect)
+    if (kinematicsCode.includes('globalThis.Leg2D')) {
+        errors.push('leg-kinematics.js: Found "globalThis.Leg2D" - should use "window.Leg2D"');
+    }
+    if (modelCode.includes('globalThis.SpiderBody')) {
+        errors.push('spider-model.js: Found "globalThis.SpiderBody" - should use "window.SpiderBody"');
+    }
+
+    if (errors.length > 0) {
+        throw new Error('Browser export pattern violations:\n  ' + errors.join('\n  '));
+    }
+});
+
+// Test 10: Window object export validation
+test('Browser exports use window.ClassName not globalThis', () => {
+    const kinematicsCode = fs.readFileSync(path.join(__dirname, 'leg-kinematics.js'), 'utf8');
+    const modelCode = fs.readFileSync(path.join(__dirname, 'spider-model.js'), 'utf8');
+
+    const errors = [];
+
+    // Verify exports use window.Leg2D
+    const leg2DWindowMatch = kinematicsCode.match(/window\.Leg2D\s*=\s*Leg2D/);
+    if (!leg2DWindowMatch) {
+        errors.push('leg-kinematics.js: Missing "window.Leg2D = Leg2D" export');
+    }
+
+    // Verify exports use window.SpiderBody
+    const spiderBodyWindowMatch = modelCode.match(/window\.SpiderBody\s*=\s*SpiderBody/);
+    if (!spiderBodyWindowMatch) {
+        errors.push('spider-model.js: Missing "window.SpiderBody = SpiderBody" export');
+    }
+
+    // Verify no globalThis.Leg2D exports
+    if (kinematicsCode.match(/globalThis\.Leg2D\s*=/)) {
+        errors.push('leg-kinematics.js: Found "globalThis.Leg2D = ..." - should use "window.Leg2D"');
+    }
+
+    // Verify no globalThis.SpiderBody exports
+    if (modelCode.match(/globalThis\.SpiderBody\s*=/)) {
+        errors.push('spider-model.js: Found "globalThis.SpiderBody = ..." - should use "window.SpiderBody"');
+    }
+
+    if (errors.length > 0) {
+        throw new Error('Window export pattern violations:\n  ' + errors.join('\n  '));
+    }
+});
+
+// Test 11: Node.js export compatibility and order
+test('Node.js exports come before browser exports', () => {
+    const kinematicsCode = fs.readFileSync(path.join(__dirname, 'leg-kinematics.js'), 'utf8');
+    const modelCode = fs.readFileSync(path.join(__dirname, 'spider-model.js'), 'utf8');
+
+    const errors = [];
+
+    // Check leg-kinematics.js export order
+    const kinematicsNodeExport = kinematicsCode.indexOf("typeof module !== 'undefined'");
+    const kinematicsBrowserExport = kinematicsCode.indexOf("typeof window !== 'undefined'");
+
+    if (kinematicsNodeExport === -1) {
+        errors.push('leg-kinematics.js: Missing Node.js export check');
+    } else if (kinematicsBrowserExport === -1) {
+        errors.push('leg-kinematics.js: Missing browser export check');
+    } else if (kinematicsNodeExport > kinematicsBrowserExport) {
+        errors.push('leg-kinematics.js: Node.js export must come BEFORE browser export');
+    }
+
+    // Verify correct module.exports pattern for leg-kinematics.js
+    if (!kinematicsCode.match(/module\.exports\s*=\s*\{\s*Leg2D\s*\}/)) {
+        errors.push('leg-kinematics.js: module.exports pattern incorrect - should be "module.exports = { Leg2D }"');
+    }
+
+    // Check spider-model.js export order
+    const modelNodeExport = modelCode.indexOf("typeof module !== 'undefined'");
+    const modelBrowserExport = modelCode.indexOf("typeof window !== 'undefined'");
+
+    if (modelNodeExport === -1) {
+        errors.push('spider-model.js: Missing Node.js export check');
+    } else if (modelBrowserExport === -1) {
+        errors.push('spider-model.js: Missing browser export check');
+    } else if (modelNodeExport > modelBrowserExport) {
+        errors.push('spider-model.js: Node.js export must come BEFORE browser export');
+    }
+
+    // Verify correct module.exports pattern for spider-model.js
+    if (!modelCode.match(/module\.exports\s*=\s*\{\s*SpiderBody\s*\}/)) {
+        errors.push('spider-model.js: module.exports pattern incorrect - should be "module.exports = { SpiderBody }"');
+    }
+
+    if (errors.length > 0) {
+        throw new Error('Export order and pattern violations:\n  ' + errors.join('\n  '));
+    }
+});
+
 console.log(`\n${testsPassed}/${testsRun} tests passed\n`);
 
 if (testsPassed !== testsRun) {

@@ -38,6 +38,10 @@ run_test "Script Loading (Race Condition Prevention)" "test-script-loading.js"
 # Configuration Tests
 run_test "User Configuration (No Intersections)" "test-user-config.js"
 
+# Regression Prevention Tests
+run_test "Method Call Validation (Static Analysis)" "test-method-calls.js"
+run_test "Browser Export Simulation (jsdom)" "test-browser-exports.js"
+
 TOTAL=$((PASS + FAIL))
 
 echo "╔════════════════════════════════════════════════════════════╗"
