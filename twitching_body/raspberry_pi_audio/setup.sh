@@ -6,11 +6,12 @@ set -e  # Exit on error
 
 # Constants
 AUDIO_FILE="audio/crying-ghost.mp3"
+SEPARATOR="========================================"
 
-echo "========================================"
+echo "$SEPARATOR"
 echo "  Raspberry Pi Audio Loop Setup"
 echo "  Halloween 2025 - Haunted House"
-echo "========================================"
+echo "$SEPARATOR"
 echo
 
 # Check if running on Raspberry Pi
@@ -114,9 +115,9 @@ sleep 2
 sudo systemctl status audio-loop.service --no-pager || true
 
 echo
-echo "========================================"
+echo "$SEPARATOR"
 echo "  Installation Summary"
-echo "========================================"
+echo "$SEPARATOR"
 echo "✓ mpg123 installed"
 echo "✓ Service installed and enabled"
 echo "✓ Audio output configured"
@@ -135,4 +136,4 @@ echo
 echo "To test auto-start on boot:"
 echo "  sudo reboot"
 echo
-echo "========================================"
+echo "$SEPARATOR"

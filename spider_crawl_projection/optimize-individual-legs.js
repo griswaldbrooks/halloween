@@ -68,22 +68,7 @@ function getIntersectionPairs(legs, spiderX, spiderY) {
     return pairs;
 }
 
-function optimizeIndividualLegs() {
-    console.log("\n╔════════════════════════════════════════════╗");
-    console.log("║   INDIVIDUAL LEG OPTIMIZER                ║");
-    console.log("╚════════════════════════════════════════════╝");
-
-    const spiderX = 400;
-    const spiderY = 400;
-    const bodySize = 100;
-    const body = new SpiderBody(bodySize);
-
-    // User's elbow bias pattern - DO NOT CHANGE
-    const elbowBiasPattern = [-1, 1, -1, 1, 1, -1, 1, -1];
-
-    console.log("\nElbow bias pattern (preserved):", elbowBiasPattern);
-
-    // Create legs
+function createInitialLegs(body, elbowBiasPattern) {
     const legs = [];
     const maxReach = (body.legUpperLength + body.legLowerLength);
 
@@ -100,17 +85,78 @@ function optimizeIndividualLegs() {
         });
 
         // Start with 90% reach to spread legs out more
-        const reach = maxReach * 0.90;
+        const reach = maxReach * 0.9;
         const targetX = attachment.x + Math.cos(attachment.baseAngle) * reach;
         const targetY = attachment.y + Math.sin(attachment.baseAngle) * reach;
         leg.setFootPosition(targetX, targetY);
 
         legs.push(leg);
     }
+    return legs;
+}
 
+function tryAdjustmentsForLegPair(legs, leg1Idx, leg2Idx, intersectionCount, spiderX, spiderY) {
+    const pos1 = legs[leg1Idx].forwardKinematics();
+    const pos2 = legs[leg2Idx].forwardKinematics();
+
+    const angle1 = Math.atan2(pos1.foot.y, pos1.foot.x);
+    const angle2 = Math.atan2(pos2.foot.y, pos2.foot.x);
+    const radius1 = Math.hypot(pos1.foot.x, pos1.foot.y);
+    const radius2 = Math.hypot(pos2.foot.x, pos2.foot.y);
+
+    let bestCount = intersectionCount;
+    let bestPos1 = { x: pos1.foot.x, y: pos1.foot.y };
+    let bestPos2 = { x: pos2.foot.x, y: pos2.foot.y };
+
+    // Try different adjustments
+    const adjustments = [
+        { leg: leg1Idx, angle: angle1, radius: radius1 * 1.05 },
+        { leg: leg1Idx, angle: angle1 + 0.05, radius: radius1 },
+        { leg: leg1Idx, angle: angle1 - 0.05, radius: radius1 },
+        { leg: leg2Idx, angle: angle2, radius: radius2 * 1.05 },
+        { leg: leg2Idx, angle: angle2 + 0.05, radius: radius2 },
+        { leg: leg2Idx, angle: angle2 - 0.05, radius: radius2 },
+    ];
+
+    for (const adj of adjustments) {
+        const newX = Math.cos(adj.angle) * adj.radius;
+        const newY = Math.sin(adj.angle) * adj.radius;
+
+        legs[adj.leg].setFootPosition(newX, newY);
+        const newIntersections = getIntersectionPairs(legs, spiderX, spiderY);
+
+        if (newIntersections.length < bestCount) {
+            bestCount = newIntersections.length;
+            if (adj.leg === leg1Idx) {
+                bestPos1 = { x: newX, y: newY };
+            } else {
+                bestPos2 = { x: newX, y: newY };
+            }
+        }
+
+        legs[leg1Idx].setFootPosition(pos1.foot.x, pos1.foot.y);
+        legs[leg2Idx].setFootPosition(pos2.foot.x, pos2.foot.y);
+    }
+
+    return { bestPos1, bestPos2 };
+}
+
+function optimizeIndividualLegs() {
+    console.log("\n╔════════════════════════════════════════════╗");
+    console.log("║   INDIVIDUAL LEG OPTIMIZER                ║");
+    console.log("╚════════════════════════════════════════════╝");
+
+    const spiderX = 400;
+    const spiderY = 400;
+    const bodySize = 100;
+    const body = new SpiderBody(bodySize);
+    const elbowBiasPattern = [-1, 1, -1, 1, 1, -1, 1, -1];
+
+    console.log("\nElbow bias pattern (preserved):", elbowBiasPattern);
+
+    const legs = createInitialLegs(body, elbowBiasPattern);
     console.log("\nStarting configuration has", getIntersectionPairs(legs, spiderX, spiderY).length, "intersections");
 
-    // Iteratively adjust legs to remove intersections
     const maxIterations = 1000;
     let iteration = 0;
 
@@ -122,62 +168,10 @@ function optimizeIndividualLegs() {
             break;
         }
 
-        // For each intersection, try moving one of the legs
         for (const {leg1, leg2} of intersections) {
-            // Try multiple adjustment strategies
-            const pos1 = legs[leg1].forwardKinematics();
-            const pos2 = legs[leg2].forwardKinematics();
-
-            const angle1 = Math.atan2(pos1.foot.y, pos1.foot.x);
-            const angle2 = Math.atan2(pos2.foot.y, pos2.foot.x);
-            const radius1 = Math.hypot(pos1.foot.x, pos1.foot.y);
-            const radius2 = Math.hypot(pos2.foot.x, pos2.foot.y);
-
-            let bestCount = intersections.length;
-            let bestPos1 = { x: pos1.foot.x, y: pos1.foot.y };
-            let bestPos2 = { x: pos2.foot.x, y: pos2.foot.y };
-
-            // Try different adjustments
-            const adjustments = [
-                // Move leg1 radially out
-                { leg: leg1, angle: angle1, radius: radius1 * 1.05 },
-                // Move leg1 tangentially clockwise
-                { leg: leg1, angle: angle1 + 0.05, radius: radius1 },
-                // Move leg1 tangentially counter-clockwise
-                { leg: leg1, angle: angle1 - 0.05, radius: radius1 },
-                // Move leg2 radially out
-                { leg: leg2, angle: angle2, radius: radius2 * 1.05 },
-                // Move leg2 tangentially clockwise
-                { leg: leg2, angle: angle2 + 0.05, radius: radius2 },
-                // Move leg2 tangentially counter-clockwise
-                { leg: leg2, angle: angle2 - 0.05, radius: radius2 },
-            ];
-
-            for (const adj of adjustments) {
-                const newX = Math.cos(adj.angle) * adj.radius;
-                const newY = Math.sin(adj.angle) * adj.radius;
-
-                // Apply adjustment
-                legs[adj.leg].setFootPosition(newX, newY);
-
-                // Check if it helped
-                const newIntersections = getIntersectionPairs(legs, spiderX, spiderY);
-
-                if (newIntersections.length < bestCount) {
-                    bestCount = newIntersections.length;
-                    if (adj.leg === leg1) {
-                        bestPos1 = { x: newX, y: newY };
-                    } else {
-                        bestPos2 = { x: newX, y: newY };
-                    }
-                }
-
-                // Revert for next try
-                legs[leg1].setFootPosition(pos1.foot.x, pos1.foot.y);
-                legs[leg2].setFootPosition(pos2.foot.x, pos2.foot.y);
-            }
-
-            // Apply best adjustment
+            const { bestPos1, bestPos2 } = tryAdjustmentsForLegPair(
+                legs, leg1, leg2, intersections.length, spiderX, spiderY
+            );
             legs[leg1].setFootPosition(bestPos1.x, bestPos1.y);
             legs[leg2].setFootPosition(bestPos2.x, bestPos2.y);
         }

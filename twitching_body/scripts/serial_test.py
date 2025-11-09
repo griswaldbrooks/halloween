@@ -12,6 +12,28 @@ PORT = '/dev/ttyACM0'
 BAUD = 9600
 TIMEOUT = 2
 
+def read_serial_lines(ser, duration=None):
+    """Read and print available serial output."""
+    if duration:
+        start_time = time.time()
+        while time.time() - start_time < duration:
+            if ser.in_waiting:
+                line = ser.readline().decode('utf-8', errors='ignore').strip()
+                if line:
+                    print(line)
+    else:
+        while ser.in_waiting:
+            line = ser.readline().decode('utf-8', errors='ignore').strip()
+            if line:
+                print(line)
+
+def send_command_and_read(ser, command, description, delay=1):
+    """Send a command and read the response."""
+    print(f"\n=== {description} ===")
+    ser.write(command.encode())
+    time.sleep(delay)
+    read_serial_lines(ser)
+
 def test_serial():
     print("Opening serial port...")
     try:
@@ -19,36 +41,11 @@ def test_serial():
         time.sleep(2)  # Wait for Arduino reset
 
         print("\n=== Reading startup output ===")
-        start_time = time.time()
-        while time.time() - start_time < 5:
-            if ser.in_waiting:
-                line = ser.readline().decode('utf-8', errors='ignore').strip()
-                if line:
-                    print(line)
+        read_serial_lines(ser, duration=5)
 
-        print("\n=== Sending 'i' command (I2C scan) ===")
-        ser.write(b'i')
-        time.sleep(2)
-        while ser.in_waiting:
-            line = ser.readline().decode('utf-8', errors='ignore').strip()
-            if line:
-                print(line)
-
-        print("\n=== Sending 's' command (status) ===")
-        ser.write(b's')
-        time.sleep(1)
-        while ser.in_waiting:
-            line = ser.readline().decode('utf-8', errors='ignore').strip()
-            if line:
-                print(line)
-
-        print("\n=== Sending 'h' command (help) ===")
-        ser.write(b'h')
-        time.sleep(1)
-        while ser.in_waiting:
-            line = ser.readline().decode('utf-8', errors='ignore').strip()
-            if line:
-                print(line)
+        send_command_and_read(ser, 'i', "Sending 'i' command (I2C scan)", delay=2)
+        send_command_and_read(ser, 's', "Sending 's' command (status)")
+        send_command_and_read(ser, 'h', "Sending 'h' command (help)")
 
         ser.close()
         print("\n=== Test complete ===")
