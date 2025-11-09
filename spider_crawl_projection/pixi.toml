@@ -14,7 +14,6 @@ serve = "python -m http.server 8080"
 dev = "python -m http.server 8080"
 kill-server = "fuser -k 8080/tcp 2>/dev/null || echo 'No server running on port 8080'"
 open = "xdg-open http://localhost:8080"
-open-visual-test = "xdg-open http://localhost:8080/test-visual-output.html"
 open-editor = "xdg-open http://localhost:8080/spider-editor.html"
 start = { depends-on = ["serve"] }
 

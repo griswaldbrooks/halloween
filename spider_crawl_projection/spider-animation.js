@@ -1,4 +1,6 @@
-// Spider Animation V2 - Proper kinematics + body model
+// Spider Animation - Integration Layer
+// This file contains browser-specific code that cannot be unit tested (canvas, DOM, events).
+// For testable logic extraction opportunities, see REFACTORING_PROPOSAL.md
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -205,6 +207,7 @@ class Spider {
 
     updateProcedural(dt, speedMultiplier) {
         // Gait timing (6-phase alternating tetrapod)
+        // TODO: Extract to gait-state-machine.js for unit testing (see REFACTORING_PROPOSAL.md)
         const phaseDurations = [200, 150, 100, 200, 150, 100]; // ms
 
         this.gaitTimer += dt * speedMultiplier;
@@ -234,6 +237,7 @@ class Spider {
     }
 
     updateLegProcedural(leg) {
+        // TODO: Extract swing target calculation to animation-math.js (see REFACTORING_PROPOSAL.md)
         const isSwinging = (this.gaitPhase === 0 && leg.group === 'A') ||
                           (this.gaitPhase === 3 && leg.group === 'B');
 
@@ -268,6 +272,7 @@ class Spider {
 
     updateHopping(dt, speedMultiplier) {
         // Hopping gait with crawling in between
+        // TODO: Extract to hopping-logic.js for unit testing (see REFACTORING_PROPOSAL.md)
         // Phase 4 is now "crawl mode" - spider crawls for configurable cycles before next hop
         const hopPhaseDurations = [100, 200, config.hopFlightDuration, 200]; // Crouch, Takeoff, Flight, Landing
         const crawlPhaseDurations = [200, 150, 100, 200, 150, 100]; // Same as procedural gait
@@ -461,6 +466,7 @@ class Spider {
 
 
     draw() {
+        // INTEGRATION CODE: Cannot unit test (requires real canvas context)
         // In hopping mode, spider is invisible during flight phase (phase 2)
         if (config.animationMode === 'hopping' && this.hopPhase === 2) {
             return; // Don't draw anything - spider disappears mid-hop!
@@ -541,6 +547,7 @@ function resetSpiders() {
 }
 
 // Main animation loop
+// INTEGRATION CODE: Cannot unit test (requires requestAnimationFrame)
 let animateFrameCount = 0;
 function animate() {
     animateFrameCount++;
@@ -612,6 +619,7 @@ function updateSpeedVariation(value) {
 }
 
 function updateSizeMin(value) {
+    // TODO: Extract config management to config-manager.js (see REFACTORING_PROPOSAL.md)
     config.spiderSizeMin = parseFloat(value);
     document.getElementById('sizeMinLabel').textContent = value + 'x';
     // Make sure min doesn't exceed max
@@ -701,6 +709,7 @@ function updateHopFlightDuration(value) {
 }
 
 // Keyboard shortcuts
+// INTEGRATION CODE: Cannot unit test (requires real DOM events)
 document.addEventListener('keydown', (e) => {
     switch(e.key.toLowerCase()) {
         case 'h':

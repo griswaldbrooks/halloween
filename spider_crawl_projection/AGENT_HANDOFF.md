@@ -1,7 +1,7 @@
 # Agent Handoff - Spider Crawl Projection
 
-**Last Updated:** 2025-10-21
-**Status:** ✅ COMPLETE! Procedural animation working perfectly! Keyframe editor available!
+**Last Updated:** 2025-11-09
+**Status:** ✅ Working animation with high test coverage (97.48%)
 **Project:** Halloween 2025 - Chamber 2 (Spider Web Tunnel)
 
 ---
@@ -13,23 +13,22 @@
 - ✅ IK/FK system working with 0.0 error on all 8 legs
 - ✅ **IK elbow bias bug FIXED** - foot stays in place when flipping
 - ✅ **Leg intersection detection** - user config has ZERO intersections
-- ✅ **Procedural animation working perfectly** - realistic tetrapod gait
-- ✅ **Dual animation modes** - Procedural (default) + Keyframe (experimental)
-- ✅ **Keyframe editor with timeline** - drag feet/body, plant feet, export
-- ✅ 11/12 tests passing (1 keyframe test has expected intersections)
-- ✅ **Interactive editors** - leg position editor + keyframe animation editor
+- ✅ **Procedural animation working** - realistic tetrapod gait with hopping mode
+- ✅ **Test coverage: 97.48%** (239 lines covered across testable libraries)
+- ✅ **Interactive editor** - leg position editor for configuration tuning
 - ✅ **Code refactored** - clean codebase, well-tested
 
-**Animation Modes:**
-- ✅ **Procedural (Recommended)** - Automatic tetrapod gait, zero intersections
-- ⚠️ **Keyframe (Experimental)** - Custom animations, body movement is complex
+**Current Challenge:**
+- ⚠️ **spider-animation.js has 722 lines of untested integration code**
+- Most of the project is browser-specific rendering that cannot be unit tested
+- Opportunity for refactoring to extract testable logic into libraries
 
 **Start Here:**
-1. Run `pixi run test` - **Verify 11/12 tests pass**
-2. Run `pixi run serve` then `pixi run open` - **View procedural animation**
-3. Run `pixi run open-keyframe-editor` - **Try keyframe editor**
-4. Read "Animation Modes" section below to understand both systems
-5. Check git status - may want to commit the keyframe system
+1. Run `pixi run test` - **Verify all 10 tests pass**
+2. Run `pixi run serve` then `pixi run open` - **View animation**
+3. Run `pixi run open-editor` - **Try leg position editor**
+4. Read REFACTORING_PROPOSAL.md for opportunities to increase testability
+5. Review spider-animation.js to understand the integration layer
 
 ---
 
@@ -39,15 +38,14 @@
 pixi install                  # First time setup
 pixi run serve                # Start server → http://localhost:8080
 pixi run kill-server          # Stop server
-pixi run open                 # Main animation (procedural mode default)
+pixi run open                 # Main animation
 pixi run open-editor          # Interactive leg position editor
-pixi run open-keyframe-editor # Keyframe animation editor
-pixi run open-visual-test     # Single spider with annotations
-pixi run test                 # Run all 12 tests (11/12 passing)
-pixi run test-user-config     # Verify zero leg intersections
+pixi run test                 # Run all tests
+pixi run coverage             # Run tests with coverage report
+pixi run view-coverage        # Open coverage report in browser
 ```
 
-**Browser Controls:** H (toggle UI) | F (fullscreen) | R (reset) | Space (pause)
+**Browser Controls:** H (toggle UI) | F (fullscreen) | R (reset) | Space (pause) | Mode dropdown (Procedural/Hopping)
 
 ### Leg Position Editor (`spider-editor.html`)
 - **Drag red circles** to move leg feet
@@ -79,47 +77,7 @@ pixi run test-user-config     # Verify zero leg intersections
 - Exporting configurations to apply to code
 - Debugging leg positioning issues
 
-### 2. Keyframe Animation Editor (`keyframe-editor.html`)
-**File:** `keyframe-editor.html`
-**Command:** `pixi run open-keyframe-editor`
-
-**Purpose:** Create custom keyframe-based walk animations
-
-**Features:**
-- **Timeline with keyframes** - add, delete, duplicate, rename
-- **Two edit modes:**
-  - **Move Feet Mode** - drag individual leg feet to reposition
-  - **Move Body Mode** - select planted feet, drag body (others follow)
-- **Planted feet** - pin feet to ground, move body around them
-- **Playback** - preview animation with speed control
-- **Export/Import** - save animations as JSON
-- **Auto-rename** - keyframes update on Enter/blur
-
-**Use Case:** Perfect for:
-- Creating custom spider walk cycles
-- Artistic/stylized animations
-- Fine-tuning specific poses
-- Note: Body movement from keyframes is complex (see "Known Limitations")
-
-### 3. Visual Test (`test-visual-output.html`)
-**File:** `test-visual-output.html`
-**Command:** `pixi run open-visual-test`
-
-**Purpose:** Single spider with detailed annotations
-
-**Features:**
-- Shows one static spider
-- Red text labels with leg numbers (L0-L7)
-- Displays angles, foot positions, knee positions
-- Right-click to save as image
-- Clean white background for comparison
-
-**Use Case:** Perfect for:
-- Comparing against reference template
-- Documenting current state
-- Sharing screenshots with precise data
-
-### 4. Test Suite
+### 2. Test Suite
 **Command:** `pixi run test`
 
 **Key Tests:**
@@ -178,24 +136,17 @@ pixi run test-user-config     # Verify zero leg intersections
 
 ### ⚠️ Known Limitations
 
-**1. Keyframe Mode Body Movement**
-- **Issue:** Body-relative coordinates don't encode stance phase movement
-- **Why:** Planted feet staying at same body coords = body doesn't move in world
-- **Current solution:** Hybrid algorithm using planted feet when available
-- **Recommendation:** Use procedural mode for realistic walking
-- **Keyframe mode best for:** Custom/artistic animations, not physics-based walking
+**1. Untested Integration Code**
+- **Issue:** spider-animation.js contains 722 lines of browser-specific code
+- **Why:** Canvas rendering, DOM manipulation, and requestAnimationFrame cannot be unit tested
+- **Current:** 97.48% coverage of testable libraries (leg-kinematics.js, spider-model.js)
+- **Opportunity:** Extract pure logic (timing, state machines, calculations) into testable libraries
+- **See:** REFACTORING_PROPOSAL.md for detailed analysis
 
-**2. Extracted Procedural Keyframes Have Intersections**
-- **Issue:** Extracting keyframes from procedural gait creates intersections
-- **Why:** Linear interpolation between keyframes != procedural algorithm
-- **Live procedural:** Zero intersections
-- **Keyframe file:** `keyframe-animation-procedural.json` has intersections
-- **Solution:** Use procedural mode for zero-intersection guarantee
-
-**3. Animation Mode Complexity**
-- **Procedural mode:** Well-tested, realistic, zero intersections
-- **Keyframe mode:** Experimental, requires understanding of body-relative coords
-- **Recommendation:** Default to procedural mode unless custom animation needed
+**2. Animation Complexity**
+- **Procedural mode:** Well-tested gait logic, zero leg intersections
+- **Hopping mode:** Experimental, energetic movement style
+- **Both modes:** Integration with canvas rendering cannot be unit tested
 
 ---
 
@@ -266,29 +217,27 @@ pixi run test-user-config     # Verify zero leg intersections
 
 ## How Animation Works
 
-### Dual Animation Modes
+### Animation Modes
 
 The animation supports **two modes** (switch via UI dropdown):
 
-**1. Procedural Mode (Default, Recommended)** ✅
+**1. Procedural Mode (Default)** ✅
 - **How it works:** 6-phase alternating tetrapod gait
 - **Body movement:** Automatic lurching during stance phases
 - **Leg intersections:** ZERO (uses verified foot positions)
 - **Code:** `spider-animation.js` - `updateProcedural()` method
 - **Best for:** Realistic spider walking
 
-**2. Keyframe Mode (Experimental)** ⚠️
-- **How it works:** Interpolates between custom keyframes
-- **Body movement:** Calculated from planted/swinging foot velocities
-- **Leg intersections:** May occur depending on keyframes
-- **Code:** `spider-animation.js` - `updateKeyframe()` method
-- **Keyframe data:** `keyframe-animation.json`
-- **Best for:** Custom/artistic animations
-- **Limitation:** Body-relative coordinates make stance encoding complex
+**2. Hopping Crawl Mode** 🦗
+- **How it works:** Inspired by jumping spiders, hops between positions
+- **Body movement:** Entire body hops forward
+- **Leg behavior:** Legs cycle through stance phases while body moves
+- **Code:** `spider-animation.js` - `updateHoppingCrawlMode()` method
+- **Best for:** More energetic/playful movement
 
 **Switch modes:** Dropdown in main animation UI
 
-### Procedural Mode (Default)
+### Procedural Animation System
 
 The procedural system uses a **physics-based gait** (not pre-defined poses):
 - Legs move based on timing
