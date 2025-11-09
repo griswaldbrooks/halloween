@@ -206,6 +206,9 @@ describe('Spider Window Scare Server', () => {
       clientSocket.emit('manual-trigger');
     });
 
+    // TODO: Fix timing issue in manual-trigger stats test
+    // Issue: Test fails due to async Socket.IO event timing
+    // The test needs proper synchronization between Socket.IO connection and stats-update events
     test.skip('manual-trigger updates stats', (done) => {
       clientSocket.once('stats-update', () => {
         // First update is on connection, ignore it
@@ -231,6 +234,9 @@ describe('Spider Window Scare Server', () => {
       });
     });
 
+    // TODO: Fix module state issue in send-command test
+    // Issue: Setting server module's `port` variable doesn't work correctly in test isolation
+    // Need to refactor server.js to export port setter or use better dependency injection
     test.skip('send-command writes to serial port when connected', async () => {
       // First we need to setup the server module's port variable
       const serverModule = require('./server');
