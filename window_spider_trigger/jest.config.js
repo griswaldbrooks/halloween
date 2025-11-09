@@ -16,10 +16,10 @@ module.exports = {
   passWithNoTests: true,
   coverageThreshold: {
     global: {
-      branches: 50,
-      functions: 50,
-      lines: 50,
-      statements: 50
+      branches: 55,
+      functions: 60,
+      lines: 64,
+      statements: 65
     }
   }
 };

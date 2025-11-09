@@ -46,8 +46,8 @@ let stats = {
 let port;
 let parser;
 
-async function findArduinoPort() {
-  const ports = await SerialPort.list();
+async function findArduinoPort(serialPortModule = SerialPort) {
+  const ports = await serialPortModule.list();
   console.log('Available serial ports:');
   for (const p of ports) {
     console.log(`  ${p.path} - ${p.manufacturer || 'Unknown'}`);
@@ -76,20 +76,20 @@ async function findArduinoPort() {
   throw new Error('No Arduino found. Available ports: ' + ports.map(p => p.path).join(', '));
 }
 
-async function initSerial() {
+async function initSerial(serialPortModule = SerialPort, readlineParserModule = ReadlineParser) {
   try {
     // Auto-detect port if set to 'auto'
     let portPath = SERIAL_PORT;
     if (SERIAL_PORT === 'auto') {
-      portPath = await findArduinoPort();
+      portPath = await findArduinoPort(serialPortModule);
     }
 
-    port = new SerialPort({
+    port = new serialPortModule({
       path: portPath,
       baudRate: BAUD_RATE
     });
 
-    parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
+    parser = port.pipe(new readlineParserModule({ delimiter: '\n' }));
 
     port.on('open', () => {
       console.log(`✓ Serial port ${port.path} opened`);

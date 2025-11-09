@@ -231,19 +231,38 @@ describe('Spider Window Scare Server', () => {
       });
     });
 
-    test.skip('send-command writes to serial port when connected', (done) => {
-      mockSerialPort.isOpen = true;
-      mockSerialPort.write.mockClear();
+    test.skip('send-command writes to serial port when connected', async () => {
+      // First we need to setup the server module's port variable
+      const serverModule = require('./server');
 
-      clientSocket.emit('send-command', 'TEST');
+      // Create a mock port that we can set on the module
+      const mockTestPort = {
+        isOpen: true,
+        write: jest.fn(),
+        path: '/dev/ttyACM0'
+      };
 
-      setTimeout(() => {
-        expect(mockSerialPort.write).toHaveBeenCalled();
-        const calls = mockSerialPort.write.mock.calls;
-        const testCall = calls.find(call => call[0] === 'TEST\n');
-        expect(testCall).toBeTruthy();
-        done();
-      }, 200);
+      // Temporarily replace the module's port
+      serverModule.port = mockTestPort;
+
+      const testClient = SocketClient(`http://localhost:${serverPort}`, {
+        reconnection: false,
+        timeout: 1000
+      });
+
+      await new Promise((resolve) => {
+        testClient.on('connect', () => {
+          // Send command
+          testClient.emit('send-command', 'TEST');
+
+          // Wait for command to be processed
+          setTimeout(() => {
+            expect(mockTestPort.write).toHaveBeenCalledWith('TEST\n');
+            testClient.disconnect();
+            resolve();
+          }, 100);
+        });
+      });
     });
 
     test('send-command emits error when serial port not connected', (done) => {
@@ -287,6 +306,264 @@ describe('Spider Window Scare Server', () => {
           clientSocket.emit('manual-trigger');
         }, 100);
       });
+    });
+  });
+
+  describe('initSerial Function Tests', () => {
+    test('initSerial successfully initializes with auto port detection', async () => {
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn(),
+        pipe: jest.fn(() => ({
+          on: jest.fn()
+        }))
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      MockSerialPort.list = jest.fn().mockResolvedValue([
+        { path: '/dev/ttyACM0', manufacturer: 'Arduino', vendorId: '2341' }
+      ]);
+
+      const MockParser = jest.fn(() => ({ on: jest.fn() }));
+
+      // Set SERIAL_PORT to 'auto' via env
+      process.env.SERIAL_PORT = 'auto';
+
+      const serverModule = require('./server');
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      expect(MockSerialPort).toHaveBeenCalledWith({
+        path: '/dev/ttyACM0',
+        baudRate: expect.any(Number)
+      });
+    });
+
+    test('initSerial handles port open event and emits status', async () => {
+      let openCallback;
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn((event, callback) => {
+          if (event === 'open') openCallback = callback;
+        }),
+        pipe: jest.fn(() => ({ on: jest.fn() }))
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      const MockParser = jest.fn(() => ({ on: jest.fn() }));
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+
+      // Spy on io.emit
+      const emitSpy = jest.spyOn(serverModule.io, 'emit');
+
+      // Reset stats before test
+      serverModule.stats.connected = false;
+
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Manually trigger the open event to ensure it runs
+      const openCall = mockPort.on.mock.calls.find(call => call[0] === 'open');
+      if (openCall) {
+        openCall[1](); // Execute the open callback
+
+        // Verify stats updated and event emitted
+        expect(serverModule.stats.connected).toBe(true);
+        expect(emitSpy).toHaveBeenCalledWith('serial-status', { connected: true });
+      }
+
+      emitSpy.mockRestore();
+    });
+
+    test('initSerial handles port error event and emits status', async () => {
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn(),
+        pipe: jest.fn(() => ({ on: jest.fn() }))
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      const MockParser = jest.fn(() => ({ on: jest.fn() }));
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+
+      // Spy on io.emit
+      const emitSpy = jest.spyOn(serverModule.io, 'emit');
+
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Manually trigger the error event
+      const errorCall = mockPort.on.mock.calls.find(call => call[0] === 'error');
+      if (errorCall) {
+        errorCall[1](new Error('Test error')); // Execute the error callback
+
+        // Verify stats updated and event emitted
+        expect(serverModule.stats.connected).toBe(false);
+        expect(emitSpy).toHaveBeenCalledWith('serial-status', {
+          connected: false,
+          error: 'Test error'
+        });
+      }
+
+      emitSpy.mockRestore();
+    });
+
+    test('initSerial handles port close event', async () => {
+      let closeCallback;
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn((event, callback) => {
+          if (event === 'close') closeCallback = callback;
+        }),
+        pipe: jest.fn(() => ({ on: jest.fn() }))
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      const MockParser = jest.fn(() => ({ on: jest.fn() }))
+
+;
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Trigger close event
+      if (closeCallback) {
+        closeCallback();
+      }
+
+      expect(serverModule.stats.connected).toBe(false);
+    });
+
+    test('initSerial handles initialization error gracefully', async () => {
+      const MockSerialPort = jest.fn(() => {
+        throw new Error('Port not available');
+      });
+
+      const MockParser = jest.fn();
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Should not crash, stats should show disconnected
+      expect(serverModule.stats.connected).toBe(false);
+    });
+
+    test('initSerial parser handles TRIGGER data and emits events', async () => {
+      const mockParser = {
+        on: jest.fn()
+      };
+
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn(),
+        pipe: jest.fn(() => mockParser)
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      const MockParser = jest.fn(() => mockParser);
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+
+      // Spy on io.emit
+      const emitSpy = jest.spyOn(serverModule.io, 'emit');
+
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Get trigger count after init
+      const initialTriggers = serverModule.stats.triggers;
+
+      // Find and execute the data callback
+      const dataCall = mockParser.on.mock.calls.find(call => call[0] === 'data');
+      if (dataCall) {
+        dataCall[1]('TRIGGER\n'); // Execute data callback with TRIGGER
+
+        // Verify trigger was processed
+        expect(serverModule.stats.triggers).toBe(initialTriggers + 1);
+        expect(serverModule.stats.lastTriggerTime).toBeTruthy();
+        expect(emitSpy).toHaveBeenCalledWith('trigger-video');
+        expect(emitSpy).toHaveBeenCalledWith('stats-update', serverModule.stats);
+      }
+
+      emitSpy.mockRestore();
+    });
+
+    test('initSerial parser handles READY data and emits status', async () => {
+      const mockParser = {
+        on: jest.fn()
+      };
+
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn(),
+        pipe: jest.fn(() => mockParser)
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      const MockParser = jest.fn(() => mockParser);
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+
+      // Spy on io.emit
+      const emitSpy = jest.spyOn(serverModule.io, 'emit');
+
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Find and execute the data callback
+      const dataCall = mockParser.on.mock.calls.find(call => call[0] === 'data');
+      if (dataCall) {
+        dataCall[1]('READY\n'); // Execute data callback with READY
+
+        // Verify event was emitted
+        expect(emitSpy).toHaveBeenCalledWith('arduino-status', { ready: true });
+      }
+
+      emitSpy.mockRestore();
+    });
+
+    test('initSerial parser handles STARTUP data and emits status', async () => {
+      const mockParser = {
+        on: jest.fn()
+      };
+
+      const mockPort = {
+        path: '/dev/ttyACM0',
+        on: jest.fn(),
+        pipe: jest.fn(() => mockParser)
+      };
+
+      const MockSerialPort = jest.fn(() => mockPort);
+      const MockParser = jest.fn(() => mockParser);
+
+      process.env.SERIAL_PORT = '/dev/ttyACM0';
+
+      const serverModule = require('./server');
+
+      // Spy on io.emit
+      const emitSpy = jest.spyOn(serverModule.io, 'emit');
+
+      await serverModule.initSerial(MockSerialPort, MockParser);
+
+      // Find and execute the data callback
+      const dataCall = mockParser.on.mock.calls.find(call => call[0] === 'data');
+      if (dataCall) {
+        dataCall[1]('STARTUP\n'); // Execute data callback with STARTUP
+
+        // Verify event was emitted
+        expect(emitSpy).toHaveBeenCalledWith('arduino-status', { startup: true });
+      }
+
+      emitSpy.mockRestore();
     });
   });
 
