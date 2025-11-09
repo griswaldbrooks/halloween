@@ -195,27 +195,32 @@ app.post('/api/trigger', (req, res) => {
   res.json({ success: true });
 });
 
-// Start server
-server.listen(PORT, async () => {
-  console.log('╔════════════════════════════════════════════════════════╗');
-  console.log('║     🕷️  SPIDER WINDOW SCARE - SERVER RUNNING 🕷️       ║');
-  console.log('╚════════════════════════════════════════════════════════╝');
-  console.log(`  Web interface: http://localhost:${PORT}`);
-  console.log(`  Serial port: ${SERIAL_PORT} @ ${BAUD_RATE} baud`);
-  console.log('');
+// Start server (only if not in test mode)
+if (require.main === module) {
+  server.listen(PORT, async () => {
+    console.log('╔════════════════════════════════════════════════════════╗');
+    console.log('║     🕷️  SPIDER WINDOW SCARE - SERVER RUNNING 🕷️       ║');
+    console.log('╚════════════════════════════════════════════════════════╝');
+    console.log(`  Web interface: http://localhost:${PORT}`);
+    console.log(`  Serial port: ${SERIAL_PORT} @ ${BAUD_RATE} baud`);
+    console.log('');
 
-  // Initialize serial connection
-  await initSerial();
-});
-
-// Graceful shutdown
-process.on('SIGINT', () => {
-  console.log('\nShutting down...');
-  if (port?.isOpen) {
-    port.close();
-  }
-  server.close(() => {
-    console.log('Server closed');
-    process.exit(0);
+    // Initialize serial connection
+    await initSerial();
   });
-});
+
+  // Graceful shutdown
+  process.on('SIGINT', () => {
+    console.log('\nShutting down...');
+    if (port?.isOpen) {
+      port.close();
+    }
+    server.close(() => {
+      console.log('Server closed');
+      process.exit(0);
+    });
+  });
+}
+
+// Export for testing
+module.exports = { app, server, io, stats, port, initSerial, findArduinoPort };

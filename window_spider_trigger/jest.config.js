@@ -2,9 +2,10 @@ module.exports = {
   testEnvironment: 'node',
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
-    '**/*.js',
+    'server.js',  // Only test server-side code
     '!**/node_modules/**',
     '!**/coverage/**',
+    '!**/public/**',  // Exclude browser client code
     '!jest.config.js'
   ],
   coverageReporters: ['text', 'lcov', 'json', 'html'],
