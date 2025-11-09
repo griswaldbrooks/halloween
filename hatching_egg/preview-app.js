@@ -7,7 +7,7 @@ const ctx = canvas.getContext('2d');
 let config = {
     upperLength: 80,
     lowerLength: 100,
-    speed: 1.0,
+    speed: 1,
     currentBehavior: 'resting',
     manualMode: false
 };
@@ -217,10 +217,12 @@ function animate(timestamp) {
 }
 
 // Control handlers
-document.querySelectorAll('.behavior-btn').forEach(btn => {
+for (const btn of document.querySelectorAll('.behavior-btn')) {
     btn.addEventListener('click', () => {
         // Remove active class from all buttons
-        document.querySelectorAll('.behavior-btn').forEach(b => b.classList.remove('active'));
+        for (const b of document.querySelectorAll('.behavior-btn')) {
+            b.classList.remove('active');
+        }
 
         // Add active class to clicked button
         btn.classList.add('active');
@@ -231,24 +233,24 @@ document.querySelectorAll('.behavior-btn').forEach(btn => {
 
         console.log('Switched to behavior:', config.currentBehavior);
     });
-});
+}
 
 document.getElementById('upperLength').addEventListener('input', (e) => {
-    config.upperLength = parseInt(e.target.value);
+    config.upperLength = Number.parseInt(e.target.value);
     document.getElementById('upperLengthLabel').textContent = config.upperLength;
     leftLeg.upperLength = config.upperLength;
     rightLeg.upperLength = config.upperLength;
 });
 
 document.getElementById('lowerLength').addEventListener('input', (e) => {
-    config.lowerLength = parseInt(e.target.value);
+    config.lowerLength = Number.parseInt(e.target.value);
     document.getElementById('lowerLengthLabel').textContent = config.lowerLength;
     leftLeg.lowerLength = config.lowerLength;
     rightLeg.lowerLength = config.lowerLength;
 });
 
 document.getElementById('speed').addEventListener('input', (e) => {
-    config.speed = parseFloat(e.target.value);
+    config.speed = Number.parseFloat(e.target.value);
     document.getElementById('speedLabel').textContent = config.speed.toFixed(1);
 });
 
@@ -273,22 +275,22 @@ document.getElementById('animationMode').addEventListener('click', () => {
 
 // Manual control sliders
 document.getElementById('manualLeftShoulder').addEventListener('input', (e) => {
-    manualAngles.leftShoulder = parseInt(e.target.value);
+    manualAngles.leftShoulder = Number.parseInt(e.target.value);
     document.getElementById('manualLeftShoulderLabel').textContent = manualAngles.leftShoulder;
 });
 
 document.getElementById('manualLeftElbow').addEventListener('input', (e) => {
-    manualAngles.leftElbow = parseInt(e.target.value);
+    manualAngles.leftElbow = Number.parseInt(e.target.value);
     document.getElementById('manualLeftElbowLabel').textContent = manualAngles.leftElbow;
 });
 
 document.getElementById('manualRightShoulder').addEventListener('input', (e) => {
-    manualAngles.rightShoulder = parseInt(e.target.value);
+    manualAngles.rightShoulder = Number.parseInt(e.target.value);
     document.getElementById('manualRightShoulderLabel').textContent = manualAngles.rightShoulder;
 });
 
 document.getElementById('manualRightElbow').addEventListener('input', (e) => {
-    manualAngles.rightElbow = parseInt(e.target.value);
+    manualAngles.rightElbow = Number.parseInt(e.target.value);
     document.getElementById('manualRightElbowLabel').textContent = manualAngles.rightElbow;
 });
 
@@ -310,7 +312,7 @@ function copyManualAngles() {
 }
 
 // Wait for animations to load, then start
-window.animationsLoaded = function() {
+globalThis.animationsLoaded = function() {
     console.log('🕷️ Hatching Egg Spider Preview Started');
     console.log('Available behaviors:', Object.keys(AnimationBehaviors));
     console.log('Modes: Animation Playback, Manual Control');
@@ -319,5 +321,5 @@ window.animationsLoaded = function() {
 
 // If animations are already loaded (shouldn't happen, but just in case)
 if (Object.keys(AnimationBehaviors).length > 0) {
-    window.animationsLoaded();
+    globalThis.animationsLoaded();
 }

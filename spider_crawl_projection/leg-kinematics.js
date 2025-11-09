@@ -119,6 +119,6 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // Export for browser (make available globally)
 // CRITICAL: Without this, browser gets "Leg2D is not defined" error!
-if (typeof window !== 'undefined') {
-    window.Leg2D = Leg2D;
+if (typeof globalThis.window !== 'undefined') {
+    globalThis.Leg2D = Leg2D;
 }

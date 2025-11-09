@@ -60,8 +60,8 @@ const AnimationBehaviors = {};
         }
 
         // Trigger a redraw once animations are loaded
-        if (window.animationsLoaded) {
-            window.animationsLoaded();
+        if (globalThis.animationsLoaded) {
+            globalThis.animationsLoaded();
         }
     } catch (error) {
         console.error('Failed to load animations:', error);

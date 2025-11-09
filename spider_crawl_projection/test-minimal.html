@@ -67,13 +67,13 @@
             }
         }
 
-        scriptsToLoad.forEach(src => {
+        for (const src of scriptsToLoad) {
             const script = document.createElement('script');
             script.src = src;
             script.onload = onScriptLoaded;
             script.onerror = (e) => log(`ERROR loading ${src}`);
             document.head.appendChild(script);
-        });
+        }
 
         function startAnimation() {
             log('Starting animation...');

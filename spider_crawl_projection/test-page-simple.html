@@ -37,7 +37,7 @@
             }
         }
 
-        scriptsToLoad.forEach(src => {
+        for (const src of scriptsToLoad) {
             const script = document.createElement('script');
             script.src = src;
             script.onload = onScriptLoaded;
@@ -46,7 +46,7 @@
                 console.error(`Failed to load ${src}`, e);
             };
             document.head.appendChild(script);
-        });
+        }
     </script>
 </body>
 </html>
