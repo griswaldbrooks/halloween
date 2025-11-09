@@ -79,6 +79,9 @@ pixi run deploy
 - Single-video playback system
 - Auto-reset after completion
 - Node.js server with Socket.IO
+- 65.28% test coverage (33 passing tests)
+
+**Status:** ⚠️ Production-ready, test coverage can be improved to 80%
 
 **Quick Start:**
 ```bash
@@ -109,7 +112,16 @@ cd <project>
 pixi run test
 ```
 
-**Total test coverage across all projects: 500+ tests**
+**Current Test Coverage Status:**
+- hatching_egg: 92.12% JS, 85.9% C++ (241 tests) ✅
+- spider_crawl_projection: 97.55% JS (10 tests) ✅
+- window_spider_trigger: 65.28% JS (33 tests) ⚠️ *Can be improved to 80%*
+- twitching_body: 0% (needs refactoring) ❌
+
+**Total: 284+ tests across all projects**
+**Coverage Goal: 80%+ for all projects**
+
+See `COVERAGE_ISSUES.md` for detailed improvement roadmap.
 
 ### Code Coverage
 
@@ -137,14 +149,18 @@ cd <other-project> && pixi run view-coverage      # Opens available reports
 - **C++:** lcov/gcov - hatching_egg (171 gtest unit tests)
 - **Python:** coverage.py - hatching_egg (configuration tests)
 
-**Note:** `twitching_body` is Arduino-only and currently has no unit tests (needs refactoring to extract testable logic).
+**Coverage Documentation:**
+- 🚀 [NEXT_AGENT_COVERAGE.md](NEXT_AGENT_COVERAGE.md) - Quick-start guide for improving coverage
+- 📋 [COVERAGE_ISSUES.md](COVERAGE_ISSUES.md) - Detailed implementation roadmap
+- 📝 [COVERAGE.md](COVERAGE.md) - Complete documentation for local coverage
 
 **Coverage Reports:**
 - 📊 [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=griswaldbrooks_halloween) - Code quality & coverage
 - 📈 [Codecov](https://codecov.io/gh/griswaldbrooks/halloween) - Visual coverage reports
-- 📝 [Coverage Guide](COVERAGE.md) - Complete documentation for local coverage
 
 All coverage metrics are automatically tracked and reported on GitHub PRs.
+
+**For Next Agent:** To continue improving coverage to 80%+ across all projects, start with `NEXT_AGENT_COVERAGE.md` for a comprehensive guide.
 
 ## 📋 Year-Specific Materials
 
