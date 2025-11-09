@@ -49,9 +49,9 @@ let parser;
 async function findArduinoPort() {
   const ports = await SerialPort.list();
   console.log('Available serial ports:');
-  ports.forEach(p => {
+  for (const p of ports) {
     console.log(`  ${p.path} - ${p.manufacturer || 'Unknown'}`);
-  });
+  }
 
   // Look for Arduino
   const arduinoPort = ports.find(p =>

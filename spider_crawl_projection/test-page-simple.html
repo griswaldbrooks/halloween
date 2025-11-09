@@ -23,7 +23,9 @@
                 statusDiv.innerHTML += `SpiderBody available: ${typeof SpiderBody !== 'undefined'}<br>`;
                 statusDiv.innerHTML += `Leg2D available: ${typeof Leg2D !== 'undefined'}<br>`;
 
-                if (typeof SpiderBody !== 'undefined') {
+                if (typeof SpiderBody === 'undefined') {
+                    statusDiv.innerHTML += `✗ SpiderBody not available<br>`;
+                } else {
                     try {
                         const testBody = new SpiderBody(10);
                         statusDiv.innerHTML += `✓ SpiderBody created successfully!<br>`;
@@ -31,8 +33,6 @@
                     } catch (e) {
                         statusDiv.innerHTML += `✗ Error creating SpiderBody: ${e.message}<br>`;
                     }
-                } else {
-                    statusDiv.innerHTML += `✗ SpiderBody is not defined!<br>`;
                 }
             }
         }

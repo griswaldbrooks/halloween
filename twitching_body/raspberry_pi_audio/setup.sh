@@ -11,7 +11,7 @@ echo "========================================"
 echo
 
 # Check if running on Raspberry Pi
-if [ ! -f /proc/device-tree/model ]; then
+if [[ ! -f /proc/device-tree/model ]]; then
     echo "⚠️  Warning: This doesn't appear to be a Raspberry Pi"
     read -p "Continue anyway? (y/N): " -n 1 -r
     echo
@@ -37,21 +37,21 @@ sudo apt install -y mpg123 alsa-utils
 
 # Step 3: Check for audio file
 echo "🎵 Checking for audio files..."
-if [ ! -d "audio" ]; then
+if [[ ! -d "audio" ]]; then
     mkdir -p audio
     echo "   Created audio/ directory"
 fi
 
 # Copy sample audio if it exists in parent assets directory
-if [ -f "../assets/crying-ghost.mp3" ] && [ ! -f "audio/crying-ghost.mp3" ]; then
+if [[ -f "../assets/crying-ghost.mp3" ]] && [[ ! -f "audio/crying-ghost.mp3" ]]; then
     cp "../assets/crying-ghost.mp3" audio/
     echo "   ✓ Copied crying-ghost.mp3 from assets"
 fi
 
 # Check if audio file exists and is not an LFS pointer
-if [ -f "audio/crying-ghost.mp3" ]; then
+if [[ -f "audio/crying-ghost.mp3" ]]; then
     FILE_SIZE=$(stat -c%s "audio/crying-ghost.mp3" 2>/dev/null || stat -f%z "audio/crying-ghost.mp3" 2>/dev/null || echo "0")
-    if [ "$FILE_SIZE" -lt 1000 ]; then
+    if [[ "$FILE_SIZE" -lt 1000 ]]; then
         echo "   ⚠️  Audio file appears to be a Git LFS pointer ($FILE_SIZE bytes)"
         echo "   Run: git lfs pull"
         echo "   Then re-run this setup script"

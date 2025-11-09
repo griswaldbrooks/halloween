@@ -13,7 +13,7 @@ echo
 # Check for MP3 files
 MP3_COUNT=$(ls -1 "$AUDIO_DIR"/*.mp3 2>/dev/null | wc -l)
 
-if [ "$MP3_COUNT" -eq 0 ]; then
+if [[ "$MP3_COUNT" -eq 0 ]]; then
     echo "❌ No MP3 files found in $AUDIO_DIR/"
     exit 1
 fi

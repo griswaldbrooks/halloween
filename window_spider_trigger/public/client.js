@@ -155,12 +155,12 @@ document.addEventListener('keydown', (e) => {
 
 // Fullscreen functions
 function toggleFullscreen() {
-  if (!document.fullscreenElement) {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
     document.documentElement.requestFullscreen()
       .then(() => console.log('Entered fullscreen'))
       .catch(err => console.error('Fullscreen failed:', err));
-  } else {
-    document.exitFullscreen();
   }
 }
 

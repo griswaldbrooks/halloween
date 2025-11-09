@@ -9,7 +9,7 @@ echo "========================================"
 echo
 
 # Check for audio files
-if [ ! -d "$SCRIPT_DIR/audio" ] || [ -z "$(ls -A $SCRIPT_DIR/audio/*.mp3 2>/dev/null)" ]; then
+if [[ ! -d "$SCRIPT_DIR/audio" ]] || [ -z "$(ls -A $SCRIPT_DIR/audio/*.mp3 2>/dev/null)" ]]; then
     echo "❌ No MP3 files found in $SCRIPT_DIR/audio/"
     echo "   Please add MP3 files to test"
     exit 1

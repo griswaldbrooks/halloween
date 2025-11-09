@@ -10,7 +10,7 @@ echo ""
 
 # Test 1: Check video file
 echo "1️⃣ Checking video file..."
-if [ -f public/videos/spider_jump1.mp4 ]; then
+if [[ -f public/videos/spider_jump1.mp4 ]]; then
     echo "  ✓ spider_jump1.mp4 exists"
 else
     echo "  ❌ spider_jump1.mp4 MISSING"
@@ -85,7 +85,7 @@ done
 kill $SERVER_PID 2>/dev/null || true
 wait $SERVER_PID 2>/dev/null || true
 
-if [ "$FILES_OK" = false ]; then
+if [[ "$FILES_OK" = false ]]; then
     exit 1
 fi
 echo ""

@@ -406,7 +406,13 @@ class Spider {
 
         } else if (this.hopPhase === 3) {
             // LANDING: Front legs extend first, back legs follow
-            if (!isBackLeg) {
+            if (isBackLeg) {
+                // Back legs stay retracted during landing
+                const targetX = this.x + relPos.x * scale * 0.7;
+                const targetY = this.y + relPos.y * scale * 0.7;
+                leg.worldFootX += (targetX - leg.worldFootX) * 0.6;
+                leg.worldFootY += (targetY - leg.worldFootY) * 0.6;
+            } else {
                 // Front legs extend to catch landing (1.1x reach)
                 const extendFactor = 1.1;
                 const targetX = this.x + relPos.x * scale * extendFactor;
@@ -593,10 +599,10 @@ function toggleControls() {
 }
 
 function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-    } else {
+    if (document.fullscreenElement) {
         document.exitFullscreen();
+    } else {
+        document.documentElement.requestFullscreen();
     }
 }
 

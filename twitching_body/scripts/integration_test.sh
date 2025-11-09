@@ -25,7 +25,7 @@ echo ""
 
 # Test 2: Arduino CLI installed
 echo "▶ Test 2: Arduino CLI"
-if [ -f ".pixi/bin/arduino-cli" ]; then
+if [[ -f ".pixi/bin/arduino-cli" ]]; then
     VERSION=$(.pixi/bin/arduino-cli version)
     echo "  ✅ Arduino CLI installed ($VERSION)"
     TESTS_PASSED=$((TESTS_PASSED + 1))
@@ -48,7 +48,7 @@ echo ""
 
 # Test 4: Arduino sketch exists
 echo "▶ Test 4: Arduino sketch"
-if [ -f "arduino/twitching_servos/twitching_servos.ino" ]; then
+if [[ -f "arduino/twitching_servos/twitching_servos.ino" ]]; then
     LINES=$(wc -l < arduino/twitching_servos/twitching_servos.ino)
     echo "  ✅ Sketch found (${LINES} lines)"
     TESTS_PASSED=$((TESTS_PASSED + 1))
@@ -75,7 +75,7 @@ echo "Test Results: $TESTS_PASSED passed, $TESTS_FAILED failed"
 echo "════════════════════════════════════════════════════════"
 echo ""
 
-if [ $TESTS_FAILED -eq 0 ]; then
+if [[ $TESTS_FAILED -eq 0 ]]; then
     echo "✅ ALL TESTS PASSED - System ready for deployment"
     echo ""
     echo "Next steps:"

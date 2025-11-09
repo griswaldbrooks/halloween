@@ -3,7 +3,7 @@
 
 VOLUME=${1:-75}
 
-if [ "$VOLUME" -lt 0 ] || [ "$VOLUME" -gt 100 ]; then
+if [[ "$VOLUME" -lt 0 ]] || [ "$VOLUME" -gt 100 ]]; then
     echo "❌ Volume must be between 0 and 100"
     echo "Usage: $0 [volume]"
     echo "Example: $0 75"

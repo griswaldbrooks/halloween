@@ -45,7 +45,7 @@ echo "╔═══════════════════════�
 echo "║                      SUMMARY                               ║"
 echo "║  Passed: $PASS / $TOTAL                                            ║"
 echo "║  Failed: $FAIL / $TOTAL                                            ║"
-if [ $FAIL -eq 0 ]; then
+if [[ $FAIL -eq 0 ]]; then
     echo "║                                                            ║"
     echo "║              ✓✓✓ ALL TESTS PASSED! ✓✓✓                   ║"
 fi

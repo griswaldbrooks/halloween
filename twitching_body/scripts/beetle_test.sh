@@ -11,7 +11,7 @@ echo ""
 
 # Test 1: Check if arduino-cli exists
 echo "▶ Test 1: Arduino CLI installation"
-if [ -f ".pixi/bin/arduino-cli" ]; then
+if [[ -f ".pixi/bin/arduino-cli" ]]; then
     echo "  ✅ Arduino CLI found"
     .pixi/bin/arduino-cli version
 else
@@ -46,7 +46,7 @@ echo ""
 echo "▶ Test 4: Upload to Beetle"
 echo "  This will flash the twitching_servos code to the Beetle..."
 PORT=$(.pixi/bin/arduino-cli board list | grep Leonardo | awk '{print $1}' | head -n 1)
-if [ -z "$PORT" ]; then
+if [[ -z "$PORT" ]]; then
     echo "  ❌ No Leonardo port found"
     exit 1
 fi

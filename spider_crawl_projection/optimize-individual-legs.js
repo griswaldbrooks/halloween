@@ -195,9 +195,9 @@ function optimizeIndividualLegs() {
     if (finalIntersections.length > 0) {
         console.log(`\n⚠️  Could not eliminate all intersections.`);
         console.log(`    ${finalIntersections.length} intersections remaining after ${iteration} iterations`);
-        finalIntersections.forEach(({leg1, leg2}) => {
+        for (const {leg1, leg2} of finalIntersections) {
             console.log(`      Leg ${leg1} ↔ Leg ${leg2}`);
-        });
+        }
     }
 
     // Output final configuration
