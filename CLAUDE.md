@@ -172,7 +172,7 @@ describe('Server', () => {
 
 All projects should maintain at least 80% test coverage. Current status:
 - ✅ hatching_egg: 92.12% JS, 85.9% C++ (241 tests)
-- ✅ spider_crawl_projection: 97.55% (11 test suites + 2 regression prevention suites with 15 tests)
+- ✅ spider_crawl_projection: 97.48% (11 test suites + 2 regression prevention suites with 15 tests)
 - ⚠️ window_spider_trigger: 65.28% (33 tests) - **Priority 1**
 - ❌ twitching_body: 0% - **Priority 2** (needs refactoring)
 
@@ -350,7 +350,7 @@ test('should handle serial events', () => {
   - Mock PWM driver implementation
   - Comprehensive GoogleTest suite
 
-- **spider_crawl_projection**: Clean JavaScript testing with 97.55% coverage
+- **spider_crawl_projection**: Clean JavaScript testing with 97.48% coverage
   - Good example of Jest testing patterns
   - Proper mocking of browser APIs
   - **Regression prevention tests** (2025-11-09):
