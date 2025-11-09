@@ -28,8 +28,11 @@ def read_serial_lines(ser, duration=None):
         while time.time() - start_time < duration:
             read_and_print_line(ser)
     else:
-        while read_and_print_line(ser):
-            pass
+        # Read all available lines
+        while ser.in_waiting:
+            line = ser.readline().decode('utf-8', errors='ignore').strip()
+            if line:
+                print(line)
 
 def send_command_and_read(ser, command, description, delay=1):
     """Send a command and read the response."""
