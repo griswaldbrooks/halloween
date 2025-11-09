@@ -4,10 +4,11 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 AUDIO_DIR="$SCRIPT_DIR/audio"
 PLAYLIST="$AUDIO_DIR/playlist.m3u"
+SEPARATOR="========================================"
 
-echo "========================================"
+echo "$SEPARATOR"
 echo "  Creating Audio Playlist"
-echo "========================================"
+echo "$SEPARATOR"
 echo
 
 # Check for MP3 files
@@ -29,7 +30,7 @@ echo
 echo "Contents:"
 cat "$PLAYLIST"
 echo
-echo "========================================"
+echo "$SEPARATOR"
 echo "To use this playlist:"
 echo "1. Edit /etc/systemd/system/audio-loop.service"
 echo "2. Change ExecStart line to:"
@@ -37,4 +38,4 @@ echo "   ExecStart=/usr/bin/mpg123 --loop -1 --list $PLAYLIST"
 echo "3. Run:"
 echo "   sudo systemctl daemon-reload"
 echo "   sudo systemctl restart audio-loop.service"
-echo "========================================"
+echo "$SEPARATOR"

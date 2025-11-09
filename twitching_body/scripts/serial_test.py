@@ -12,20 +12,24 @@ PORT = '/dev/ttyACM0'
 BAUD = 9600
 TIMEOUT = 2
 
+def read_and_print_line(ser):
+    """Read and print a single line if available."""
+    if ser.in_waiting:
+        line = ser.readline().decode('utf-8', errors='ignore').strip()
+        if line:
+            print(line)
+        return True
+    return False
+
 def read_serial_lines(ser, duration=None):
     """Read and print available serial output."""
     if duration:
         start_time = time.time()
         while time.time() - start_time < duration:
-            if ser.in_waiting:
-                line = ser.readline().decode('utf-8', errors='ignore').strip()
-                if line:
-                    print(line)
+            read_and_print_line(ser)
     else:
-        while ser.in_waiting:
-            line = ser.readline().decode('utf-8', errors='ignore').strip()
-            if line:
-                print(line)
+        while read_and_print_line(ser):
+            pass
 
 def send_command_and_read(ser, command, description, delay=1):
     """Send a command and read the response."""
