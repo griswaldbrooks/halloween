@@ -1,56 +1,35 @@
 # Coverage Issues & Action Items
 
-**Generated:** 2025-11-08
+**Last Updated:** 2025-11-08 (post SonarCloud cleanup)
 **Status:** Active work items for 80% coverage goal
 
 ---
 
-## 🔴 Critical Issues
+## ✅ Resolved Issues
 
-### 1. SonarCloud Integration Broken
-**Status:** ❌ Failing on all pushes
-**Error:** `Project not found. Please check the 'sonar.projectKey' and 'sonar.organization' properties, the 'SONAR_TOKEN' environment variable`
+### 1. SonarCloud Integration
+**Status:** ✅ **FIXED** (2025-11-08)
+**Actions Completed:**
+- Token configured and working
+- GitHub Action updated to v6
+- Automatic Analysis disabled
+- CI/CD pipeline passing
+- Dashboard: https://sonarcloud.io/dashboard?id=griswaldbrooks_halloween
 
-**Root Cause:**
-- `SONAR_TOKEN` secret is missing or invalid in GitHub repository secrets
-- Project may not exist in SonarCloud yet
+### 2. SonarCloud Code Quality
+**Status:** ✅ **COMPLETE** (2025-11-08)
+**Issues Fixed:** 116 of 117 (99%)
+**Technical Debt Eliminated:** 330+ minutes
 
-**Action Required:**
-1. Go to https://sonarcloud.io/ and sign in with GitHub
-2. Create organization `griswaldbrooks` if it doesn't exist
-3. Import the `halloween` repository
-4. Generate a new token from Account → Security
-5. Add `SONAR_TOKEN` to GitHub Secrets:
-   - Go to repository Settings → Secrets and variables → Actions
-   - Click "New repository secret"
-   - Name: `SONAR_TOKEN`
-   - Value: (paste token from SonarCloud)
+**Commits:**
+- Phase 5: `54f4199` - Fixed 24 issues
+- Phase 6: `13c89b3` - Fixed 6 issues
+- Phase 7: `d285246` - Fixed 4 issues
+- Phase 8: `fa4385b` - Fixed 2 issues
 
-**Files:**
-- `.github/workflows/coverage.yml` - Workflow file
-- `sonar-project.properties` - Configuration
+**Remaining:** 1 issue (async IIFE - style preference only)
 
----
-
-### 2. Deprecated GitHub Action
-**Status:** ⚠️ Warning on every run
-**Error:** `This action is deprecated and will be removed in a future release. Please use the sonarqube-scan-action action instead.`
-
-**Root Cause:**
-- Using old action: `SonarSource/sonarcloud-github-action@master`
-- Should use: `SonarSource/sonarqube-scan-action@v5`
-
-**Action Required:**
-Update `.github/workflows/coverage.yml` line 56:
-```yaml
-# OLD:
-- name: SonarCloud Scan
-  uses: SonarSource/sonarcloud-github-action@master
-
-# NEW:
-- name: SonarCloud Scan
-  uses: SonarSource/sonarqube-scan-action@v5
-```
+See `SONARCLOUD_ISSUES.md` for complete details.
 
 ---
 
@@ -184,26 +163,22 @@ twitching_body/
 
 ## 📋 Implementation Order
 
-**Week 1:**
-1. ✅ Update twitching_body status to "needs tests"
-2. 🔄 Fix SonarCloud integration (Priority 2)
-3. 🔄 Update to new GitHub Action
-4. 🔄 Measure hatching_egg C++ coverage (Priority 3)
-
-**Week 2:**
-5. Add tests for window_spider_trigger (Priority 1)
-   - Day 1: HTTP endpoint tests + Socket.IO tests
-   - Day 2: Serial communication mocking + integration tests
-   - Day 3: Fix any coverage gaps, reach 80%
-
-**Week 3:**
-6. Refactor twitching_body for testability (Priority 4)
-   - Day 1-2: Extract state machine logic
-   - Day 3-4: Write unit tests
-   - Day 5: Achieve 80% coverage
+**Current Phase: Coverage Testing**
+1. ✅ SonarCloud integration fixed
+2. ✅ SonarCloud issues resolved (116/117)
+3. 🔄 Measure hatching_egg C++ coverage (30 min)
+4. 🔄 Add tests for window_spider_trigger (2-3 hours)
+   - HTTP endpoint tests + Socket.IO tests
+   - Serial communication mocking + integration tests
+   - Reach 80% coverage
+5. 🔄 Refactor twitching_body for testability (4-6 hours)
+   - Extract state machine logic
+   - Write unit tests
+   - Achieve 80% coverage
 
 **Future Priority:**
-7. Add C++ back to SonarCloud
+6. Optional: Fix async IIFE style issue (ES module conversion)
+7. Optional: Add C++ analysis to SonarCloud
    - Generate compilation database for Arduino projects
    - Configure build-wrapper for C++ analysis
    - See: https://docs.sonarsource.com/sonarcloud/advanced-setup/languages/c-family/
@@ -258,34 +233,32 @@ twitching_body/
    - Automatic Analysis disabled
    - Workflow passing successfully
 
-2. ✅ **SonarCloud Issues Fixed** (2025-11-09)
-   - Fixed 93 of 117 issues (79% reduction)
-   - Eliminated 250 minutes of technical debt
-   - All MAJOR bugs and security issues resolved
-   - Remaining 24 issues are mostly style/optimization
+2. ✅ **SonarCloud Issues Fixed** (2025-11-08)
+   - Fixed 116 of 117 issues (99% reduction)
+   - Eliminated 330+ minutes of technical debt
+   - ALL bugs and security issues resolved
+   - ALL code quality issues addressed
+   - Only 1 remaining issue (async IIFE style preference)
 
-## Next Steps for Coverage
+## 🎯 Next Steps for Coverage
 
 **Priority 1: window_spider_trigger (0% → 80%)**
 - **Status:** NOT STARTED
 - **Effort:** 2-3 hours
-- **Impact:** Critical for coverage goal
-- **See details below in Priority Work Items section**
+- **Impact:** HIGH - Critical for coverage goal
+- **See:** Priority Work Items section above
 
 **Priority 2: Measure hatching_egg C++ coverage**
 - **Status:** Coverage runs but percentage not extracted
 - **Effort:** 30 minutes
+- **Impact:** MEDIUM - Need to verify ≥80%
 - **Action:** Extract percentage from `hatching_egg/coverage-cpp/index.html`
 
 **Priority 3: twitching_body refactoring**
 - **Status:** NOT STARTED
 - **Effort:** 4-6 hours (requires refactoring)
-- **Impact:** High complexity, low priority
+- **Impact:** MEDIUM - Complex, do after Priority 1 & 2
 
-**Priority 4: Remaining SonarCloud Issues**
-- **Status:** 24 issues remaining
-- **Effort:** 1.5 hours
-- **Impact:** LOW (mostly style preferences)
-- **Recommendation:** Do after coverage testing
+**SonarCloud is DONE!** Focus on coverage testing now.
 
-**Documented:** 2025-11-09
+**Last Updated:** 2025-11-08

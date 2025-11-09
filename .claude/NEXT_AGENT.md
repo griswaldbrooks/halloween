@@ -1,6 +1,6 @@
 # Next Agent Tasks - Code Coverage & Quality
 
-**Last Updated:** 2025-11-09
+**Last Updated:** 2025-11-08 (post SonarCloud cleanup)
 
 ---
 
@@ -15,12 +15,18 @@
 - ✅ CI/CD pipeline passing
 - ✅ Dashboard: https://sonarcloud.io/dashboard?id=griswaldbrooks_halloween
 
-**SonarCloud Issues (2025-11-09)**
-- ✅ Fixed 93 of 117 issues (79% reduction)
-- ✅ All MAJOR bugs and security issues resolved
-- ✅ Eliminated 250 minutes of technical debt
+**SonarCloud Issues (2025-11-08) - COMPLETE! 🎉**
+- ✅ Fixed 116 of 117 issues (99% reduction)
+- ✅ ALL bugs and security issues resolved
+- ✅ Eliminated 330+ minutes of technical debt
 - ✅ Code modernized with ES2015+ patterns
-- ⏳ 24 minor issues remaining (see `SONARCLOUD_ISSUES.md`)
+- ✅ 1 remaining issue: async IIFE (style preference only, requires ES module conversion)
+
+**Commits:**
+- Phase 5: `54f4199` - Fixed 24 issues
+- Phase 6: `13c89b3` - Fixed 6 issues
+- Phase 7: `d285246` - Fixed 4 issues
+- Phase 8: `fa4385b` - Fixed 2 issues
 
 **Code Coverage**
 - ✅ Multi-language coverage implemented (JS, C++, Python)
@@ -68,33 +74,7 @@
 
 ---
 
-### Priority 2: Fix Quick SonarCloud Wins (15 min)
-
-**Status:** NOT STARTED
-**Effort:** 15 minutes
-**Impact:** MEDIUM - Easy fixes
-
-**Quick fixes (6 issues):**
-1. Fix remaining `parseInt` → `Number.parseInt` (1 issue)
-2. Fix number formatting `.0` (1 issue)
-3. Fix `Math.hypot` (1 issue)
-4. Fix unused variable 'cephEnd' (2 issues)
-5. Fix shell return statement (1 issue)
-
-**Commands:**
-```bash
-# Search for these patterns:
-grep -r "parseInt(" --include="*.js" | grep -v "Number.parseInt"
-grep -r "\.0[^0-9]" --include="*.js"
-grep -r "Math.sqrt" --include="*.js"
-grep -r "cephEnd" --include="*.js"
-```
-
-**See:** `SONARCLOUD_ISSUES.md` section "Quick Wins"
-
----
-
-### Priority 3: Measure hatching_egg C++ Coverage
+### Priority 2: Measure hatching_egg C++ Coverage
 
 **Status:** NOT STARTED
 **Effort:** 30 minutes
@@ -114,27 +94,11 @@ grep -r "cephEnd" --include="*.js"
 
 ---
 
-### Priority 4 (Optional): Medium SonarCloud Issues (25 min)
-
-**Status:** NOT STARTED
-**Effort:** 25 minutes
-**Impact:** LOW - Nice to have
-
-**Medium priority fixes (5 issues):**
-1. CSS color contrast (2 issues, 10 min) - Accessibility
-2. Shell script string constants (2 issues, 6 min)
-3. Array optimizations (2 issues, 5 min)
-4. Node import prefix (2 issues, 4 min)
-
-**See:** `SONARCLOUD_ISSUES.md` section "Medium Priority"
-
----
-
-### Priority 5 (Low): twitching_body Refactoring
+### Priority 3: twitching_body Refactoring (0% → 80%)
 
 **Status:** NOT STARTED
 **Effort:** 4-6 hours
-**Impact:** LOW - Complex, low priority
+**Impact:** MEDIUM - Complex refactoring
 
 **What to do:**
 1. Extract state machine logic from `twitching_servos.ino`
@@ -149,6 +113,25 @@ grep -r "cephEnd" --include="*.js"
 
 ---
 
+### Priority 4 (Optional): Async IIFE Style Fix
+
+**Status:** NOT STARTED
+**Effort:** 30 minutes
+**Impact:** LOW - Style preference only
+**SonarCloud Issue:** javascript:S7785
+
+**File:** `hatching_egg/animation-behaviors.js:7`
+
+**What to do:**
+1. Convert file to ES module
+2. Add `type="module"` to script tag in HTML
+3. Replace async IIFE with top-level await
+4. Test in browser to ensure no regressions
+
+**Note:** This is purely a style preference. Skip if ES module conversion is not desired.
+
+---
+
 ## 📊 Current Coverage Status
 
 ### JavaScript
@@ -157,8 +140,8 @@ grep -r "cephEnd" --include="*.js"
 - ❌ **window_spider_trigger:** 0% (NO TESTS - PRIORITY 1)
 
 ### C++
-- ⏳ **hatching_egg:** 171 tests passing (percentage unknown - PRIORITY 3)
-- ❌ **twitching_body:** 0% (Arduino-only, needs refactoring - PRIORITY 5)
+- ⏳ **hatching_egg:** 171 tests passing (percentage unknown - PRIORITY 2)
+- ❌ **twitching_body:** 0% (Arduino-only, needs refactoring - PRIORITY 3)
 
 ### Python
 - ✅ **hatching_egg:** Config validation tests passing
@@ -173,7 +156,7 @@ grep -r "cephEnd" --include="*.js"
 ## 📁 Key Files
 
 ### Documentation
-- `SONARCLOUD_ISSUES.md` - Detailed breakdown of 24 remaining issues
+- `SONARCLOUD_ISSUES.md` - Final status (1 remaining issue)
 - `COVERAGE_ISSUES.md` - Complete coverage improvement plan
 - `COVERAGE.md` - Full multi-language coverage documentation
 - `.claude/coverage-guide.md` - Quick reference
@@ -199,13 +182,11 @@ grep -r "cephEnd" --include="*.js"
    - See detailed test requirements in `COVERAGE_ISSUES.md`
 
 ### If you have 1 hour:
-1. **Do Priority 2:** Quick SonarCloud wins (15 min)
-2. **Do Priority 3:** Measure C++ coverage (30 min)
-3. **Start Priority 1:** Begin window_spider_trigger tests (15 min setup)
+1. **Do Priority 2:** Measure C++ coverage (30 min)
+2. **Start Priority 1:** Begin window_spider_trigger tests (30 min setup)
 
 ### If you have 30 minutes:
-1. **Do Priority 2:** Quick SonarCloud wins (15 min)
-2. **Do Priority 3:** Measure C++ coverage (15 min)
+1. **Do Priority 2:** Measure C++ coverage (30 min)
 
 ---
 
@@ -220,8 +201,8 @@ cd hatching_egg && pixi run view-coverage
 cd spider_crawl_projection && pixi run view-coverage
 cd window_spider_trigger && pixi run view-coverage
 
-# Check SonarCloud issues
-curl -s "https://sonarcloud.io/api/issues/search?componentKeys=griswaldbrooks_halloween&resolved=false&ps=1" | grep total
+# Check SonarCloud status (should show 1 issue)
+curl -s "https://sonarcloud.io/api/issues/search?componentKeys=griswaldbrooks_halloween&resolved=false&ps=10" | python3 -m json.tool
 
 # Run specific project tests
 cd window_spider_trigger && pixi run test
@@ -236,14 +217,20 @@ gh run list --limit 5
 
 ## 📝 Notes
 
-- All shell scripts now use safer `[[` conditionals
-- All HTML files have proper `lang` attributes
-- JavaScript uses modern ES2015+ patterns throughout
-- SonarCloud integrated and working
-- CI/CD pipeline passing all checks
+**Code Quality Improvements (ALL COMPLETE!):**
+- ✅ All shell scripts use safer `[[` conditionals
+- ✅ All HTML files have proper `lang` attributes
+- ✅ JavaScript uses modern ES2015+ patterns throughout
+- ✅ Python functions refactored for lower complexity
+- ✅ CSS meets WCAG accessibility contrast requirements
+- ✅ All string duplication eliminated
+- ✅ Optimal array operations throughout
+- ✅ Optional chaining used where appropriate
+- ✅ SonarCloud integrated and passing (1 style issue remaining)
+- ✅ CI/CD pipeline passing all checks
 
-**Focus:** window_spider_trigger testing is the #1 priority for coverage goal!
+**Focus:** window_spider_trigger testing is now the #1 priority!
 
 ---
 
-**Last Updated:** 2025-11-09
+**Last Updated:** 2025-11-08
