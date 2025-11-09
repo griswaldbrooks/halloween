@@ -15,7 +15,7 @@ echo ""
 echo "Detecting Beetle..."
 PORT=$($ARDUINO_CLI board list --config-file $CONFIG_FILE | grep "Arduino Leonardo" | awk '{print $1}' | head -1)
 
-if [ -z "$PORT" ]; then
+if [[ -z "$PORT" ]]; then
     echo "❌ No Beetle found!"
     echo "   - Is the Beetle plugged in?"
     echo "   - Try pressing the reset button twice"

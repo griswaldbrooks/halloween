@@ -202,6 +202,12 @@ twitching_body/
    - Day 3-4: Write unit tests
    - Day 5: Achieve 80% coverage
 
+**Future Priority:**
+7. Add C++ back to SonarCloud
+   - Generate compilation database for Arduino projects
+   - Configure build-wrapper for C++ analysis
+   - See: https://docs.sonarsource.com/sonarcloud/advanced-setup/languages/c-family/
+
 ---
 
 ## 🎯 Success Criteria

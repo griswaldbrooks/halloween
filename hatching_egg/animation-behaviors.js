@@ -3,10 +3,11 @@
 
 const AnimationBehaviors = {};
 
-// Load animations from JSON
-fetch('animation-config.json')
-    .then(response => response.json())
-    .then(config => {
+// Load animations from JSON using async/await
+(async function loadAnimations() {
+    try {
+        const response = await fetch('animation-config.json');
+        const config = await response.json();
         // Convert each animation from JSON to the format needed by preview
         for (const [animName, anim] of Object.entries(config.animations)) {
             AnimationBehaviors[animName] = {
@@ -62,7 +63,7 @@ fetch('animation-config.json')
         if (window.animationsLoaded) {
             window.animationsLoaded();
         }
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Failed to load animations:', error);
-    });
+    }
+})();
