@@ -379,6 +379,51 @@ test('should handle serial events', () => {
 2. Verify correct board in platformio.ini
 3. Check serial port permissions: `ls -l /dev/ttyUSB*`
 
+### Pixi Task List Outputs to STDERR - CI/CD Gotcha
+
+**Problem:** `pixi task list` outputs to stderr, not stdout
+
+**Impact:** Breaks grep checks in CI workflows because grep reads from stdout by default.
+
+**Example of broken pattern:**
+```bash
+# This FAILS silently - stdout is empty, grep finds nothing
+if pixi task list | grep -q "coverage"; then
+    echo "Coverage task found"
+fi
+```
+
+**Solution:** Redirect stderr to stdout before piping to grep:
+```bash
+# This WORKS - stderr redirected to stdout, grep can find text
+if pixi task list 2>&1 | grep -q "coverage"; then
+    echo "Coverage task found"
+fi
+```
+
+**Why it matters:**
+- CI workflows use grep to check for task presence
+- Without `2>&1`, the check always fails even when tasks exist
+- This causes silent failures where CI thinks tasks are missing
+
+**How to verify:**
+```bash
+# Test locally first
+pixi task list 2>&1 | grep "coverage"
+
+# Check CI logs for correct detection
+# Should see: "Pixi task (coverage in default)"
+# NOT: "Pixi task (test in default)" only
+```
+
+**Prevention:**
+- Always use `pixi task list 2>&1 | grep` in scripts and CI
+- Test grep patterns locally before adding to CI
+- When setting up new projects, verify CI detects coverage tasks
+- Check GitHub Actions logs to confirm task detection
+
+**Root cause discovery:** Nov 10, 2025 - After 13 attempts to fix SonarCloud coverage integration, the issue was pixi's stderr output breaking grep checks.
+
 ## Resources
 
 - **hatching_egg/README.md**: Hardware setup, animation sequences
@@ -398,7 +443,7 @@ Before marking work complete:
 
 ---
 
-**Last Updated:** 2025-11-09
+**Last Updated:** 2025-11-10
 **Target:** Achieve 80%+ coverage across all projects
 
 ## SonarCloud Coverage Integration
