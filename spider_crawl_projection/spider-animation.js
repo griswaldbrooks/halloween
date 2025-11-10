@@ -556,19 +556,19 @@ function toggleFullscreen() {
 }
 
 function updateSpiderCount(value) {
-    config.spiderCount = parseInt(value);
+    config.spiderCount = Number.parseInt(value);
     document.getElementById('spiderCountLabel').textContent = value;
     resetSpiders();
 }
 
 function updateSpeed(value) {
-    config.spiderSpeed = parseFloat(value);
+    config.spiderSpeed = Number.parseFloat(value);
     document.getElementById('speedLabel').textContent = value + 'x';
     resetSpiders(); // Reset to apply new speed distribution
 }
 
 function updateSpeedVariation(value) {
-    config.speedVariation = parseFloat(value);
+    config.speedVariation = Number.parseFloat(value);
     document.getElementById('speedVariationLabel').textContent = value;
     resetSpiders(); // Reset to apply new speed variation
 }
@@ -576,7 +576,7 @@ function updateSpeedVariation(value) {
 function updateSizeMin(value) {
     // NOTE: Config management could be extracted to config-manager.js if DOM manipulation grows.
     // See REFACTORING_PROPOSAL.md for details. Current implementation is adequate for project scope.
-    config.spiderSizeMin = parseFloat(value);
+    config.spiderSizeMin = Number.parseFloat(value);
     document.getElementById('sizeMinLabel').textContent = value + 'x';
     // Make sure min doesn't exceed max
     if (config.spiderSizeMin > config.spiderSizeMax) {
@@ -588,7 +588,7 @@ function updateSizeMin(value) {
 }
 
 function updateSizeMax(value) {
-    config.spiderSizeMax = parseFloat(value);
+    config.spiderSizeMax = Number.parseFloat(value);
     document.getElementById('sizeMaxLabel').textContent = value + 'x';
     // Make sure max doesn't go below min
     if (config.spiderSizeMax < config.spiderSizeMin) {
@@ -600,7 +600,7 @@ function updateSizeMax(value) {
 }
 
 function updateSizeVariation(value) {
-    config.sizeVariation = parseFloat(value);
+    config.sizeVariation = Number.parseFloat(value);
     document.getElementById('sizeVariationLabel').textContent = value;
     resetSpiders(); // Reset to apply new size variation
 }
@@ -620,7 +620,7 @@ function updateAnimationMode(mode) {
 }
 
 function updateHopDistanceMin(value) {
-    config.hopDistanceMin = parseFloat(value);
+    config.hopDistanceMin = Number.parseFloat(value);
     document.getElementById('hopDistanceMinLabel').textContent = value + 'x';
     if (config.hopDistanceMin > config.hopDistanceMax) {
         config.hopDistanceMax = config.hopDistanceMin;
@@ -630,7 +630,7 @@ function updateHopDistanceMin(value) {
 }
 
 function updateHopDistanceMax(value) {
-    config.hopDistanceMax = parseFloat(value);
+    config.hopDistanceMax = Number.parseFloat(value);
     document.getElementById('hopDistanceMaxLabel').textContent = value + 'x';
     if (config.hopDistanceMax < config.hopDistanceMin) {
         config.hopDistanceMin = config.hopDistanceMax;
@@ -640,7 +640,7 @@ function updateHopDistanceMax(value) {
 }
 
 function updateHopFrequencyMin(value) {
-    config.hopFrequencyMin = parseInt(value);
+    config.hopFrequencyMin = Number.parseInt(value);
     document.getElementById('hopFrequencyMinLabel').textContent = value;
     if (config.hopFrequencyMin > config.hopFrequencyMax) {
         config.hopFrequencyMax = config.hopFrequencyMin;
@@ -650,7 +650,7 @@ function updateHopFrequencyMin(value) {
 }
 
 function updateHopFrequencyMax(value) {
-    config.hopFrequencyMax = parseInt(value);
+    config.hopFrequencyMax = Number.parseInt(value);
     document.getElementById('hopFrequencyMaxLabel').textContent = value;
     if (config.hopFrequencyMax < config.hopFrequencyMin) {
         config.hopFrequencyMin = config.hopFrequencyMax;
@@ -660,7 +660,7 @@ function updateHopFrequencyMax(value) {
 }
 
 function updateHopFlightDuration(value) {
-    config.hopFlightDuration = parseInt(value);
+    config.hopFlightDuration = Number.parseInt(value);
     document.getElementById('hopFlightDurationLabel').textContent = value;
 }
 

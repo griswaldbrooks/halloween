@@ -216,15 +216,15 @@ function optimizeIndividualLegs() {
             return {
                 index: i,
                 baseAngle: attachment.baseAngle,
-                baseAngleDeg: parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
+                baseAngleDeg: Number.parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
                 elbowBias: elbowBiasPattern[i],
                 foot: {
-                    x: parseFloat((spiderX + pos.foot.x).toFixed(1)),
-                    y: parseFloat((spiderY + pos.foot.y).toFixed(1))
+                    x: Number.parseFloat((spiderX + pos.foot.x).toFixed(1)),
+                    y: Number.parseFloat((spiderY + pos.foot.y).toFixed(1))
                 },
                 knee: {
-                    x: parseFloat((spiderX + pos.knee.x).toFixed(1)),
-                    y: parseFloat((spiderY + pos.knee.y).toFixed(1))
+                    x: Number.parseFloat((spiderX + pos.knee.x).toFixed(1)),
+                    y: Number.parseFloat((spiderY + pos.knee.y).toFixed(1))
                 }
             };
         }),
