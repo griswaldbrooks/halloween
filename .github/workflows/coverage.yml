@@ -51,6 +51,7 @@ jobs:
       working-directory: ./window_spider_trigger
       run: |
         pixi install
+        pixi run install
         if pixi task list | grep -q "^coverage"; then
           pixi run coverage
         else
