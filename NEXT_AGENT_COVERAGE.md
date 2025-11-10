@@ -11,7 +11,7 @@
 | Project | Current | Target | Status | Priority |
 |---------|---------|--------|--------|----------|
 | hatching_egg | 92.12% JS<br>85.9% C++ | 80% | ✅ DONE | - |
-| spider_crawl_projection | 97.48% | 80% | ✅ DONE | - |
+| spider_crawl_projection | **94.65%** overall<br>8 libs @ 94%+ | 80% | ✅ **TARGET EXCEEDED**<br>Phase 4 done | **Optional: Phases 5-6** |
 | window_spider_trigger | 65.28% | 80% | ⚠️ GAP: 15% | **Priority 1** |
 | twitching_body | 0% | 80% | ❌ GAP: 80% | **Priority 2** |
 
@@ -19,11 +19,36 @@
 
 ## 🎉 Recent Improvements (This Session)
 
+**spider_crawl_projection - ✅ TARGET EXCEEDED (Nov 9, 2025):**
+- ✅ **Coverage: 24% → 94.65%** (EXCEEDED 80% target by 14.65 percentage points!)
+- ✅ **Phase 1-4 Complete** - All planned extractions successful
+- ✅ **8 Libraries Extracted:** All with 92-98% individual coverage
+  - config-defaults.js (97.26%), foot-positions.js (96.66%)
+  - animation-math.js (93.71%), gait-state-machine.js (92.4%)
+  - hopping-logic.js (93.98%), config-validators.js (93.47%)
+  - leg-kinematics.js (96.69%), spider-model.js (98.3%)
+- ✅ **17/17 test suites passing** (was 11, added 6 during refactoring)
+- ✅ **Browser compatibility maintained** - Zero regressions
+- ✅ **Comprehensive documentation** - Phases 1-4 complete docs + Phase 5-6 guide
+
+**Phase 4 (Config Validators - Nov 9, 2025):**
+- ✅ Extracted validation/parsing logic (218 lines, 107 tests)
+- ✅ Revised approach - Kept DOM-coupled code in spider-animation.js
+- ✅ Coverage: 94.65% overall (holding steady)
+
+**Critical Lessons Learned - Browser Export Bugs:**
+- 🐛 **Bug #1:** Used ES6 `export` syntax - doesn't work in `<script>` tags
+- 🐛 **Bug #2:** Missing `window.` prefix caused undefined references
+- ❌ **Existing regression tests FAILED to catch these bugs**
+- ✅ **Fixed:** Enhanced browser export tests from 4 to 6 tests
+- ✅ **Now covers:** All 4 libraries + integration validation
+- 📝 **See:** PHASE1_LESSONS_LEARNED.md for detailed analysis
+
 **Regression Prevention (Nov 9, 2025):**
 - ✅ Added comprehensive browser export validation tests
 - ✅ Static analysis + jsdom browser simulation
 - ✅ Prevents browser export pattern regressions (happened twice)
-- ✅ 11/11 tests passing in spider_crawl_projection
+- ✅ 13/13 tests passing in spider_crawl_projection (was 11/11, now includes Phase 1)
 
 **Infrastructure (Nov 9, 2025):**
 - ✅ Added coverage tasks to all projects (standardized)
@@ -38,7 +63,9 @@
 - ✅ All markdown files current and accurate
 
 **Key Documents for Next Agent:**
-- `REFACTORING_PROPOSAL.md` - Roadmap to increase spider_crawl_projection coverage from 24% to 47% overall
+- `COMPREHENSIVE_COVERAGE_PLAN.md` - **START HERE** - Complete 80% coverage plan (Phases 1-6)
+- `PHASE1_LESSONS_LEARNED.md` - Critical browser compatibility lessons
+- `REFACTORING_PROPOSAL.md` - Original proposal (now superseded by comprehensive plan)
 - `INFRASTRUCTURE_IMPROVEMENTS.md` - Details on pixi and CI improvements
 - `CLAUDE.md` - Updated with browser compatibility patterns and pixi standards
 
@@ -46,20 +73,86 @@
 
 ## 🎯 Your Mission
 
-Improve test coverage for:
-1. **window_spider_trigger**: 65.28% → 80% (1-2 hours) - Priority 1
-2. **twitching_body**: 0% → 80% (4-6 hours) - Priority 2
+**spider_crawl_projection: ✅ GOAL ACHIEVED (94.65% coverage)**
 
-**Optional (Spider Crawl Enhancement):**
-- Consider implementing refactoring from REFACTORING_PROPOSAL.md (11-15 hours)
-- Would increase spider_crawl_projection from 24% overall to 47% overall
-- Already exceeds 80% target for testable code, so this is optional enhancement
+Optional continuation (Phases 5-6) for code quality:
+- **Phase 5A-5F:** Extract advanced logic (6 libraries, 213 lines total)
+- **Phase 6:** Add integration tests with jsdom (15+ tests)
+- **See:** PHASES_5_6_IMPLEMENTATION_GUIDE.md for detailed steps
 
-**Total estimated effort:** 5-8 hours (or 16-23 hours with optional spider_crawl work)
+**Recommendation:** Move to Priority 1 project (window_spider_trigger)
 
 ---
 
-## Priority 1: window_spider_trigger (65.28% → 80%)
+## 🎯 Priority 1: window_spider_trigger (65.28% → 80%)
+
+**Status:** 15% gap to close
+**Effort:** Medium (compared to spider_crawl_projection's 70% gap)
+**Expected Time:** 4-6 hours
+
+**Current Coverage:**
+- server.js: 65.28%
+- 33 tests passing
+
+**Strategy:**
+1. Add error handling tests (serial port failures, socket disconnects)
+2. Add event handler tests (trigger events, socket messages)
+3. Add edge case tests (invalid inputs, race conditions)
+4. See window_spider_trigger/README.md for test gaps
+
+**Resources:**
+- Existing 33 tests show good mocking patterns
+- Similar to spider_crawl_projection testing approach
+- SerialPort and Socket.IO already mocked
+
+---
+
+## 🎯 Priority 2: twitching_body (0% → 80%)
+
+**Status:** Needs refactoring first (currently 0% testable)
+**Effort:** HIGH - Requires Arduino C++ refactoring
+**Expected Time:** 12-16 hours (refactoring + testing)
+
+**Current State:**
+- Arduino C++ code with hardware I/O mixed with logic
+- No test coverage
+- Needs extraction like hatching_egg pattern
+
+**Strategy:**
+1. Study hatching_egg refactoring pattern (85.9% C++ coverage achieved)
+2. Extract logic to testable headers
+3. Create mock hardware interfaces
+4. Write GoogleTest unit tests
+5. Achieve 80%+ coverage
+
+**Reference:** hatching_egg has excellent C++ testing examples
+
+---
+
+## 📁 Key Documentation Files
+
+**For spider_crawl_projection (completed):**
+- `spider_crawl_projection/PHASE4_COMPLETE.md` - Phase 4 summary
+- `spider_crawl_projection/PHASES_5_6_IMPLEMENTATION_GUIDE.md` - Optional future work
+- `spider_crawl_projection/COMPREHENSIVE_COVERAGE_PLAN.md` - Complete roadmap
+- `spider_crawl_projection/PHASE1_LESSONS_LEARNED.md` - Browser compatibility lessons
+- `spider_crawl_projection/archive_docs/` - Archived older phase docs
+
+**For window_spider_trigger (Priority 1):**
+- `window_spider_trigger/README.md` - Project overview
+- `window_spider_trigger/server.test.js` - Existing 33 tests (good mocking patterns)
+
+**For twitching_body (Priority 2):**
+- `twitching_body/arduino/` - Current Arduino code (needs refactoring)
+- `hatching_egg/test/` - Reference pattern for C++ testing
+
+**General:**
+- `/home/griswald/personal/halloween/CLAUDE.md` - Project conventions
+- This file (NEXT_AGENT_COVERAGE.md) - Your mission brief
+
+---
+
+## 🔍 Detailed Priority 1: window_spider_trigger (65.28% → 80%)
 
 **Status:** Good foundation with 33 passing tests, just needs serial port event mocking improvements
 
@@ -93,7 +186,7 @@ pixi run coverage  # After fixes: should be ~80-85%
 
 ---
 
-## Priority 2: twitching_body (0% → 80%)
+## 🔍 Detailed Priority 2: twitching_body (0% → 80%)
 
 **Status:** Needs significant refactoring to separate testable logic from hardware
 

@@ -38,6 +38,25 @@ run_test "Script Loading (Race Condition Prevention)" "test-script-loading.js"
 # Configuration Tests
 run_test "User Configuration (No Intersections)" "test-user-config.js"
 
+# Phase 1 Library Tests
+run_test "Config Defaults" "test-config-defaults.js"
+run_test "Foot Positions" "test-foot-positions.js"
+
+# Phase 2 Library Tests
+run_test "Animation Math" "test-animation-math.js"
+
+# Phase 3A Library Tests
+run_test "Gait State Machine" "test-gait-state-machine.js"
+
+# Phase 3B Library Tests
+run_test "Hopping Logic" "test-hopping-logic.js"
+
+# Phase 4 Library Tests (Config Validators - extracted from Phase 5G)
+run_test "Config Validators" "test-config-validators.js"
+
+# Phase 5A Library Tests
+run_test "Leg State Calculator" "test-leg-state-calculator.js"
+
 # Regression Prevention Tests
 run_test "Method Call Validation (Static Analysis)" "test-method-calls.js"
 run_test "Browser Export Simulation (jsdom)" "test-browser-exports.js"

@@ -1,7 +1,27 @@
 #!/usr/bin/env node
 
 // Test: Browser simulation using jsdom to verify exports work in real browser environment
-// This test ensures that Leg2D and SpiderBody are correctly exported to window object
+//
+// CRITICAL: This test prevents browser compatibility regressions that unit tests miss!
+//
+// What this test prevents:
+// 1. ES6 'export' syntax (works in Node.js, breaks in browser <script> tags)
+// 2. Missing window.X prefix (breaks when libraries reference each other)
+// 3. Incomplete exports (missing properties or methods on window object)
+// 4. Integration failures (libraries don't work together in browser)
+//
+// History of bugs this test caught AFTER being enhanced:
+// - 2025-11-09: config-defaults.js used 'export' keyword - broke browser loading
+// - 2025-11-09: spider-animation.js missing 'window.' prefix - undefined references
+//
+// Why unit tests didn't catch these bugs:
+// - Node.js accepts both CommonJS and ES modules (more permissive)
+// - Node.js doesn't require 'window.' prefix for module scope
+// - jsdom tests only work if they cover ALL libraries (original tests didn't)
+//
+// IMPORTANT: Every new library MUST have a test added here before merging!
+//
+// See: PHASE1_LESSONS_LEARNED.md for detailed analysis
 
 const fs = require('fs');
 const path = require('path');
@@ -165,21 +185,351 @@ test('Code uses window.ClassName not globalThis.ClassName', () => {
     // What we're testing is that the CODE explicitly uses window, not globalThis.
 });
 
-// Test 4: Multiple modules load together
-test('Both modules load together and integrate correctly', () => {
+// Test 4: ConfigDefaults exports to window
+test('ConfigDefaults exports to window object', () => {
     const window = createBrowserEnvironment();
 
-    // Load both scripts in order (kinematics first, then model)
+    // Verify window starts clean
+    if (typeof window.ConfigDefaults !== 'undefined') {
+        throw new Error('window.ConfigDefaults already defined before loading script');
+    }
+
+    // Load config-defaults.js
+    loadScript(window, path.join(__dirname, 'config-defaults.js'));
+
+    // Verify ConfigDefaults is now defined on window
+    if (typeof window.ConfigDefaults === 'undefined') {
+        throw new Error('window.ConfigDefaults not defined after loading config-defaults.js');
+    }
+
+    // Verify it's an object
+    if (typeof window.ConfigDefaults !== 'object') {
+        throw new Error(`window.ConfigDefaults is ${typeof window.ConfigDefaults}, expected object`);
+    }
+
+    // Verify it has DEFAULT_CONFIG
+    if (typeof window.ConfigDefaults.DEFAULT_CONFIG === 'undefined') {
+        throw new Error('window.ConfigDefaults.DEFAULT_CONFIG not defined');
+    }
+
+    // Verify it has createConfig function
+    if (typeof window.ConfigDefaults.createConfig !== 'function') {
+        throw new Error('window.ConfigDefaults.createConfig is not a function');
+    }
+
+    // Verify we can use it
+    const config = window.ConfigDefaults.createConfig({ spiderCount: 10 });
+    if (config.spiderCount !== 10) {
+        throw new Error('createConfig did not apply override correctly');
+    }
+});
+
+// Test 5: FootPositions exports to window
+test('FootPositions exports to window object', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.FootPositions !== 'undefined') {
+        throw new Error('window.FootPositions already defined before loading script');
+    }
+
+    // Load foot-positions.js
+    loadScript(window, path.join(__dirname, 'foot-positions.js'));
+
+    // Verify FootPositions is now defined on window
+    if (typeof window.FootPositions === 'undefined') {
+        throw new Error('window.FootPositions not defined after loading foot-positions.js');
+    }
+
+    // Verify it's an object
+    if (typeof window.FootPositions !== 'object') {
+        throw new Error(`window.FootPositions is ${typeof window.FootPositions}, expected object`);
+    }
+
+    // Verify it has CUSTOM_FOOT_POSITIONS
+    if (typeof window.FootPositions.CUSTOM_FOOT_POSITIONS === 'undefined') {
+        throw new Error('window.FootPositions.CUSTOM_FOOT_POSITIONS not defined');
+    }
+
+    // Verify CUSTOM_FOOT_POSITIONS is an array
+    if (!Array.isArray(window.FootPositions.CUSTOM_FOOT_POSITIONS)) {
+        throw new Error('window.FootPositions.CUSTOM_FOOT_POSITIONS is not an array');
+    }
+
+    // Verify it has 8 positions
+    if (window.FootPositions.CUSTOM_FOOT_POSITIONS.length !== 8) {
+        throw new Error(`Expected 8 foot positions, got ${window.FootPositions.CUSTOM_FOOT_POSITIONS.length}`);
+    }
+
+    // Verify getFootPosition function exists
+    if (typeof window.FootPositions.getFootPosition !== 'function') {
+        throw new Error('window.FootPositions.getFootPosition is not a function');
+    }
+
+    // Verify we can use it
+    const pos = window.FootPositions.getFootPosition(0, 100);
+    if (typeof pos.x !== 'number' || typeof pos.y !== 'number') {
+        throw new Error('getFootPosition did not return valid position');
+    }
+});
+
+// Test 6: AnimationMath exports to window
+test('AnimationMath exports to window object', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.AnimationMath !== 'undefined') {
+        throw new Error('window.AnimationMath already defined before loading script');
+    }
+
+    // Load animation-math.js
+    loadScript(window, path.join(__dirname, 'animation-math.js'));
+
+    // Verify AnimationMath is now defined on window
+    if (typeof window.AnimationMath === 'undefined') {
+        throw new Error('window.AnimationMath not defined after loading animation-math.js');
+    }
+
+    // Verify it's an object
+    if (typeof window.AnimationMath !== 'object') {
+        throw new Error(`window.AnimationMath is ${typeof window.AnimationMath}, expected object`);
+    }
+
+    // Verify all expected functions exist
+    const expectedFunctions = [
+        'calculateSwingTarget',
+        'interpolatePosition',
+        'calculateLurchDistance',
+        'calculateLurchSpeed',
+        'scaledFootPosition',
+        'smoothTransition',
+        'calculateSwingPositionForCrawl'
+    ];
+
+    for (const funcName of expectedFunctions) {
+        if (typeof window.AnimationMath[funcName] !== 'function') {
+            throw new Error(`window.AnimationMath.${funcName} is not a function`);
+        }
+    }
+
+    // Verify we can use the functions
+    const swingTarget = window.AnimationMath.calculateSwingTarget(100, 50, { x: 10, y: 5 }, 20, 2);
+    if (typeof swingTarget.x !== 'number' || typeof swingTarget.y !== 'number') {
+        throw new Error('calculateSwingTarget did not return valid position');
+    }
+
+    const interpolated = window.AnimationMath.interpolatePosition({ x: 0, y: 0 }, { x: 100, y: 50 }, 0.5);
+    if (interpolated.x !== 50 || interpolated.y !== 25) {
+        throw new Error('interpolatePosition did not calculate correctly');
+    }
+});
+
+// Test 7: GaitStateMachine exports to window
+test('GaitStateMachine exports to window object', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.GaitStateMachine !== 'undefined') {
+        throw new Error('window.GaitStateMachine already defined before loading script');
+    }
+
+    // Load gait-state-machine.js
+    loadScript(window, path.join(__dirname, 'gait-state-machine.js'));
+
+    // Verify GaitStateMachine is now defined on window
+    if (typeof window.GaitStateMachine === 'undefined') {
+        throw new Error('window.GaitStateMachine not defined after loading gait-state-machine.js');
+    }
+
+    // Verify it's an object
+    if (typeof window.GaitStateMachine !== 'object') {
+        throw new Error(`window.GaitStateMachine is ${typeof window.GaitStateMachine}, expected object`);
+    }
+
+    // Verify all expected functions exist
+    const expectedFunctions = [
+        'getGaitPhaseDuration',
+        'getAllPhaseDurations',
+        'getNextGaitPhase',
+        'calculateStepProgress',
+        'updateGaitState',
+        'isLurchPhase',
+        'calculateLurchSpeed',
+        'createInitialGaitState'
+    ];
+
+    for (const funcName of expectedFunctions) {
+        if (typeof window.GaitStateMachine[funcName] !== 'function') {
+            throw new Error(`window.GaitStateMachine.${funcName} is not a function`);
+        }
+    }
+
+    // Verify PHASE_DURATIONS constant
+    if (!Array.isArray(window.GaitStateMachine.PHASE_DURATIONS)) {
+        throw new Error('window.GaitStateMachine.PHASE_DURATIONS is not an array');
+    }
+
+    if (window.GaitStateMachine.PHASE_DURATIONS.length !== 6) {
+        throw new Error(`Expected 6 phase durations, got ${window.GaitStateMachine.PHASE_DURATIONS.length}`);
+    }
+
+    // Verify we can use the functions
+    const state = window.GaitStateMachine.createInitialGaitState();
+    if (state.gaitPhase !== 0 || state.gaitTimer !== 0) {
+        throw new Error('createInitialGaitState did not return correct initial state');
+    }
+
+    const updated = window.GaitStateMachine.updateGaitState(state, 100, 1.0);
+    if (typeof updated.gaitPhase !== 'number' || typeof updated.stepProgress !== 'number') {
+        throw new Error('updateGaitState did not return valid state');
+    }
+
+    const isLurch = window.GaitStateMachine.isLurchPhase(1);
+    if (typeof isLurch !== 'boolean') {
+        throw new Error('isLurchPhase did not return boolean');
+    }
+});
+
+// Test 8: HoppingLogic exports to window
+test('HoppingLogic exports to window object', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.HoppingLogic !== 'undefined') {
+        throw new Error('window.HoppingLogic already defined before loading script');
+    }
+
+    // Load hopping-logic.js
+    loadScript(window, path.join(__dirname, 'hopping-logic.js'));
+
+    // Verify HoppingLogic is now defined on window
+    if (typeof window.HoppingLogic === 'undefined') {
+        throw new Error('window.HoppingLogic not defined after loading hopping-logic.js');
+    }
+
+    // Verify it's an object
+    if (typeof window.HoppingLogic !== 'object') {
+        throw new Error(`window.HoppingLogic is ${typeof window.HoppingLogic}, expected object`);
+    }
+
+    // Verify all expected functions and constants exist
+    const expectedFunctions = [
+        'getHopPhaseDuration',
+        'getAllHopPhaseDurations',
+        'getNextHopPhase',
+        'calculateHopDistance',
+        'calculateHopTargetX',
+        'calculateCrawlCycles',
+        'shouldStartHopping',
+        'updateHopPhase',
+        'updateCrawlPhase',
+        'createInitialHoppingState',
+        'isFlightPhase',
+        'isCrawlMode',
+        'getCrawlPhaseDurations',
+        'isLegSwingingInCrawl',
+        'isCrawlLurchPhase'
+    ];
+
+    for (const funcName of expectedFunctions) {
+        if (typeof window.HoppingLogic[funcName] !== 'function') {
+            throw new Error(`window.HoppingLogic.${funcName} is not a function`);
+        }
+    }
+
+    // Verify HOP_PHASE constant
+    if (typeof window.HoppingLogic.HOP_PHASE !== 'object') {
+        throw new Error('window.HoppingLogic.HOP_PHASE is not an object');
+    }
+
+    // Verify HOP_PHASE has expected values
+    if (window.HoppingLogic.HOP_PHASE.CROUCH !== 0) {
+        throw new Error('HOP_PHASE.CROUCH should be 0');
+    }
+
+    if (window.HoppingLogic.HOP_PHASE.TAKEOFF !== 1) {
+        throw new Error('HOP_PHASE.TAKEOFF should be 1');
+    }
+
+    if (window.HoppingLogic.HOP_PHASE.FLIGHT !== 2) {
+        throw new Error('HOP_PHASE.FLIGHT should be 2');
+    }
+
+    if (window.HoppingLogic.HOP_PHASE.LANDING !== 3) {
+        throw new Error('HOP_PHASE.LANDING should be 3');
+    }
+
+    if (window.HoppingLogic.HOP_PHASE.CRAWL !== 4) {
+        throw new Error('HOP_PHASE.CRAWL should be 4');
+    }
+
+    // Verify we can use the functions
+    const config = { hopFlightDuration: 60, hopFrequencyMin: 2, hopFrequencyMax: 5, hopDistanceMin: 2.0, hopDistanceMax: 4.0 };
+
+    const duration = window.HoppingLogic.getHopPhaseDuration(0, config);
+    if (duration !== 100) {
+        throw new Error('getHopPhaseDuration should return 100 for CROUCH phase');
+    }
+
+    const initialState = window.HoppingLogic.createInitialHoppingState(config, 800);
+    if (typeof initialState.hopPhase !== 'number' || typeof initialState.crawlCyclesRemaining !== 'number') {
+        throw new Error('createInitialHoppingState did not return valid state');
+    }
+
+    const isFlying = window.HoppingLogic.isFlightPhase(2);
+    if (isFlying !== true) {
+        throw new Error('isFlightPhase should return true for FLIGHT phase');
+    }
+});
+
+// Test 9: All seven modules load together
+test('All seven modules load together and integrate correctly', () => {
+    const window = createBrowserEnvironment();
+
+    // Load all scripts in order
     loadScript(window, path.join(__dirname, 'leg-kinematics.js'));
     loadScript(window, path.join(__dirname, 'spider-model.js'));
+    loadScript(window, path.join(__dirname, 'config-defaults.js'));
+    loadScript(window, path.join(__dirname, 'foot-positions.js'));
+    loadScript(window, path.join(__dirname, 'animation-math.js'));
+    loadScript(window, path.join(__dirname, 'gait-state-machine.js'));
+    loadScript(window, path.join(__dirname, 'hopping-logic.js'));
 
-    // Verify both classes are available
+    // Verify all seven modules are available
     if (typeof window.Leg2D === 'undefined') {
-        throw new Error('window.Leg2D not available after loading both scripts');
+        throw new Error('window.Leg2D not available after loading all scripts');
     }
 
     if (typeof window.SpiderBody === 'undefined') {
-        throw new Error('window.SpiderBody not available after loading both scripts');
+        throw new Error('window.SpiderBody not available after loading all scripts');
+    }
+
+    if (typeof window.ConfigDefaults === 'undefined') {
+        throw new Error('window.ConfigDefaults not available after loading all scripts');
+    }
+
+    if (typeof window.FootPositions === 'undefined') {
+        throw new Error('window.FootPositions not available after loading all scripts');
+    }
+
+    if (typeof window.AnimationMath === 'undefined') {
+        throw new Error('window.AnimationMath not available after loading all scripts');
+    }
+
+    if (typeof window.GaitStateMachine === 'undefined') {
+        throw new Error('window.GaitStateMachine not available after loading all scripts');
+    }
+
+    if (typeof window.HoppingLogic === 'undefined') {
+        throw new Error('window.HoppingLogic not available after loading all scripts');
+    }
+
+    // Test integration: Create config and use foot positions
+    const config = window.ConfigDefaults.createConfig();
+    const footPos = window.FootPositions.getFootPosition(0, 100);
+
+    if (!config || !footPos) {
+        throw new Error('Failed to create config or get foot position');
     }
 
     // Test integration: Create a SpiderBody and verify leg attachments work with Leg2D
@@ -187,6 +537,11 @@ test('Both modules load together and integrate correctly', () => {
 
     if (body.legAttachments.length !== 8) {
         throw new Error(`Expected 8 leg attachments, got ${body.legAttachments.length}`);
+    }
+
+    // Verify foot positions count matches leg count
+    if (window.FootPositions.getLegCount() !== body.legAttachments.length) {
+        throw new Error('Foot positions count does not match leg attachments count');
     }
 
     // Create a Leg2D using SpiderBody's attachment point
@@ -214,6 +569,256 @@ test('Both modules load together and integrate correctly', () => {
 
     if (typeof position.foot.x !== 'number' || typeof position.foot.y !== 'number') {
         throw new Error('forwardKinematics foot position should have numeric x,y');
+    }
+
+    // Test integration: Use AnimationMath to calculate swing position
+    const swingPos = window.AnimationMath.calculateSwingPositionForCrawl(
+        'A', 0, 0.5, 100, 50, 200, 100, footPos, body.size
+    );
+
+    if (typeof swingPos.x !== 'number' || typeof swingPos.y !== 'number') {
+        throw new Error('calculateSwingPositionForCrawl should return position with numeric x,y');
+    }
+
+    if (typeof swingPos.isSwinging !== 'boolean') {
+        throw new Error('calculateSwingPositionForCrawl should return isSwinging boolean');
+    }
+
+    // Test integration: Use GaitStateMachine to manage gait phases
+    const gaitState = window.GaitStateMachine.createInitialGaitState();
+    const updatedGait = window.GaitStateMachine.updateGaitState(gaitState, 50, 1.0);
+
+    if (typeof updatedGait.gaitPhase !== 'number') {
+        throw new Error('GaitStateMachine updateGaitState should return numeric gaitPhase');
+    }
+
+    if (typeof updatedGait.stepProgress !== 'number') {
+        throw new Error('GaitStateMachine updateGaitState should return numeric stepProgress');
+    }
+
+    // Verify lurch phase detection works
+    const isPhase1Lurch = window.GaitStateMachine.isLurchPhase(1);
+    if (isPhase1Lurch !== true) {
+        throw new Error('Phase 1 should be a lurch phase');
+    }
+
+    const isPhase0Lurch = window.GaitStateMachine.isLurchPhase(0);
+    if (isPhase0Lurch !== false) {
+        throw new Error('Phase 0 should not be a lurch phase');
+    }
+
+    // Test integration: Use HoppingLogic with config
+    const hopConfig = {
+        hopFlightDuration: 60,
+        hopFrequencyMin: 2,
+        hopFrequencyMax: 5,
+        hopDistanceMin: 2.0,
+        hopDistanceMax: 4.0
+    };
+
+    const hoppingState = window.HoppingLogic.createInitialHoppingState(hopConfig, 800);
+    if (typeof hoppingState.hopPhase !== 'number') {
+        throw new Error('HoppingLogic should create valid state');
+    }
+
+    // Test hop phase update
+    const updatedHop = window.HoppingLogic.updateHopPhase(hoppingState, 50, 1.0, hopConfig);
+    if (typeof updatedHop.hopTimer !== 'number') {
+        throw new Error('HoppingLogic updateHopPhase should return valid state');
+    }
+
+    // Test crawl phase update
+    const crawlState = { crawlPhase: 0, crawlTimer: 50, crawlCyclesRemaining: 3 };
+    const updatedCrawl = window.HoppingLogic.updateCrawlPhase(crawlState, 50, 1.0, hopConfig);
+    if (typeof updatedCrawl.stepProgress !== 'number') {
+        throw new Error('HoppingLogic updateCrawlPhase should return valid state');
+    }
+
+    // Verify hopping logic helpers work
+    if (!window.HoppingLogic.isLegSwingingInCrawl('A', 0)) {
+        throw new Error('Group A should swing in crawl phase 0');
+    }
+
+    if (!window.HoppingLogic.isCrawlLurchPhase(1)) {
+        throw new Error('Crawl phase 1 should be a lurch phase');
+    }
+});
+
+// Test 10: ConfigValidators exports to window (Phase 4)
+test('ConfigValidators exports to window object', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.ConfigValidators !== 'undefined') {
+        throw new Error('window.ConfigValidators already defined before loading script');
+    }
+
+    // Load config-validators.js
+    loadScript(window, path.join(__dirname, 'config-validators.js'));
+
+    // Verify ConfigValidators is now defined on window
+    if (typeof window.ConfigValidators === 'undefined') {
+        throw new Error('window.ConfigValidators not defined after loading config-validators.js');
+    }
+
+    // Verify it's an object
+    if (typeof window.ConfigValidators !== 'object') {
+        throw new Error(`window.ConfigValidators is ${typeof window.ConfigValidators}, expected object`);
+    }
+
+    // Verify core validation functions exist
+    if (typeof window.ConfigValidators.validateSpiderCount !== 'function') {
+        throw new Error('window.ConfigValidators.validateSpiderCount is not a function');
+    }
+
+    if (typeof window.ConfigValidators.validateSpeed !== 'function') {
+        throw new Error('window.ConfigValidators.validateSpeed is not a function');
+    }
+
+    if (typeof window.ConfigValidators.validateVariation !== 'function') {
+        throw new Error('window.ConfigValidators.validateVariation is not a function');
+    }
+
+    if (typeof window.ConfigValidators.clampMinMax !== 'function') {
+        throw new Error('window.ConfigValidators.clampMinMax is not a function');
+    }
+
+    if (typeof window.ConfigValidators.validateSizeRange !== 'function') {
+        throw new Error('window.ConfigValidators.validateSizeRange is not a function');
+    }
+
+    if (typeof window.ConfigValidators.validateHopDistanceRange !== 'function') {
+        throw new Error('window.ConfigValidators.validateHopDistanceRange is not a function');
+    }
+
+    if (typeof window.ConfigValidators.validateHopFrequencyRange !== 'function') {
+        throw new Error('window.ConfigValidators.validateHopFrequencyRange is not a function');
+    }
+
+    // Test core functionality
+    if (!window.ConfigValidators.validateSpiderCount(5)) {
+        throw new Error('validateSpiderCount(5) should return true');
+    }
+
+    if (window.ConfigValidators.validateSpiderCount(0)) {
+        throw new Error('validateSpiderCount(0) should return false');
+    }
+
+    if (!window.ConfigValidators.validateSpeed(1.5)) {
+        throw new Error('validateSpeed(1.5) should return true');
+    }
+
+    if (window.ConfigValidators.validateSpeed(0)) {
+        throw new Error('validateSpeed(0) should return false');
+    }
+
+    // Test range validation
+    const sizeRange = window.ConfigValidators.validateSizeRange(0.5, 3.0);
+    if (!sizeRange.valid || sizeRange.min !== 0.5 || sizeRange.max !== 3.0) {
+        throw new Error('validateSizeRange should validate and return correct range');
+    }
+
+    // Test clamping
+    const clamped = window.ConfigValidators.clampMinMax(10, 1);
+    if (clamped.min !== 1 || clamped.max !== 10 || !clamped.adjusted) {
+        throw new Error('clampMinMax should swap inverted min/max values');
+    }
+});
+
+// Test 11: LegStateCalculator module (Phase 5A)
+test('LegStateCalculator exports to window and calculates hop phase states', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.LegStateCalculator !== 'undefined') {
+        throw new Error('window.LegStateCalculator already defined before loading script');
+    }
+
+    // Load leg-state-calculator.js
+    loadScript(window, path.join(__dirname, 'leg-state-calculator.js'));
+
+    // Verify LegStateCalculator is now defined on window
+    if (typeof window.LegStateCalculator === 'undefined') {
+        throw new Error('window.LegStateCalculator not defined after loading leg-state-calculator.js');
+    }
+
+    // Verify it has expected methods
+    if (typeof window.LegStateCalculator.calculateLegHopState !== 'function') {
+        throw new Error('LegStateCalculator missing calculateLegHopState method');
+    }
+
+    if (typeof window.LegStateCalculator.applyLegSmoothing !== 'function') {
+        throw new Error('LegStateCalculator missing applyLegSmoothing method');
+    }
+
+    if (typeof window.LegStateCalculator.getPhaseConfig !== 'function') {
+        throw new Error('LegStateCalculator missing getPhaseConfig method');
+    }
+
+    if (typeof window.LegStateCalculator.isBackLeg !== 'function') {
+        throw new Error('LegStateCalculator missing isBackLeg method');
+    }
+
+    if (typeof window.LegStateCalculator.getLegReachFactor !== 'function') {
+        throw new Error('LegStateCalculator missing getLegReachFactor method');
+    }
+
+    // Test isBackLeg
+    if (window.LegStateCalculator.isBackLeg(2) !== false) {
+        throw new Error('isBackLeg(2) should return false for front leg');
+    }
+
+    if (window.LegStateCalculator.isBackLeg(5) !== true) {
+        throw new Error('isBackLeg(5) should return true for back leg');
+    }
+
+    // Test getPhaseConfig
+    const crouchConfig = window.LegStateCalculator.getPhaseConfig(0);
+    if (!crouchConfig || crouchConfig.name !== 'CROUCH') {
+        throw new Error('getPhaseConfig(0) should return CROUCH config');
+    }
+
+    if (crouchConfig.backFactor !== 0.8 || crouchConfig.frontFactor !== 0.8) {
+        throw new Error('CROUCH config should have 0.8 factors');
+    }
+
+    // Test getLegReachFactor
+    const takeoffBackFactor = window.LegStateCalculator.getLegReachFactor(1, true);
+    if (takeoffBackFactor !== 1.2) {
+        throw new Error('TAKEOFF back leg factor should be 1.2');
+    }
+
+    // Test applyLegSmoothing
+    const smoothed = window.LegStateCalculator.applyLegSmoothing(0, 0, 100, 100, 0.5);
+    if (smoothed.x !== 50 || smoothed.y !== 50) {
+        throw new Error('applyLegSmoothing with 0.5 should move halfway');
+    }
+
+    // Test calculateLegHopState
+    const relativePos = { x: 100, y: 50 };
+    const state = window.LegStateCalculator.calculateLegHopState(
+        0, // CROUCH phase
+        2, // front leg
+        relativePos,
+        500, // bodyX
+        300, // bodyY
+        100  // bodySize
+    );
+
+    if (!state || typeof state.targetX !== 'number' || typeof state.targetY !== 'number') {
+        throw new Error('calculateLegHopState should return state with targetX and targetY');
+    }
+
+    if (state.targetX !== 580) { // 500 + 100 * 0.8
+        throw new Error(`CROUCH state targetX should be 580, got ${state.targetX}`);
+    }
+
+    if (state.smoothing !== 0.3) {
+        throw new Error('CROUCH state smoothing should be 0.3');
+    }
+
+    if (state.isBackLeg !== false) {
+        throw new Error('Leg 2 should not be marked as back leg');
     }
 });
 
