@@ -60,13 +60,13 @@ function onScriptLoaded() {
     }
 }
 
-scriptsToLoad.forEach(src => {
+for (const src of scriptsToLoad) {
     const script = document.createElement('script');
     script.src = src;
     script.onload = onScriptLoaded;
     script.onerror = () => console.error(`Failed to load ${src}`);
     document.head.appendChild(script);
-});
+}
 
 // Configuration (initialized after scripts load)
 let config;
@@ -134,7 +134,7 @@ class Spider {
 
         // Create 8 legs using body model
         this.legs = [];
-        const groupA = [1, 2, 5, 6]; // L1, R2, L3, R4
+        const groupA = new Set([1, 2, 5, 6]); // L1, R2, L3, R4
 
         for (let i = 0; i < 8; i++) {
             const attachment = this.body.getAttachment(i);
@@ -154,7 +154,7 @@ class Spider {
             });
 
             leg.index = i; // Track which leg this is (0-7)
-            leg.group = groupA.includes(i) ? 'A' : 'B';
+            leg.group = groupA.has(i) ? 'A' : 'B';
             leg.pairIndex = attachment.pair;
             leg.baseAngle = attachment.baseAngle;
             leg.worldFootX = 0;
@@ -552,10 +552,10 @@ function toggleControls() {
 }
 
 function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-    } else {
+    if (document.fullscreenElement) {
         document.exitFullscreen();
+    } else {
+        document.documentElement.requestFullscreen();
     }
 }
 

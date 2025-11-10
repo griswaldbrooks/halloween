@@ -77,8 +77,8 @@ function resolveIntersection(legs, leg1, leg2, spiderX, spiderY) {
 
     const angle1 = Math.atan2(pos1.foot.y, pos1.foot.x);
     const angle2 = Math.atan2(pos2.foot.y, pos2.foot.x);
-    const radius1 = Math.sqrt(pos1.foot.x * pos1.foot.x + pos1.foot.y * pos1.foot.y);
-    const radius2 = Math.sqrt(pos2.foot.x * pos2.foot.x + pos2.foot.y * pos2.foot.y);
+    const radius1 = Math.hypot(pos1.foot.x, pos1.foot.y);
+    const radius2 = Math.hypot(pos2.foot.x, pos2.foot.y);
 
     const intersectionCount = getIntersectionPairs(legs, spiderX, spiderY).length;
     let bestCount = intersectionCount;
@@ -190,9 +190,9 @@ function optimizeIndividualLegs() {
     if (finalIntersections.length > 0) {
         console.log(`\n⚠️  Could not eliminate all intersections.`);
         console.log(`    ${finalIntersections.length} intersections remaining after ${iteration} iterations`);
-        finalIntersections.forEach(({leg1, leg2}) => {
+        for (const {leg1, leg2} of finalIntersections) {
             console.log(`      Leg ${leg1} ↔ Leg ${leg2}`);
-        });
+        }
     }
 
     // Output final configuration

@@ -51,21 +51,22 @@ class SpiderBody {
             // Left and right attachment points
             // Legs point outward from sides
             // FIXED: Use 60% of width to ensure attachments are well inside ellipse
-            attachments.push({
-                pair: pair,
-                side: 1,  // Right
-                x: x,
-                y: cephWidth / 2 * 0.6,  // 60% of radius for safety
-                baseAngle: this.getLegBaseAngle(pair, 1)
-            });
-
-            attachments.push({
-                pair: pair,
-                side: -1, // Left
-                x: x,
-                y: -cephWidth / 2 * 0.6,  // 60% of radius for safety
-                baseAngle: this.getLegBaseAngle(pair, -1)
-            });
+            attachments.push(
+                {
+                    pair: pair,
+                    side: 1,  // Right
+                    x: x,
+                    y: cephWidth / 2 * 0.6,  // 60% of radius for safety
+                    baseAngle: this.getLegBaseAngle(pair, 1)
+                },
+                {
+                    pair: pair,
+                    side: -1, // Left
+                    x: x,
+                    y: -cephWidth / 2 * 0.6,  // 60% of radius for safety
+                    baseAngle: this.getLegBaseAngle(pair, -1)
+                }
+            );
         }
 
         return attachments;
