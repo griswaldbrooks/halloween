@@ -57,6 +57,12 @@ run_test "Config Validators" "test-config-validators.js"
 # Phase 5A Library Tests
 run_test "Leg State Calculator" "test-leg-state-calculator.js"
 
+# Phase 5B Library Tests
+run_test "Boundary Utils" "test-boundary-utils.js"
+
+# Phase 5C Library Tests
+run_test "Spider Factory" "test-spider-factory.js"
+
 # Regression Prevention Tests
 run_test "Method Call Validation (Static Analysis)" "test-method-calls.js"
 run_test "Browser Export Simulation (jsdom)" "test-browser-exports.js"

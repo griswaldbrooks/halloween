@@ -822,6 +822,207 @@ test('LegStateCalculator exports to window and calculates hop phase states', () 
     }
 });
 
+// Test 12: BoundaryUtils module (Phase 5B)
+test('BoundaryUtils exports to window and handles boundary conditions', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.BoundaryUtils !== 'undefined') {
+        throw new Error('window.BoundaryUtils already defined before loading script');
+    }
+
+    // Load boundary-utils.js
+    loadScript(window, path.join(__dirname, 'boundary-utils.js'));
+
+    // Verify BoundaryUtils is now defined on window
+    if (typeof window.BoundaryUtils === 'undefined') {
+        throw new Error('window.BoundaryUtils not defined after loading boundary-utils.js');
+    }
+
+    // Verify it has expected methods
+    if (typeof window.BoundaryUtils.handleVerticalBoundary !== 'function') {
+        throw new Error('BoundaryUtils missing handleVerticalBoundary method');
+    }
+
+    if (typeof window.BoundaryUtils.handleHorizontalWrap !== 'function') {
+        throw new Error('BoundaryUtils missing handleHorizontalWrap method');
+    }
+
+    if (typeof window.BoundaryUtils.randomYPosition !== 'function') {
+        throw new Error('BoundaryUtils missing randomYPosition method');
+    }
+
+    if (typeof window.BoundaryUtils.isOutOfVerticalBounds !== 'function') {
+        throw new Error('BoundaryUtils missing isOutOfVerticalBounds method');
+    }
+
+    if (typeof window.BoundaryUtils.isPastWrapThreshold !== 'function') {
+        throw new Error('BoundaryUtils missing isPastWrapThreshold method');
+    }
+
+    // Test handleVerticalBoundary
+    const bounceTop = window.BoundaryUtils.handleVerticalBoundary(-10, -5, 600);
+    if (bounceTop.y !== 0 || bounceTop.vy !== 5 || !bounceTop.bounced) {
+        throw new Error('handleVerticalBoundary should bounce at top boundary');
+    }
+
+    const bounceBottom = window.BoundaryUtils.handleVerticalBoundary(650, 5, 600);
+    if (bounceBottom.y !== 600 || bounceBottom.vy !== -5 || !bounceBottom.bounced) {
+        throw new Error('handleVerticalBoundary should bounce at bottom boundary');
+    }
+
+    const noBounce = window.BoundaryUtils.handleVerticalBoundary(300, 5, 600);
+    if (noBounce.y !== 300 || noBounce.vy !== 5 || noBounce.bounced) {
+        throw new Error('handleVerticalBoundary should not bounce when in bounds');
+    }
+
+    // Test handleHorizontalWrap
+    const wrap = window.BoundaryUtils.handleHorizontalWrap(1000, 800, 50);
+    if (wrap.x !== -50 || !wrap.wrapped) {
+        throw new Error('handleHorizontalWrap should wrap past right edge');
+    }
+
+    const noWrap = window.BoundaryUtils.handleHorizontalWrap(400, 800, 50);
+    if (noWrap.x !== 400 || noWrap.wrapped) {
+        throw new Error('handleHorizontalWrap should not wrap when in bounds');
+    }
+
+    // Test randomYPosition
+    const randomY = window.BoundaryUtils.randomYPosition(600);
+    if (typeof randomY !== 'number' || randomY < 0 || randomY > 600) {
+        throw new Error('randomYPosition should return number between 0 and canvas height');
+    }
+
+    // Test isOutOfVerticalBounds
+    if (!window.BoundaryUtils.isOutOfVerticalBounds(-1, 600)) {
+        throw new Error('isOutOfVerticalBounds should detect y < 0');
+    }
+
+    if (!window.BoundaryUtils.isOutOfVerticalBounds(601, 600)) {
+        throw new Error('isOutOfVerticalBounds should detect y > canvasHeight');
+    }
+
+    if (window.BoundaryUtils.isOutOfVerticalBounds(300, 600)) {
+        throw new Error('isOutOfVerticalBounds should return false when in bounds');
+    }
+
+    // Test isPastWrapThreshold
+    if (!window.BoundaryUtils.isPastWrapThreshold(851, 800, 50)) {
+        throw new Error('isPastWrapThreshold should detect x > width + threshold');
+    }
+
+    if (window.BoundaryUtils.isPastWrapThreshold(800, 800, 50)) {
+        throw new Error('isPastWrapThreshold should return false when below threshold');
+    }
+});
+
+// Test 13: SpiderFactory module (Phase 5C)
+test('SpiderFactory exports to window and creates spider state', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.SpiderFactory !== 'undefined') {
+        throw new Error('window.SpiderFactory already defined before loading script');
+    }
+
+    // Load spider-factory.js
+    loadScript(window, path.join(__dirname, 'spider-factory.js'));
+
+    // Verify SpiderFactory is now defined on window
+    if (typeof window.SpiderFactory === 'undefined') {
+        throw new Error('window.SpiderFactory not defined after loading spider-factory.js');
+    }
+
+    // Verify it has expected methods
+    if (typeof window.SpiderFactory.calculateSpeedMultiplier !== 'function') {
+        throw new Error('SpiderFactory missing calculateSpeedMultiplier method');
+    }
+
+    if (typeof window.SpiderFactory.calculateBodySize !== 'function') {
+        throw new Error('SpiderFactory missing calculateBodySize method');
+    }
+
+    if (typeof window.SpiderFactory.assignLegGroups !== 'function') {
+        throw new Error('SpiderFactory missing assignLegGroups method');
+    }
+
+    if (typeof window.SpiderFactory.getElbowBiasPattern !== 'function') {
+        throw new Error('SpiderFactory missing getElbowBiasPattern method');
+    }
+
+    if (typeof window.SpiderFactory.createInitialSpiderState !== 'function') {
+        throw new Error('SpiderFactory missing createInitialSpiderState method');
+    }
+
+    // Test calculateSpeedMultiplier
+    const speed = window.SpiderFactory.calculateSpeedMultiplier(1.0, 0);
+    if (speed !== 1.0) {
+        throw new Error('calculateSpeedMultiplier with 0 variation should return base speed');
+    }
+
+    // Test calculateBodySize
+    const bodySize = window.SpiderFactory.calculateBodySize(100, 200, 0);
+    if (typeof bodySize !== 'number' || bodySize < 1000 || bodySize > 3000) {
+        throw new Error('calculateBodySize should return reasonable size');
+    }
+
+    // Test assignLegGroups
+    const groups = window.SpiderFactory.assignLegGroups(8);
+    if (!Array.isArray(groups) || groups.length !== 8) {
+        throw new Error('assignLegGroups should return array of 8 groups');
+    }
+    if (groups[1] !== 'A' || groups[0] !== 'B') {
+        throw new Error('assignLegGroups should correctly assign A/B groups');
+    }
+
+    // Test getElbowBiasPattern
+    const elbowBias = window.SpiderFactory.getElbowBiasPattern(8);
+    if (!Array.isArray(elbowBias) || elbowBias.length !== 8) {
+        throw new Error('getElbowBiasPattern should return array of 8 biases');
+    }
+    if (elbowBias[0] !== -1 || elbowBias[1] !== 1) {
+        throw new Error('getElbowBiasPattern should correctly assign bias values');
+    }
+
+    // Test createInitialSpiderState
+    const config = {
+        spiderSpeed: 1.5,
+        speedVariation: 0.5,
+        spiderSizeMin: 100,
+        spiderSizeMax: 200,
+        sizeVariation: 0.5,
+        hopFrequencyMin: 2,
+        hopFrequencyMax: 5,
+        hopDistanceMin: 100,
+        hopDistanceMax: 300
+    };
+    const state = window.SpiderFactory.createInitialSpiderState(0, config, 600);
+
+    if (!state || typeof state !== 'object') {
+        throw new Error('createInitialSpiderState should return state object');
+    }
+
+    if (state.x !== -50) {
+        throw new Error('Initial spider x should be -50');
+    }
+
+    if (typeof state.y !== 'number' || state.y < 0 || state.y > 600) {
+        throw new Error('Initial spider y should be within canvas height');
+    }
+
+    if (typeof state.speedMultiplier !== 'number' || state.speedMultiplier <= 0) {
+        throw new Error('State should have valid speedMultiplier');
+    }
+
+    if (typeof state.bodySize !== 'number' || state.bodySize <= 0) {
+        throw new Error('State should have valid bodySize');
+    }
+
+    if (state.gaitPhase !== 0 || state.hopPhase !== 0) {
+        throw new Error('Initial phases should start at 0');
+    }
+});
+
 console.log(`\n${testsPassed}/${testsRun} tests passed\n`);
 
 if (testsPassed !== testsRun) {

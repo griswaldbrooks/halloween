@@ -177,15 +177,15 @@ class Spider {
             this.updateProcedural(dt, speedMultiplier);
         }
 
-        // Common movement and wrapping
-        if (this.y < 0 || this.y > canvas.height) {
-            this.vy *= -1;
-            this.y = Math.max(0, Math.min(canvas.height, this.y));
-        }
+        // Common movement and wrapping - using BoundaryUtils (Phase 5B)
+        const verticalResult = window.BoundaryUtils.handleVerticalBoundary(this.y, this.vy, canvas.height);
+        this.y = verticalResult.y;
+        this.vy = verticalResult.vy;
 
-        if (this.x > canvas.width + 50) {
-            this.x = -50;
-            this.y = Math.random() * canvas.height;
+        const horizontalResult = window.BoundaryUtils.handleHorizontalWrap(this.x, canvas.width, 50);
+        if (horizontalResult.wrapped) {
+            this.x = horizontalResult.x;
+            this.y = window.BoundaryUtils.randomYPosition(canvas.height);
             this.initializeLegPositions();
         }
     }
