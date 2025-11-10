@@ -309,4 +309,132 @@ When creating or modifying projects:
 
 Missing coverage tasks = incomplete project setup.
 
+## JavaScript Refactoring for Browser Compatibility
+
+**CRITICAL LESSONS from spider_crawl_projection refactoring (Nov 2025):**
+
+### Browser Export Pattern (NEVER CHANGE THIS)
+
+**Correct pattern for dual Node.js/browser modules:**
+```javascript
+// Define functions WITHOUT export keyword
+const myFunction = () => { ... };
+const CONSTANT_NAME = { ... };
+
+// Node.js export
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { myFunction, CONSTANT_NAME };
+}
+
+// Browser export - MUST use typeof window
+if (typeof window !== 'undefined') {
+    window.LibraryName = { myFunction, CONSTANT_NAME };
+}
+```
+
+**NEVER allow these patterns (they break browsers):**
+```javascript
+// ❌ WRONG - ES6 export syntax (breaks <script> tags)
+export const myFunction = () => { ... };
+export function myFunction() { ... }
+
+// ❌ WRONG - globalThis pattern (breaks browser exports)
+if (typeof globalThis.window !== 'undefined') { ... }
+if (globalThis.window !== undefined) { ... }
+
+// ❌ WRONG - Direct window check (can throw ReferenceError)
+if (window !== undefined) { ... }
+```
+
+### Phase-by-Phase Extraction Workflow
+
+**Proven successful pattern from spider_crawl_projection (24% → 94% coverage):**
+
+**Phase Structure:**
+1. **Simple extractions first** (config, constants, data)
+2. **Math/logic functions** (pure functions, no side effects)
+3. **State machines** (complex but testable)
+4. **Utilities** (small helper functions)
+5. **Integration tests** (DOM/canvas with jsdom)
+
+**Per-Phase Checklist:**
+```
+For EACH library extraction:
+1. Coder: Create library file + comprehensive tests (95%+ coverage target)
+2. Coder: Add browser export test to test-browser-exports.js
+3. Coder: Update main file to use window.LibraryName
+4. Test-runner: Run all tests (must pass 100%)
+5. Manual: Browser test (both animation modes if applicable)
+6. Code-reviewer: Verify patterns preserved
+7. Commit: "Extract [library-name] ([N] lines, [X]% coverage)"
+```
+
+**Incremental Approach:**
+- Extract 50-100 lines per phase
+- Test after EVERY extraction
+- Commit after each successful extraction
+- Never skip browser testing
+- Document lessons learned per phase
+
+### SonarCloud Issue Resolution Strategy
+
+**Systematic approach proven in spider_crawl_projection (57 issues → 0):**
+
+**Step 1: Fetch and Categorize (Use API)**
+```bash
+curl -s "https://sonarcloud.io/api/issues/search?componentKeys=griswaldbrooks_halloween&directories=[project]&resolved=false" | python3 -c "import sys, json; data = json.load(sys.stdin); print(f'Total: {len(data.get(\"issues\", []))}'); [print(f'{i[\"rule\"]}: {i.get(\"message\")}') for i in data.get('issues', [])]"
+```
+
+**Step 2: Categorize Issues**
+- **Critical**: Bugs, Vulnerabilities, Security Hotspots → Fix immediately
+- **Browser-breaking**: S7764 (window vs globalThis), S7741 (typeof checks) → EXCEPT
+- **Safe improvements**: S7773 (Number methods), S7748 (number formatting) → Fix
+- **Complexity**: S3776 (cognitive complexity) → Fix if clear
+- **Style**: Low priority, fix only if no risk
+
+**Step 3: Exception Pattern**
+When SonarCloud conflicts with functionality, add to sonar-project.properties:
+```properties
+# Rule: [Rule ID] - [Description]
+# CRITICAL/TECHNICAL: [Why this pattern is required]
+# Affected: [files]
+# Rationale: [Detailed explanation]
+sonar.issue.ignore.multicriteria.[eN].ruleKey=[language]:[rule]
+sonar.issue.ignore.multicriteria.[eN].resourceKey=[project]/**/*.js
+```
+
+**Step 4: Fix in Batches**
+Execute in batches by issue type, test after each batch:
+```
+Batch 1: Bugs/Vulnerabilities (if any) → commit
+Batch 2: Number methods (S7773) → commit
+Batch 3: Number formatting (S7748) → commit
+Batch 4: Unused code (S1481, S1854) → commit
+Batch 5: Cognitive complexity (S3776) → commit
+Batch 6: Remaining safe issues → commit
+```
+
+**Step 5: Verification After Each Batch**
+```bash
+pixi run test           # All tests must pass
+pixi run coverage       # Coverage must stay ≥ target
+pixi run serve && open  # Manual browser test
+git add . && git commit # Commit if successful
+```
+
+**Red Flags - Revert Immediately If:**
+- Any test fails
+- Browser functionality breaks
+- Coverage drops
+- Console shows errors
+- Animation stops working
+- Performance degrades
+
+**Documentation Requirements:**
+- Create [PROJECT]_SONARCLOUD_FIXES.md
+- List all issues (fixed, excepted, reason)
+- Document exception rationale
+- Include test results
+- Final SonarCloud metrics
+
 **Current Focus:** Achieving 80%+ test coverage across all projects, particularly window_spider_trigger (Priority 1) and twitching_body (Priority 2).

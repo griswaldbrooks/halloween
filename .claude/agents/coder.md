@@ -39,6 +39,34 @@ When working with JavaScript:
 - Follow Express.js best practices for server code
 - Use Socket.IO patterns correctly for real-time communication
 
+**CRITICAL - Browser/Node.js Dual Modules:**
+When creating libraries that run in both Node.js and browsers:
+```javascript
+// Define WITHOUT export keyword
+const myFunction = () => { ... };
+const CONSTANT = { ... };
+
+// Node.js export (for tests)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { myFunction, CONSTANT };
+}
+
+// Browser export (for <script> tags)
+if (typeof window !== 'undefined') {
+    window.LibraryName = { myFunction, CONSTANT };
+}
+```
+
+**NEVER use in dual modules:**
+- ES6 `export` syntax (breaks `<script>` tag loading)
+- `globalThis.window` checks (breaks browser detection)
+- Direct `window !== undefined` (can throw ReferenceError)
+
+**Testing dual modules:**
+- Node.js tests: `const { myFunction } = require('./library.js');`
+- Browser tests: Add test to `test-browser-exports.js` using jsdom
+- Verify `typeof window !== 'undefined'` pattern is preserved
+
 ### Python
 When working with Python:
 - Use type hints for function signatures
@@ -147,6 +175,196 @@ For this Halloween animatronics project:
 - **Document hardware requirements** - note pin assignments, servo ranges, timing requirements
 - **Test animatronics on hardware** after refactoring to prevent regressions
 
+## SonarCloud-Safe Code Patterns
+
+**Lessons from spider_crawl_projection (Nov 2025):**
+
+### Always Use Modern Number Methods
+```javascript
+// ✅ CORRECT (SonarCloud compliant)
+const num = Number.parseFloat(str);
+const int = Number.parseInt(str, 10);
+if (Number.isNaN(value)) { ... }
+
+// ❌ WRONG (triggers S7773, S7769)
+const num = parseFloat(str);
+const int = parseInt(str);
+if (isNaN(value)) { ... }
+```
+
+### Avoid Magic Numbers
+```javascript
+// ✅ CORRECT
+const PHASE_CROUCH_SMOOTHING = 0.3;
+if (phase === 0) { smoothing = PHASE_CROUCH_SMOOTHING; }
+
+// ❌ WRONG (triggers S109)
+if (phase === 0) { smoothing = 0.3; }
+```
+
+### Remove Unused Code
+```javascript
+// ✅ CORRECT
+const result = calculateValue(x);
+return result;
+
+// ❌ WRONG (triggers S1854 - dead store)
+const result = calculateValue(x);
+const unused = someOtherValue;  // Never used
+return result;
+```
+
+### Simplify Complex Functions
+```javascript
+// ✅ CORRECT - Extract helper functions
+function updateSpider(spider) {
+    if (spider.mode === 'hopping') {
+        updateHopMode(spider);
+    } else {
+        updateCrawlMode(spider);
+    }
+}
+
+function updateHopMode(spider) { ... }
+function updateCrawlMode(spider) { ... }
+
+// ❌ WRONG (triggers S3776 - cognitive complexity)
+function updateSpider(spider) {
+    if (spider.mode === 'hopping') {
+        if (spider.phase === 0) {
+            // Lots of nested logic...
+        } else if (spider.phase === 1) {
+            // More nested logic...
+        }
+        // etc...
+    } else {
+        // Even more complexity...
+    }
+}
+```
+
+## Library Extraction Workflow
+
+**Pattern proven successful in spider_crawl_projection (14 libraries, 94% coverage):**
+
+### Step 1: Identify Extractable Code
+Look for:
+- Pure functions (no side effects)
+- Configuration objects
+- Constants and data
+- State machine logic
+- Math/calculation functions
+
+### Step 2: Create Library File
+```javascript
+// library-name.js - NO ES6 export syntax!
+
+/**
+ * Library description
+ */
+
+// Define functions and constants
+const myFunction = (param1, param2) => {
+    // Implementation
+};
+
+const CONSTANTS = {
+    VALUE_1: 10,
+    VALUE_2: 20
+};
+
+// Node.js export
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { myFunction, CONSTANTS };
+}
+
+// Browser export - MUST use typeof window
+if (typeof window !== 'undefined') {
+    window.LibraryName = { myFunction, CONSTANTS };
+}
+```
+
+### Step 3: Write Comprehensive Tests
+```javascript
+// test-library-name.js
+
+const { myFunction, CONSTANTS } = require('./library-name.js');
+
+// Use simple test() function pattern
+function test(description, fn) {
+    try {
+        fn();
+        console.log(`✓ ${description}`);
+    } catch (error) {
+        console.error(`✗ ${description}`);
+        throw error;
+    }
+}
+
+// Test happy paths
+test('myFunction returns correct value', () => {
+    const result = myFunction(1, 2);
+    if (result !== 3) throw new Error('Expected 3');
+});
+
+// Test edge cases
+test('myFunction handles null', () => {
+    const result = myFunction(null, 2);
+    if (result !== null) throw new Error('Expected null handling');
+});
+
+// Test constants
+test('CONSTANTS has expected values', () => {
+    if (CONSTANTS.VALUE_1 !== 10) throw new Error('Wrong value');
+});
+
+// Run tests
+// (tests execute when file is required/run)
+```
+
+### Step 4: Add Browser Export Test
+```javascript
+// In test-browser-exports.js
+
+test('LibraryName exports to window', () => {
+    const window = createBrowserEnvironment();
+    loadScript(window, path.join(__dirname, 'library-name.js'));
+
+    if (typeof window.LibraryName === 'undefined') {
+        throw new Error('window.LibraryName not defined');
+    }
+
+    if (typeof window.LibraryName.myFunction !== 'function') {
+        throw new Error('myFunction not exported');
+    }
+});
+```
+
+### Step 5: Update Main File
+```javascript
+// main-file.js
+
+// Load library (HTML)
+// <script src="library-name.js"></script>
+
+// Use library with window. prefix
+const result = window.LibraryName.myFunction(x, y);
+const value = window.LibraryName.CONSTANTS.VALUE_1;
+```
+
+### Step 6: Verify Everything
+```bash
+# Run all tests
+pixi run test
+
+# Check coverage (should be 95%+ for library)
+pixi run coverage
+
+# Manual browser test
+pixi run serve && pixi run open
+# Test all functionality in browser
+```
+
 ## Quality Checklist
 
 Before considering code complete:
@@ -154,10 +372,13 @@ Before considering code complete:
 - ✅ All functions have appropriate error handling
 - ✅ Code is structured for easy testing (hardware mocked, logic extracted)
 - ✅ Comprehensive unit tests written and passing
-- ✅ Test coverage meets 80%+ target
+- ✅ Test coverage meets 80%+ target (95%+ for extracted libraries)
 - ✅ Documentation explains non-obvious behavior
 - ✅ No compiler/linter warnings or test failures
+- ✅ For browser code: Browser export test added and passing
+- ✅ For browser code: Manual browser verification completed
 - ✅ For animatronics: hardware functionality validated after changes
 - ✅ Code is reviewed for maintainability
+- ✅ SonarCloud-safe patterns used (Number methods, no magic numbers, etc.)
 
-Remember: You are writing code for Halloween animatronics that must be reliable and testable. Prioritize clarity, correctness, and testability. When working with embedded systems, be mindful of memory constraints and timing requirements. When in doubt, look at hatching_egg as a reference for successful patterns.
+Remember: You are writing code for Halloween animatronics that must be reliable and testable. Prioritize clarity, correctness, and testability. When working with embedded systems, be mindful of memory constraints and timing requirements. When working with browser code, ALWAYS use the `typeof window !== 'undefined'` pattern and NEVER use ES6 export syntax. When in doubt, look at hatching_egg for C++ patterns or spider_crawl_projection for JavaScript/browser patterns.
