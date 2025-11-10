@@ -63,7 +63,7 @@ function calculateStepProgress(timer, phaseDuration) {
  * @param {number} speedMultiplier - Animation speed multiplier (default 1.0)
  * @returns {Object} Updated state { gaitPhase, gaitTimer, stepProgress, phaseChanged }
  */
-function updateGaitState(state, deltaTime, speedMultiplier = 1.0) {
+function updateGaitState(state, deltaTime, speedMultiplier = 1) {
     const { gaitPhase, gaitTimer } = state;
 
     // Increment timer

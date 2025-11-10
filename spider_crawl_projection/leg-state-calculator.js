@@ -36,7 +36,7 @@ function calculateLegHopState(hopPhase, legIndex, relativePos, bodyX, bodyY, bod
         2: { // FLIGHT
             backFactor: 0.4,
             frontFactor: 0.4,
-            smoothing: 1.0 // Instant - legs stay tucked
+            smoothing: 1 // Instant - legs stay tucked
         },
         3: { // LANDING
             backFactor: 0.9,
@@ -44,8 +44,8 @@ function calculateLegHopState(hopPhase, legIndex, relativePos, bodyX, bodyY, bod
             smoothing: isBackLeg ? 0.4 : 0.6
         },
         4: { // PAUSE
-            backFactor: 1.0,
-            frontFactor: 1.0,
+            backFactor: 1,
+            frontFactor: 1,
             smoothing: 0.2
         }
     };
@@ -89,9 +89,9 @@ function getPhaseConfig(hopPhase) {
     const configs = {
         0: { name: 'CROUCH', backFactor: 0.8, frontFactor: 0.8, smoothing: 0.3 },
         1: { name: 'TAKEOFF', backFactor: 1.2, frontFactor: 0.5, smoothing: 0.5 },
-        2: { name: 'FLIGHT', backFactor: 0.4, frontFactor: 0.4, smoothing: 1.0 },
+        2: { name: 'FLIGHT', backFactor: 0.4, frontFactor: 0.4, smoothing: 1 },
         3: { name: 'LANDING', backFactor: 0.9, frontFactor: 1.1, smoothing: 0.4 }, // Note: smoothing varies by leg in actual use
-        4: { name: 'PAUSE', backFactor: 1.0, frontFactor: 1.0, smoothing: 0.2 }
+        4: { name: 'PAUSE', backFactor: 1, frontFactor: 1, smoothing: 0.2 }
     };
     return configs[hopPhase] || configs[4];
 }

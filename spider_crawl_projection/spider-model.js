@@ -15,8 +15,8 @@ class SpiderBody {
         };
 
         this.abdomen = {
-            length: size * 1.0,  // Large round abdomen
-            width: size * 1.0,   // Round
+            length: size * 1,  // Large round abdomen
+            width: size * 1,   // Round
             center: -size * 0.5  // Behind body origin
         };
 
