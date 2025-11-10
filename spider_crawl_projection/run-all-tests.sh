@@ -63,6 +63,9 @@ run_test "Boundary Utils" "test-boundary-utils.js"
 # Phase 5C Library Tests
 run_test "Spider Factory" "test-spider-factory.js"
 
+# Phase 5D Library Tests
+run_test "Position Utils" "test-position-utils.js"
+
 # Regression Prevention Tests
 run_test "Method Call Validation (Static Analysis)" "test-method-calls.js"
 run_test "Browser Export Simulation (jsdom)" "test-browser-exports.js"

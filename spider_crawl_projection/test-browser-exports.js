@@ -1023,6 +1023,70 @@ test('SpiderFactory exports to window and creates spider state', () => {
     }
 });
 
+// Test 14: PositionUtils module (Phase 5D)
+test('PositionUtils exports to window and initializes leg positions', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.PositionUtils !== 'undefined') {
+        throw new Error('window.PositionUtils already defined before loading script');
+    }
+
+    // Load position-utils.js
+    loadScript(window, path.join(__dirname, 'position-utils.js'));
+
+    // Verify PositionUtils is now defined on window
+    if (typeof window.PositionUtils === 'undefined') {
+        throw new Error('window.PositionUtils not defined after loading position-utils.js');
+    }
+
+    // Verify it has expected method
+    if (typeof window.PositionUtils.initializeLegWorldPositions !== 'function') {
+        throw new Error('PositionUtils missing initializeLegWorldPositions method');
+    }
+
+    // Test initializeLegWorldPositions
+    const mockFootPositions = [
+        { x: -30, y: -40 },
+        { x: 30, y: -40 },
+        { x: -50, y: -20 },
+        { x: 50, y: -20 },
+        { x: -50, y: 20 },
+        { x: 50, y: 20 },
+        { x: -30, y: 40 },
+        { x: 30, y: 40 }
+    ];
+
+    const positions = window.PositionUtils.initializeLegWorldPositions(500, 300, 100, mockFootPositions, 8);
+
+    if (!Array.isArray(positions) || positions.length !== 8) {
+        throw new Error('initializeLegWorldPositions should return array of 8 positions');
+    }
+
+    if (typeof positions[0].worldFootX !== 'number' || typeof positions[0].worldFootY !== 'number') {
+        throw new Error('Position should have worldFootX and worldFootY');
+    }
+
+    if (positions[0].legIndex !== 0) {
+        throw new Error('Position should have legIndex');
+    }
+
+    // Test scaling - with bodySize=100 (scale=1.0)
+    if (positions[0].worldFootX !== 500 + -30 * 1.0) {
+        throw new Error('worldFootX should be spider X + scaled relative X');
+    }
+
+    if (positions[0].worldFootY !== 300 + -40 * 1.0) {
+        throw new Error('worldFootY should be spider Y + scaled relative Y');
+    }
+
+    // Test scaling - with bodySize=200 (scale=2.0)
+    const positions2x = window.PositionUtils.initializeLegWorldPositions(500, 300, 200, mockFootPositions, 8);
+    if (positions2x[0].worldFootX !== 500 + -30 * 2.0) {
+        throw new Error('Scaling should double with bodySize=200');
+    }
+});
+
 console.log(`\n${testsPassed}/${testsRun} tests passed\n`);
 
 if (testsPassed !== testsRun) {
