@@ -27,7 +27,7 @@ jobs:
       working-directory: ./hatching_egg
       run: |
         pixi install
-        if pixi task list | grep -q "coverage"; then
+        if pixi task list 2>&1 | grep -q "coverage"; then
           pixi run coverage
         else
           echo "⚠️  No coverage task defined for hatching_egg"
@@ -39,7 +39,7 @@ jobs:
       working-directory: ./spider_crawl_projection
       run: |
         pixi install
-        if pixi task list | grep -q "coverage"; then
+        if pixi task list 2>&1 | grep -q "coverage"; then
           pixi run coverage
         else
           echo "⚠️  No coverage task defined for spider_crawl_projection"
@@ -52,7 +52,7 @@ jobs:
       run: |
         pixi install
         pixi run install
-        if pixi task list | grep -q "coverage"; then
+        if pixi task list 2>&1 | grep -q "coverage"; then
           pixi run coverage
         else
           echo "⚠️  No coverage task defined for window_spider_trigger"
