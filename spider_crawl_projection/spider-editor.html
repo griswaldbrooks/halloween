@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Spider Leg Editor - Interactive</title>
     <style>
@@ -355,7 +355,7 @@
 
                     const dx = positions.foot.x - localX;
                     const dy = positions.foot.y - localY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const dist = Math.hypot(dx, dy);
 
                     if (dist < 10) return i;
                 }
@@ -463,15 +463,15 @@
                 config.legs.push({
                     index: i,
                     baseAngle: attachment.baseAngle,
-                    baseAngleDeg: parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
+                    baseAngleDeg: Number.parseFloat((attachment.baseAngle * 180 / Math.PI).toFixed(1)),
                     elbowBias: spider.getElbowBias(i),
                     foot: {
-                        x: parseFloat(leg.worldFootX.toFixed(1)),
-                        y: parseFloat(leg.worldFootY.toFixed(1))
+                        x: Number.parseFloat(leg.worldFootX.toFixed(1)),
+                        y: Number.parseFloat(leg.worldFootY.toFixed(1))
                     },
                     knee: {
-                        x: parseFloat((spider.x + positions.knee.x).toFixed(1)),
-                        y: parseFloat((spider.y + positions.knee.y).toFixed(1))
+                        x: Number.parseFloat((spider.x + positions.knee.x).toFixed(1)),
+                        y: Number.parseFloat((spider.y + positions.knee.y).toFixed(1))
                     }
                 });
             }

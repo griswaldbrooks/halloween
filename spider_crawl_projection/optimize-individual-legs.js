@@ -150,7 +150,7 @@ function optimizeIndividualLegs() {
         });
 
         // Start with 90% reach to spread legs out more
-        const reach = maxReach * 0.90;
+        const reach = maxReach * 0.9;
         const targetX = attachment.x + Math.cos(attachment.baseAngle) * reach;
         const targetY = attachment.y + Math.sin(attachment.baseAngle) * reach;
         leg.setFootPosition(targetX, targetY);
