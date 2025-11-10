@@ -85,9 +85,8 @@ beetle-monitor-test = "bash scripts/beetle_monitor_test.sh"
 integration-test = "bash scripts/integration_test.sh"
 
 # === Unit Testing & Coverage ===
-# Run from parent directory to get correct paths in lcov.info for SonarCloud
-test = "cd .. && npx jest --config=window_spider_trigger/jest.config.js"
-test-coverage = "cd .. && npx jest --config=window_spider_trigger/jest.config.js --coverage"
+test = "npm test"
+test-coverage = "npm run test:coverage"
 coverage = { depends-on = ["test-coverage"] }
 view-coverage = "xdg-open coverage/index.html"
 

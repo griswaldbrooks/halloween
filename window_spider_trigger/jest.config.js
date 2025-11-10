@@ -1,22 +1,14 @@
 module.exports = {
   testEnvironment: 'node',
-  // Set rootDir to parent directory so coverage paths are relative to repo root
-  rootDir: '..',
-  // Coverage directory relative to rootDir
-  coverageDirectory: 'window_spider_trigger/coverage',
-  // Adjust testMatch to find tests in window_spider_trigger
-  testMatch: [
-    '**/window_spider_trigger/**/__tests__/**/*.js',
-    '**/window_spider_trigger/**/?(*.)+(spec|test).js'
-  ],
+  coverageDirectory: 'coverage',
   collectCoverageFrom: [
-    'window_spider_trigger/server.js',  // Main server file
-    'window_spider_trigger/lib/**/*.js',  // Library files (SerialPortManager, SocketIOHandler)
-    '!window_spider_trigger/lib/**/*.test.js',  // Exclude test files
+    'server.js',  // Main server file
+    'lib/**/*.js',  // Library files (SerialPortManager, SocketIOHandler)
+    '!lib/**/*.test.js',  // Exclude test files
     '!**/node_modules/**',
     '!**/coverage/**',
-    '!**/window_spider_trigger/public/**',  // Exclude browser client code
-    '!**/jest.config.js'
+    '!**/public/**',  // Exclude browser client code
+    '!jest.config.js'
   ],
   coverageReporters: ['text', 'lcov', 'json', 'html'],
   passWithNoTests: true,
