@@ -270,91 +270,95 @@ class Spider {
 
     updateHopping(dt, speedMultiplier) {
         // Hopping gait with crawling in between - using HoppingLogic library (Phase 3B)
-        const crawlPhaseDurations = window.HoppingLogic.getCrawlPhaseDurations();
-
         if (window.HoppingLogic.isCrawlMode(this.hopPhase)) {
-            // CRAWL MODE: Use procedural gait
-            const crawlState = window.HoppingLogic.updateCrawlPhase(
-                {
-                    crawlPhase: this.crawlPhase,
-                    crawlTimer: this.crawlTimer,
-                    crawlCyclesRemaining: this.crawlCyclesRemaining
-                },
-                dt,
-                speedMultiplier,
-                config
-            );
-
-            this.crawlPhase = crawlState.crawlPhase;
-            this.crawlTimer = crawlState.crawlTimer;
-            this.crawlCyclesRemaining = crawlState.crawlCyclesRemaining;
-            const stepProgress = crawlState.stepProgress;
-
-            // Transition to hopping if cycles exhausted
-            if (crawlState.shouldTransitionToHop) {
-                this.hopPhase = window.HoppingLogic.HOP_PHASE.CROUCH;
-                this.hopTimer = 0;
-            }
-
-            // Update legs using procedural crawl
-            for (const leg of this.legs) {
-                this.updateLegProceduralForHopping(leg, this.crawlPhase, stepProgress);
-            }
-
-            // Body movement during crawl lurch phases
-            if (window.HoppingLogic.isCrawlLurchPhase(this.crawlPhase)) {
-                const lurchDistance = this.bodySize * 0.4;
-                const lurchDelta = (lurchDistance / crawlPhaseDurations[this.crawlPhase]) * dt * speedMultiplier;
-                this.x += lurchDelta;
-                this.y += this.vy * speedMultiplier;
-            }
-
+            this.updateCrawlMode(dt, speedMultiplier);
         } else {
-            // HOP MODE: Phases 0-3
-            const hopState = window.HoppingLogic.updateHopPhase(
-                {
-                    hopPhase: this.hopPhase,
-                    hopTimer: this.hopTimer,
-                    hopProgress: this.hopProgress,
-                    hopStartX: this.hopStartX,
-                    hopTargetX: this.hopTargetX,
-                    spiderX: this.x
-                },
-                dt,
-                speedMultiplier,
-                config
-            );
+            this.updateHopMode(dt, speedMultiplier);
+        }
+    }
 
-            this.hopPhase = hopState.hopPhase;
-            this.hopTimer = hopState.hopTimer;
-            this.hopProgress = hopState.hopProgress;
-            this.hopStartX = hopState.hopStartX;
+    updateCrawlMode(dt, speedMultiplier) {
+        const crawlPhaseDurations = window.HoppingLogic.getCrawlPhaseDurations();
+        const crawlState = window.HoppingLogic.updateCrawlPhase(
+            {
+                crawlPhase: this.crawlPhase,
+                crawlTimer: this.crawlTimer,
+                crawlCyclesRemaining: this.crawlCyclesRemaining
+            },
+            dt,
+            speedMultiplier,
+            config
+        );
 
-            // Initialize hop distance at start of takeoff (when phase changes to TAKEOFF)
-            if (hopState.phaseChanged && this.hopPhase === window.HoppingLogic.HOP_PHASE.TAKEOFF) {
-                this.hopStartX = this.x;
-                this.hopTargetX = window.HoppingLogic.calculateHopTargetX(this.x, this.bodySize, config);
-            }
+        this.crawlPhase = crawlState.crawlPhase;
+        this.crawlTimer = crawlState.crawlTimer;
+        this.crawlCyclesRemaining = crawlState.crawlCyclesRemaining;
+        const stepProgress = crawlState.stepProgress;
 
-            // Transition to crawl mode if needed
-            if (window.HoppingLogic.isCrawlMode(this.hopPhase)) {
-                this.crawlPhase = 0;
-                this.crawlTimer = 0;
-            }
+        // Transition to hopping if cycles exhausted
+        if (crawlState.shouldTransitionToHop) {
+            this.hopPhase = window.HoppingLogic.HOP_PHASE.CROUCH;
+            this.hopTimer = 0;
+        }
 
-            // Update legs based on hop phase
-            for (const leg of this.legs) {
-                this.updateLegHopping(leg);
-            }
+        // Update legs using procedural crawl
+        for (const leg of this.legs) {
+            this.updateLegProceduralForHopping(leg, this.crawlPhase, stepProgress);
+        }
 
-            // Body movement during flight phase
-            if (window.HoppingLogic.isFlightPhase(this.hopPhase)) {
-                const hopPhaseDurations = window.HoppingLogic.getAllHopPhaseDurations(config);
-                const hopDistance = this.hopTargetX - this.hopStartX;
-                const hopDelta = (hopDistance / hopPhaseDurations[2]) * dt * speedMultiplier;
-                this.x += hopDelta;
-                this.y += this.vy * speedMultiplier;
-            }
+        // Body movement during crawl lurch phases
+        if (window.HoppingLogic.isCrawlLurchPhase(this.crawlPhase)) {
+            const lurchDistance = this.bodySize * 0.4;
+            const lurchDelta = (lurchDistance / crawlPhaseDurations[this.crawlPhase]) * dt * speedMultiplier;
+            this.x += lurchDelta;
+            this.y += this.vy * speedMultiplier;
+        }
+    }
+
+    updateHopMode(dt, speedMultiplier) {
+        const hopState = window.HoppingLogic.updateHopPhase(
+            {
+                hopPhase: this.hopPhase,
+                hopTimer: this.hopTimer,
+                hopProgress: this.hopProgress,
+                hopStartX: this.hopStartX,
+                hopTargetX: this.hopTargetX,
+                spiderX: this.x
+            },
+            dt,
+            speedMultiplier,
+            config
+        );
+
+        this.hopPhase = hopState.hopPhase;
+        this.hopTimer = hopState.hopTimer;
+        this.hopProgress = hopState.hopProgress;
+        this.hopStartX = hopState.hopStartX;
+
+        // Initialize hop distance at start of takeoff (when phase changes to TAKEOFF)
+        if (hopState.phaseChanged && this.hopPhase === window.HoppingLogic.HOP_PHASE.TAKEOFF) {
+            this.hopStartX = this.x;
+            this.hopTargetX = window.HoppingLogic.calculateHopTargetX(this.x, this.bodySize, config);
+        }
+
+        // Transition to crawl mode if needed
+        if (window.HoppingLogic.isCrawlMode(this.hopPhase)) {
+            this.crawlPhase = 0;
+            this.crawlTimer = 0;
+        }
+
+        // Update legs based on hop phase
+        for (const leg of this.legs) {
+            this.updateLegHopping(leg);
+        }
+
+        // Body movement during flight phase
+        if (window.HoppingLogic.isFlightPhase(this.hopPhase)) {
+            const hopPhaseDurations = window.HoppingLogic.getAllHopPhaseDurations(config);
+            const hopDistance = this.hopTargetX - this.hopStartX;
+            const hopDelta = (hopDistance / hopPhaseDurations[2]) * dt * speedMultiplier;
+            this.x += hopDelta;
+            this.y += this.vy * speedMultiplier;
         }
     }
 

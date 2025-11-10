@@ -68,6 +68,56 @@ function getIntersectionPairs(legs, spiderX, spiderY) {
     return pairs;
 }
 
+/**
+ * Resolve intersection between two legs by trying different adjustments
+ */
+function resolveIntersection(legs, leg1, leg2, spiderX, spiderY) {
+    const pos1 = legs[leg1].forwardKinematics();
+    const pos2 = legs[leg2].forwardKinematics();
+
+    const angle1 = Math.atan2(pos1.foot.y, pos1.foot.x);
+    const angle2 = Math.atan2(pos2.foot.y, pos2.foot.x);
+    const radius1 = Math.sqrt(pos1.foot.x * pos1.foot.x + pos1.foot.y * pos1.foot.y);
+    const radius2 = Math.sqrt(pos2.foot.x * pos2.foot.x + pos2.foot.y * pos2.foot.y);
+
+    const intersectionCount = getIntersectionPairs(legs, spiderX, spiderY).length;
+    let bestCount = intersectionCount;
+    let bestPos1 = { x: pos1.foot.x, y: pos1.foot.y };
+    let bestPos2 = { x: pos2.foot.x, y: pos2.foot.y };
+
+    const adjustments = [
+        { leg: leg1, angle: angle1, radius: radius1 * 1.05 },
+        { leg: leg1, angle: angle1 + 0.05, radius: radius1 },
+        { leg: leg1, angle: angle1 - 0.05, radius: radius1 },
+        { leg: leg2, angle: angle2, radius: radius2 * 1.05 },
+        { leg: leg2, angle: angle2 + 0.05, radius: radius2 },
+        { leg: leg2, angle: angle2 - 0.05, radius: radius2 },
+    ];
+
+    for (const adj of adjustments) {
+        const newX = Math.cos(adj.angle) * adj.radius;
+        const newY = Math.sin(adj.angle) * adj.radius;
+
+        legs[adj.leg].setFootPosition(newX, newY);
+        const newIntersections = getIntersectionPairs(legs, spiderX, spiderY);
+
+        if (newIntersections.length < bestCount) {
+            bestCount = newIntersections.length;
+            if (adj.leg === leg1) {
+                bestPos1 = { x: newX, y: newY };
+            } else {
+                bestPos2 = { x: newX, y: newY };
+            }
+        }
+
+        legs[leg1].setFootPosition(pos1.foot.x, pos1.foot.y);
+        legs[leg2].setFootPosition(pos2.foot.x, pos2.foot.y);
+    }
+
+    legs[leg1].setFootPosition(bestPos1.x, bestPos1.y);
+    legs[leg2].setFootPosition(bestPos2.x, bestPos2.y);
+}
+
 function optimizeIndividualLegs() {
     console.log("\n╔════════════════════════════════════════════╗");
     console.log("║   INDIVIDUAL LEG OPTIMIZER                ║");
@@ -124,62 +174,7 @@ function optimizeIndividualLegs() {
 
         // For each intersection, try moving one of the legs
         for (const {leg1, leg2} of intersections) {
-            // Try multiple adjustment strategies
-            const pos1 = legs[leg1].forwardKinematics();
-            const pos2 = legs[leg2].forwardKinematics();
-
-            const angle1 = Math.atan2(pos1.foot.y, pos1.foot.x);
-            const angle2 = Math.atan2(pos2.foot.y, pos2.foot.x);
-            const radius1 = Math.sqrt(pos1.foot.x * pos1.foot.x + pos1.foot.y * pos1.foot.y);
-            const radius2 = Math.sqrt(pos2.foot.x * pos2.foot.x + pos2.foot.y * pos2.foot.y);
-
-            let bestCount = intersections.length;
-            let bestPos1 = { x: pos1.foot.x, y: pos1.foot.y };
-            let bestPos2 = { x: pos2.foot.x, y: pos2.foot.y };
-
-            // Try different adjustments
-            const adjustments = [
-                // Move leg1 radially out
-                { leg: leg1, angle: angle1, radius: radius1 * 1.05 },
-                // Move leg1 tangentially clockwise
-                { leg: leg1, angle: angle1 + 0.05, radius: radius1 },
-                // Move leg1 tangentially counter-clockwise
-                { leg: leg1, angle: angle1 - 0.05, radius: radius1 },
-                // Move leg2 radially out
-                { leg: leg2, angle: angle2, radius: radius2 * 1.05 },
-                // Move leg2 tangentially clockwise
-                { leg: leg2, angle: angle2 + 0.05, radius: radius2 },
-                // Move leg2 tangentially counter-clockwise
-                { leg: leg2, angle: angle2 - 0.05, radius: radius2 },
-            ];
-
-            for (const adj of adjustments) {
-                const newX = Math.cos(adj.angle) * adj.radius;
-                const newY = Math.sin(adj.angle) * adj.radius;
-
-                // Apply adjustment
-                legs[adj.leg].setFootPosition(newX, newY);
-
-                // Check if it helped
-                const newIntersections = getIntersectionPairs(legs, spiderX, spiderY);
-
-                if (newIntersections.length < bestCount) {
-                    bestCount = newIntersections.length;
-                    if (adj.leg === leg1) {
-                        bestPos1 = { x: newX, y: newY };
-                    } else {
-                        bestPos2 = { x: newX, y: newY };
-                    }
-                }
-
-                // Revert for next try
-                legs[leg1].setFootPosition(pos1.foot.x, pos1.foot.y);
-                legs[leg2].setFootPosition(pos2.foot.x, pos2.foot.y);
-            }
-
-            // Apply best adjustment
-            legs[leg1].setFootPosition(bestPos1.x, bestPos1.y);
-            legs[leg2].setFootPosition(bestPos2.x, bestPos2.y);
+            resolveIntersection(legs, leg1, leg2, spiderX, spiderY);
         }
 
         iteration++;
