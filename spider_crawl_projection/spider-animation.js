@@ -6,7 +6,21 @@ const ctx = canvas.getContext('2d');
 
 // Load dependencies with proper load tracking
 let scriptsLoaded = 0;
-const scriptsToLoad = ['leg-kinematics.js', 'spider-model.js', 'config-defaults.js', 'foot-positions.js', 'animation-math.js', 'gait-state-machine.js', 'hopping-logic.js', 'leg-state-calculator.js'];
+const scriptsToLoad = [
+    'leg-kinematics.js',
+    'spider-model.js',
+    'config-defaults.js',
+    'foot-positions.js',
+    'animation-math.js',
+    'gait-state-machine.js',
+    'hopping-logic.js',
+    'leg-state-calculator.js',
+    'boundary-utils.js',
+    'spider-factory.js',
+    'position-utils.js',
+    'mode-controller.js',
+    'keyboard-controller.js'
+];
 
 function onScriptLoaded() {
     scriptsLoaded++;
@@ -27,7 +41,10 @@ function onScriptLoaded() {
         if (typeof SpiderBody === 'undefined' || typeof Leg2D === 'undefined' ||
             typeof window.ConfigDefaults === 'undefined' || typeof window.FootPositions === 'undefined' ||
             typeof window.AnimationMath === 'undefined' || typeof window.GaitStateMachine === 'undefined' ||
-            typeof window.HoppingLogic === 'undefined' || typeof window.LegStateCalculator === 'undefined') {
+            typeof window.HoppingLogic === 'undefined' || typeof window.LegStateCalculator === 'undefined' ||
+            typeof window.BoundaryUtils === 'undefined' || typeof window.SpiderFactory === 'undefined' ||
+            typeof window.PositionUtils === 'undefined' || typeof window.ModeController === 'undefined' ||
+            typeof window.KeyboardController === 'undefined') {
             console.error('ERROR: Required classes not available after script load!');
             return;
         }
@@ -591,10 +608,10 @@ function updateAnimationMode(mode) {
     config.animationMode = mode;
     console.log('🕷️ Animation mode:', mode);
 
-    // Show/hide hopping controls
+    // Show/hide hopping controls - using ModeController library (Phase 5E)
     const hoppingControls = document.getElementById('hoppingControls');
     if (hoppingControls) {
-        hoppingControls.style.display = mode === 'hopping' ? 'block' : 'none';
+        hoppingControls.style.display = window.ModeController.shouldShowHoppingControls(mode) ? 'block' : 'none';
     }
 
     // Reset spiders to reinitialize their state for the new mode
@@ -646,23 +663,20 @@ function updateHopFlightDuration(value) {
     document.getElementById('hopFlightDurationLabel').textContent = value;
 }
 
-// Keyboard shortcuts
+// Keyboard shortcuts - using KeyboardController library (Phase 5F)
 // INTEGRATION CODE: Cannot unit test (requires real DOM events)
 document.addEventListener('keydown', (e) => {
-    switch(e.key.toLowerCase()) {
-        case 'h':
-            toggleControls();
-            break;
-        case 'f':
-            toggleFullscreen();
-            break;
-        case 'r':
-            resetSpiders();
-            break;
-        case ' ':
-            config.paused = !config.paused;
-            e.preventDefault();
-            break;
+    const action = window.KeyboardController.getKeyboardAction(e.key);
+
+    if (action === 'toggleControls') {
+        toggleControls();
+    } else if (action === 'toggleFullscreen') {
+        toggleFullscreen();
+    } else if (action === 'resetSpiders') {
+        resetSpiders();
+    } else if (action === 'togglePause') {
+        config.paused = !config.paused;
+        e.preventDefault();
     }
 });
 

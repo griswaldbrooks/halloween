@@ -1087,6 +1087,151 @@ test('PositionUtils exports to window and initializes leg positions', () => {
     }
 });
 
+// Test 15: ModeController module (Phase 5E)
+test('ModeController exports to window and validates animation modes', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.ModeController !== 'undefined') {
+        throw new Error('window.ModeController already defined before loading script');
+    }
+
+    // Load mode-controller.js
+    loadScript(window, path.join(__dirname, 'mode-controller.js'));
+
+    // Verify ModeController is now defined on window
+    if (typeof window.ModeController === 'undefined') {
+        throw new Error('window.ModeController not defined after loading mode-controller.js');
+    }
+
+    // Verify it has expected methods
+    if (typeof window.ModeController.shouldShowHoppingControls !== 'function') {
+        throw new Error('ModeController missing shouldShowHoppingControls method');
+    }
+
+    if (typeof window.ModeController.getAvailableModes !== 'function') {
+        throw new Error('ModeController missing getAvailableModes method');
+    }
+
+    if (typeof window.ModeController.validateMode !== 'function') {
+        throw new Error('ModeController missing validateMode method');
+    }
+
+    // Test shouldShowHoppingControls
+    if (!window.ModeController.shouldShowHoppingControls('hopping')) {
+        throw new Error('shouldShowHoppingControls should return true for hopping mode');
+    }
+
+    if (window.ModeController.shouldShowHoppingControls('procedural')) {
+        throw new Error('shouldShowHoppingControls should return false for procedural mode');
+    }
+
+    // Test getAvailableModes
+    const modes = window.ModeController.getAvailableModes();
+    if (!Array.isArray(modes) || modes.length !== 2) {
+        throw new Error('getAvailableModes should return array of 2 modes');
+    }
+
+    if (!modes.includes('procedural') || !modes.includes('hopping')) {
+        throw new Error('getAvailableModes should include procedural and hopping');
+    }
+
+    // Test validateMode
+    if (!window.ModeController.validateMode('procedural')) {
+        throw new Error('validateMode should return true for procedural mode');
+    }
+
+    if (!window.ModeController.validateMode('hopping')) {
+        throw new Error('validateMode should return true for hopping mode');
+    }
+
+    if (window.ModeController.validateMode('invalid')) {
+        throw new Error('validateMode should return false for invalid mode');
+    }
+});
+
+// Test 16: KeyboardController module (Phase 5F)
+test('KeyboardController exports to window and maps keyboard actions', () => {
+    const window = createBrowserEnvironment();
+
+    // Verify window starts clean
+    if (typeof window.KeyboardController !== 'undefined') {
+        throw new Error('window.KeyboardController already defined before loading script');
+    }
+
+    // Load keyboard-controller.js
+    loadScript(window, path.join(__dirname, 'keyboard-controller.js'));
+
+    // Verify KeyboardController is now defined on window
+    if (typeof window.KeyboardController === 'undefined') {
+        throw new Error('window.KeyboardController not defined after loading keyboard-controller.js');
+    }
+
+    // Verify it has expected properties and methods
+    if (typeof window.KeyboardController.KEYBOARD_ACTIONS !== 'object') {
+        throw new Error('KeyboardController missing KEYBOARD_ACTIONS property');
+    }
+
+    if (typeof window.KeyboardController.getKeyboardAction !== 'function') {
+        throw new Error('KeyboardController missing getKeyboardAction method');
+    }
+
+    if (typeof window.KeyboardController.getAllShortcuts !== 'function') {
+        throw new Error('KeyboardController missing getAllShortcuts method');
+    }
+
+    // Test KEYBOARD_ACTIONS constant
+    const actions = window.KeyboardController.KEYBOARD_ACTIONS;
+    if (actions['h'] !== 'toggleControls') {
+        throw new Error('KEYBOARD_ACTIONS should map h to toggleControls');
+    }
+
+    if (actions['f'] !== 'toggleFullscreen') {
+        throw new Error('KEYBOARD_ACTIONS should map f to toggleFullscreen');
+    }
+
+    if (actions['r'] !== 'resetSpiders') {
+        throw new Error('KEYBOARD_ACTIONS should map r to resetSpiders');
+    }
+
+    if (actions[' '] !== 'togglePause') {
+        throw new Error('KEYBOARD_ACTIONS should map space to togglePause');
+    }
+
+    // Test getKeyboardAction
+    if (window.KeyboardController.getKeyboardAction('h') !== 'toggleControls') {
+        throw new Error('getKeyboardAction should return toggleControls for h key');
+    }
+
+    if (window.KeyboardController.getKeyboardAction('H') !== 'toggleControls') {
+        throw new Error('getKeyboardAction should be case insensitive');
+    }
+
+    if (window.KeyboardController.getKeyboardAction(' ') !== 'togglePause') {
+        throw new Error('getKeyboardAction should return togglePause for space key');
+    }
+
+    if (window.KeyboardController.getKeyboardAction('x') !== null) {
+        throw new Error('getKeyboardAction should return null for unknown key');
+    }
+
+    // Test getAllShortcuts
+    const shortcuts = window.KeyboardController.getAllShortcuts();
+    if (!Array.isArray(shortcuts) || shortcuts.length !== 4) {
+        throw new Error('getAllShortcuts should return array of 4 shortcuts');
+    }
+
+    const spaceShortcut = shortcuts.find(s => s.action === 'togglePause');
+    if (!spaceShortcut || spaceShortcut.key !== 'Space') {
+        throw new Error('getAllShortcuts should format space key as "Space"');
+    }
+
+    const hShortcut = shortcuts.find(s => s.action === 'toggleControls');
+    if (!hShortcut || hShortcut.key !== 'H') {
+        throw new Error('getAllShortcuts should format letter keys as uppercase');
+    }
+});
+
 console.log(`\n${testsPassed}/${testsRun} tests passed\n`);
 
 if (testsPassed !== testsRun) {

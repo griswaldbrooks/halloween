@@ -66,6 +66,15 @@ run_test "Spider Factory" "test-spider-factory.js"
 # Phase 5D Library Tests
 run_test "Position Utils" "test-position-utils.js"
 
+# Phase 5E Library Tests
+run_test "Mode Controller" "test-mode-controller.js"
+
+# Phase 5F Library Tests
+run_test "Keyboard Controller" "test-keyboard-controller.js"
+
+# Phase 6: Integration Tests
+run_test "Spider Animation Integration" "test-spider-animation-integration.js"
+
 # Regression Prevention Tests
 run_test "Method Call Validation (Static Analysis)" "test-method-calls.js"
 run_test "Browser Export Simulation (jsdom)" "test-browser-exports.js"
