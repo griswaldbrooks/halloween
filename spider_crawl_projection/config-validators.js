@@ -21,8 +21,8 @@ function parseConfigValue(value) {
 
     if (typeof value === 'string') {
         // Try parsing as float first (handles both int and float strings)
-        const num = parseFloat(value);
-        if (!isNaN(num)) {
+        const num = Number.parseFloat(value);
+        if (!Number.isNaN(num)) {
             return num;
         }
     }
@@ -34,56 +34,56 @@ function parseConfigValue(value) {
  * Validate spider count is within acceptable range
  */
 function validateSpiderCount(count) {
-    const parsed = parseInt(count);
-    return !isNaN(parsed) && parsed >= 1 && parsed <= 100;
+    const parsed = Number.parseInt(count);
+    return !Number.isNaN(parsed) && parsed >= 1 && parsed <= 100;
 }
 
 /**
  * Validate speed is positive and reasonable
  */
 function validateSpeed(speed) {
-    const parsed = parseFloat(speed);
-    return !isNaN(parsed) && parsed > 0 && parsed <= 10;
+    const parsed = Number.parseFloat(speed);
+    return !Number.isNaN(parsed) && parsed > 0 && parsed <= 10;
 }
 
 /**
  * Validate variation is between 0 and 1
  */
 function validateVariation(variation) {
-    const parsed = parseFloat(variation);
-    return !isNaN(parsed) && parsed >= 0 && parsed <= 1;
+    const parsed = Number.parseFloat(variation);
+    return !Number.isNaN(parsed) && parsed >= 0 && parsed <= 1;
 }
 
 /**
  * Validate size value is positive
  */
 function validateSize(size) {
-    const parsed = parseFloat(size);
-    return !isNaN(parsed) && parsed > 0 && parsed <= 10;
+    const parsed = Number.parseFloat(size);
+    return !Number.isNaN(parsed) && parsed > 0 && parsed <= 10;
 }
 
 /**
  * Validate hop distance is positive
  */
 function validateHopDistance(distance) {
-    const parsed = parseFloat(distance);
-    return !isNaN(parsed) && parsed > 0 && parsed <= 50;
+    const parsed = Number.parseFloat(distance);
+    return !Number.isNaN(parsed) && parsed > 0 && parsed <= 50;
 }
 
 /**
  * Validate hop frequency is positive integer
  */
 function validateHopFrequency(frequency) {
-    const parsed = parseInt(frequency);
-    return !isNaN(parsed) && parsed >= 0 && parsed <= 100;
+    const parsed = Number.parseInt(frequency);
+    return !Number.isNaN(parsed) && parsed >= 0 && parsed <= 100;
 }
 
 /**
  * Validate hop flight duration is positive integer
  */
 function validateHopFlightDuration(duration) {
-    const parsed = parseInt(duration);
-    return !isNaN(parsed) && parsed > 0 && parsed <= 1000;
+    const parsed = Number.parseInt(duration);
+    return !Number.isNaN(parsed) && parsed > 0 && parsed <= 1000;
 }
 
 /**
@@ -105,10 +105,10 @@ function clampMinMax(min, max) {
  * Returns validated and clamped values
  */
 function validateSizeRange(sizeMin, sizeMax) {
-    const min = parseFloat(sizeMin);
-    const max = parseFloat(sizeMax);
+    const min = Number.parseFloat(sizeMin);
+    const max = Number.parseFloat(sizeMax);
 
-    if (isNaN(min) || isNaN(max)) {
+    if (Number.isNaN(min) || Number.isNaN(max)) {
         return {
             valid: false,
             error: 'Size values must be numbers'
@@ -136,10 +136,10 @@ function validateSizeRange(sizeMin, sizeMax) {
  * Returns validated and clamped values
  */
 function validateHopDistanceRange(distanceMin, distanceMax) {
-    const min = parseFloat(distanceMin);
-    const max = parseFloat(distanceMax);
+    const min = Number.parseFloat(distanceMin);
+    const max = Number.parseFloat(distanceMax);
 
-    if (isNaN(min) || isNaN(max)) {
+    if (Number.isNaN(min) || Number.isNaN(max)) {
         return {
             valid: false,
             error: 'Hop distance values must be numbers'
@@ -167,10 +167,10 @@ function validateHopDistanceRange(distanceMin, distanceMax) {
  * Returns validated and clamped values
  */
 function validateHopFrequencyRange(frequencyMin, frequencyMax) {
-    const min = parseInt(frequencyMin);
-    const max = parseInt(frequencyMax);
+    const min = Number.parseInt(frequencyMin);
+    const max = Number.parseInt(frequencyMax);
 
-    if (isNaN(min) || isNaN(max)) {
+    if (Number.isNaN(min) || Number.isNaN(max)) {
         return {
             valid: false,
             error: 'Hop frequency values must be integers'

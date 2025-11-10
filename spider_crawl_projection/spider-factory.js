@@ -37,10 +37,10 @@ function calculateBodySize(sizeMin, sizeMax, sizeVariation) {
  * @returns {Array<string>} Array of 'A' or 'B' for each leg
  */
 function assignLegGroups(legCount = 8) {
-    const groupA = [1, 2, 5, 6]; // L1, R2, L3, R4
+    const groupA = new Set([1, 2, 5, 6]); // L1, R2, L3, R4
     const groups = [];
     for (let i = 0; i < legCount; i++) {
-        groups.push(groupA.includes(i) ? 'A' : 'B');
+        groups.push(groupA.has(i) ? 'A' : 'B');
     }
     return groups;
 }

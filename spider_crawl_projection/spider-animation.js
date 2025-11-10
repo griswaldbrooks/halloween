@@ -574,7 +574,7 @@ function updateSpeedVariation(value) {
 }
 
 function updateSizeMin(value) {
-    // TODO: Extract config management to config-manager.js (see REFACTORING_PROPOSAL.md)
+    // Future refactoring: Extract config management to config-manager.js (see REFACTORING_PROPOSAL.md)
     config.spiderSizeMin = parseFloat(value);
     document.getElementById('sizeMinLabel').textContent = value + 'x';
     // Make sure min doesn't exceed max

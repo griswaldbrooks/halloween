@@ -15,16 +15,16 @@
  */
 const DEFAULT_CONFIG = {
     spiderCount: 5,
-    spiderSpeed: 1.0,
+    spiderSpeed: 1,
     spiderSizeMin: 0.5,
-    spiderSizeMax: 3.0,
+    spiderSizeMax: 3,
     sizeVariation: 0.5,      // 0 = all same size, 1 = full range
     speedVariation: 0.5,     // 0 = all same speed, 1 = full range
     paused: false,
     animationMode: 'procedural', // 'procedural' or 'hopping'
     // Hopping parameters
-    hopDistanceMin: 6.0,     // Minimum hop distance multiplier (× body size)
-    hopDistanceMax: 10.0,    // Maximum hop distance multiplier (× body size)
+    hopDistanceMin: 6,     // Minimum hop distance multiplier (× body size)
+    hopDistanceMax: 10,    // Maximum hop distance multiplier (× body size)
     hopFrequencyMin: 1,      // Minimum crawl cycles between hops
     hopFrequencyMax: 13,     // Maximum crawl cycles between hops
     hopFlightDuration: 60    // Flight phase duration in ms
