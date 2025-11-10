@@ -60,11 +60,6 @@ jobs:
           pixi run test
         fi
 
-    - name: Fix LCOV paths for SonarCloud
-      run: |
-        chmod +x ./scripts/fix-lcov-paths.sh
-        ./scripts/fix-lcov-paths.sh
-
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       with:
