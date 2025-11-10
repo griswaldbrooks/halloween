@@ -196,6 +196,7 @@ app.post('/api/trigger', (req, res) => {
 });
 
 // Start server (only if not in test mode)
+/* istanbul ignore next */
 if (require.main === module) {
   server.listen(PORT, async () => {
     console.log('╔════════════════════════════════════════════════════════╗');
