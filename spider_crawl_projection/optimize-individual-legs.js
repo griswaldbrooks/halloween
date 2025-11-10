@@ -124,9 +124,6 @@ function optimizeIndividualLegs() {
 
         // For each intersection, try moving one of the legs
         for (const {leg1, leg2} of intersections) {
-            const attachment1 = body.getAttachment(leg1);
-            const attachment2 = body.getAttachment(leg2);
-
             // Try multiple adjustment strategies
             const pos1 = legs[leg1].forwardKinematics();
             const pos2 = legs[leg2].forwardKinematics();

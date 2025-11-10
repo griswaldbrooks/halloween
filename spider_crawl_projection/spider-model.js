@@ -36,7 +36,6 @@ class SpiderBody {
         // 4 pairs of legs distributed along cephalothorax length
         // Pairs go from front to back
         const cephStart = this.cephalothorax.center + this.cephalothorax.length / 2;
-        const cephEnd = this.cephalothorax.center - this.cephalothorax.length / 2;
         const cephWidth = this.cephalothorax.width;
 
         const attachments = [];
