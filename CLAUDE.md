@@ -173,7 +173,9 @@ describe('Server', () => {
 All projects should maintain at least 80% test coverage. Current status:
 - ✅ hatching_egg: 92.12% JS, 85.9% C++ (241 tests)
 - ✅ spider_crawl_projection: 97.48% (11 test suites + 2 regression prevention suites with 15 tests)
-- ✅ window_spider_trigger: 97.14% (37 tests) - **ACHIEVED Nov 2025**
+- ✅ window_spider_trigger: **98.62% local** (93 tests, 0 skipped) - **REFACTORED Nov 2025**
+  - ⚠️ **SONARCLOUD ISSUE**: Reports 0% despite correct local coverage & lcov.info
+  - Investigation details: `window_spider_trigger/SONARCLOUD_COVERAGE_ISSUE.md`
 - ❌ twitching_body: 0% - **Priority 1** (needs refactoring)
 
 ### Test Organization
@@ -398,3 +400,35 @@ Before marking work complete:
 
 **Last Updated:** 2025-11-09
 **Target:** Achieve 80%+ coverage across all projects
+
+## SonarCloud Coverage Integration
+
+### Known Issue: window_spider_trigger (Nov 2025)
+
+**Status:** Local coverage 98.62%, SonarCloud reports 0%
+
+**What Works:**
+- ✅ Local test execution: 93 passing tests, 0 skipped
+- ✅ Coverage generation: `window_spider_trigger/coverage/lcov.info` (278 lines)
+- ✅ Path fixing: `scripts/fix-lcov-paths.sh` correctly prepends project prefix
+- ✅ Paths in lcov.info: `SF:window_spider_trigger/server.js` (correct format)
+
+**What Doesn't Work:**
+- ❌ SonarCloud shows 0% coverage for all 3 files:
+  - window_spider_trigger/server.js
+  - window_spider_trigger/lib/SerialPortManager.js
+  - window_spider_trigger/lib/SocketIOHandler.js
+
+**Investigation Document:**
+See `window_spider_trigger/SONARCLOUD_COVERAGE_ISSUE.md` for:
+- Detailed investigation steps
+- Comparison with working projects
+- Potential root causes
+- Next steps for debugging
+
+**If You Solve This:**
+1. Document solution in SONARCLOUD_COVERAGE_ISSUE.md
+2. Update this section with the fix
+3. Add verification step to CI if needed
+4. Consider if fix applies to other projects
+

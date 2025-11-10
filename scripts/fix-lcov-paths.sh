@@ -1,6 +1,15 @@
 #!/bin/bash
 # Fix LCOV paths to be relative to repository root for SonarCloud
-# This script is idempotent - safe to run multiple times
+#
+# Purpose: Jest generates lcov.info with relative paths (SF:server.js) but
+#          SonarCloud needs paths relative to repo root (SF:window_spider_trigger/server.js)
+#
+# Idempotent: Safe to run multiple times - won't double-prefix
+#
+# Usage: Run from repository root after coverage generation
+#   cd /path/to/halloween && ./scripts/fix-lcov-paths.sh
+#
+# Used in CI: .github/workflows/coverage.yml runs this after pixi run coverage
 
 # Fix window_spider_trigger paths (only if not already prefixed)
 if [ -f "window_spider_trigger/coverage/lcov.info" ]; then
