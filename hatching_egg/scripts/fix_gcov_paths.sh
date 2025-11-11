@@ -1,4 +1,14 @@
 #!/bin/bash
+# DEPRECATED (2025-11-11): This script is NO LONGER USED
+#
+# REPLACED BY: gcovr --sonarqube XML format (official SonarSource pattern)
+# Reference: github.com/sonarsource-cfamily-examples/linux-cmake-gcovr-gh-actions-sc
+#
+# This script was used to fix raw .gcov file paths for SonarCloud.
+# Now using gcovr to generate SonarQube XML format which handles paths correctly.
+# Kept for reference only.
+#
+# ------- ORIGINAL DOCUMENTATION -------
 # Fix .gcov Source: paths for SonarCloud integration
 #
 # PROBLEM:
@@ -12,6 +22,7 @@
 #   Handles both CI absolute paths and local relative paths
 #
 # USAGE:
+#   (DEPRECATED - use gcovr instead)
 #   Run from hatching_egg/ directory after gcov generation
 #   Called automatically by pixi run test-cpp-coverage
 
