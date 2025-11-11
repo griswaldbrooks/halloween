@@ -1,35 +1,39 @@
 /**
- * Compilation Database Generation Helper
+ * Compilation Database Helper for SonarCloud C++ Analysis
  *
- * This file exists solely to include all header files so they appear
- * in the compilation database (compile_commands.json) for SonarCloud.
+ * PURPOSE:
+ * This file exists solely to ensure header files appear in the compilation
+ * database (compile_commands.json) for SonarCloud analysis.
  *
- * SonarCloud needs files in the compilation database to analyze them
- * and apply coverage data. Without this, header files (.h) with actual
- * implementation won't show up in SonarCloud, even though they have
- * coverage data in the lcov report.
+ * WHY:
+ * SonarCloud needs files in the compilation database to analyze them.
+ * Test files (test_*.cpp) are excluded from analysis, so we need a way
+ * to include the header files directly.
  *
- * Context:
- * - Test files (test_*.cpp) compile and run, generating coverage for header files
- * - Coverage report (coverage-cpp-filtered.info) contains SF: entries for .h files
- * - But compilation database only had test_*.cpp entries (not .h files)
- * - SonarCloud analyzes files in compilation DB and applies coverage from lcov
- * - No match = 0% coverage or file not shown
+ * HOW IT WORKS:
+ * - This file #includes all header files
+ * - bear captures compilation of this file
+ * - Headers appear in compile_commands.json
+ * - SonarCloud analyzes headers
  *
- * Solution:
- * - This file includes all header files we want analyzed
- * - bear captures this compilation, adding .h files to compile_commands.json
- * - SonarCloud can now match header files between compilation DB and coverage report
+ * CURRENT ISSUE (2025-11-11):
+ * - Compilation database working (headers included)
+ * - SonarCloud analyzing files (issues detected)
+ * - .gcov files generated and parsed
+ * - But coverage NOT displayed in dashboard
+ * - Likely path mismatch issue
  *
- * Date: 2025-11-11
+ * VERIFICATION:
+ * Run: python tools/sonarcloud_verify.py --component hatching_egg
+ * Look for: Header files with coverage data
+ *
+ * DO NOT DELETE THIS FILE - it's critical for SonarCloud C++ analysis
  */
 
 #include "arduino/servo_mapping.h"
 #include "arduino/servo_tester_logic.h"
 #include "arduino/servo_sweep_test_logic.h"
 
-// Dummy main to make this a valid compilation unit
-// This file is never executed - it's only compiled by bear to generate compilation database
 int main() {
     return 0;
 }

@@ -424,6 +424,149 @@ pixi task list 2>&1 | grep "coverage"
 
 **Root cause discovery:** Nov 10, 2025 - After 13 attempts to fix SonarCloud coverage integration, the issue was pixi's stderr output breaking grep checks.
 
+## Tool Building Culture
+
+**Philosophy:** When verification is difficult or unclear, BUILD TOOLS to get ground truth. Don't guess, don't rely on potentially stale UIs, don't accept "I can't verify this."
+
+### When to Build Tools
+
+Build tools when you encounter:
+- **Verification challenges**: "I can't tell if SonarCloud has the coverage data"
+- **API access**: Public APIs exist but no UI or CLI tool leverages them
+- **Repetitive tasks**: Same verification needed across multiple projects
+- **CI/CD integration**: Automated checks need programmatic access
+- **Ground truth**: Need to distinguish between UI display issues and actual data problems
+
+### Tool Standards
+
+All tools should:
+- **Live in tools/ directory**: `/home/griswald/personal/halloween/tools/`
+- **Have comprehensive tests**: Test coverage like any other code
+- **Include documentation**: README.md with usage examples
+- **Provide human-readable output**: Clear formatting, status indicators
+- **Be easy to run**: No complex setup, minimal dependencies
+- **Exit codes**: 0 for success, non-zero for failure (CI-friendly)
+
+### Example: SonarCloud Verification Tool
+
+**Problem:** "SonarCloud web UI is confusing, I can't verify if coverage integration works"
+
+**Wrong approach:**
+- Refresh UI repeatedly hoping it updates
+- Make assumptions about what's there
+- Give up and say "I can't verify"
+
+**Correct approach:**
+1. Explore SonarCloud REST APIs (they exist!)
+2. Build `tools/sonarcloud_verify.py` to query API directly
+3. Test the tool thoroughly (18 unit tests)
+4. Document usage in `tools/README.md`
+5. Use tool to verify ACTUAL state
+
+**Result:** Tool reveals window_spider_trigger has 96.6% coverage in SonarCloud, contradicting assumptions that it was 0%.
+
+### Tool-Building Workflow
+
+1. **Explore APIs/data sources**
+   - Read documentation (even if hard to find)
+   - Test endpoints manually with curl
+   - Understand data structures and limitations
+
+2. **Design the tool**
+   - What questions does it answer?
+   - What output format is most useful?
+   - What parameters does it need?
+
+3. **Implement with tests**
+   - Write tool code
+   - Write comprehensive tests
+   - Mock external dependencies
+
+4. **Document**
+   - Create README with examples
+   - Document common use cases
+   - Explain troubleshooting
+
+5. **Integrate**
+   - Add to CI/CD if appropriate
+   - Make it discoverable
+   - Keep it maintained
+
+### Available Tools
+
+#### tools/sonarcloud_verify.py
+
+Verifies SonarCloud coverage state by querying the API directly.
+
+**Usage:**
+```bash
+# Check specific component
+python tools/sonarcloud_verify.py \
+    --project griswaldbrooks_halloween \
+    --component window_spider_trigger
+
+# Compare with local coverage
+python tools/sonarcloud_verify.py \
+    --project griswaldbrooks_halloween \
+    --component window_spider_trigger \
+    --compare-local window_spider_trigger/coverage/lcov.info
+```
+
+**What it reveals:**
+- Which files SonarCloud actually has coverage for
+- Exact coverage percentages per file
+- Files that exist but have no coverage data
+- Comparison with local coverage reports
+- Path mismatches between local and SonarCloud
+
+**See:** `tools/README.md` for detailed documentation
+
+### Tool Development Tips
+
+**Don't reinvent:**
+- Check if tool already exists in tools/ directory
+- Check if similar project has solved this problem
+- Use established libraries (requests, pytest, etc.)
+
+**Test thoroughly:**
+- Mock external APIs (don't hit real endpoints in tests)
+- Test error conditions (API down, invalid input, etc.)
+- Test pagination, rate limiting, edge cases
+
+**Make it maintainable:**
+- Use clear variable names
+- Document non-obvious logic
+- Include examples in docstrings
+- Keep functions focused and small
+
+**Make it accessible:**
+- Python is preferred (widely available)
+- Bash scripts for simple cases
+- Document all dependencies
+- Provide usage examples
+
+### When NOT to Build Tools
+
+Don't build tools for:
+- **One-off tasks**: If you'll never use it again
+- **Existing solutions**: If good tools already exist
+- **Premature optimization**: Build when you have a clear need
+- **Simple manual tasks**: If manual approach takes < 5 minutes
+
+### Cultural Expectations
+
+For all agents working on this project:
+- ✅ **Do** build tools when verification is difficult
+- ✅ **Do** thoroughly test your tools
+- ✅ **Do** document how and why to use them
+- ✅ **Do** maintain existing tools when APIs change
+- ❌ **Don't** say "I can't verify" without exploring APIs first
+- ❌ **Don't** rely solely on web UIs when APIs exist
+- ❌ **Don't** make assumptions about what's there
+- ❌ **Don't** skip testing tools
+
+**Remember:** High-quality tools make the whole project more reliable. Invest the time to build them properly.
+
 ## Resources
 
 - **hatching_egg/README.md**: Hardware setup, animation sequences
@@ -443,8 +586,49 @@ Before marking work complete:
 
 ---
 
-**Last Updated:** 2025-11-10
+**Last Updated:** 2025-11-11
 **Target:** Achieve 80%+ coverage across all projects
+
+## Current Investigation: SonarCloud C++ Coverage Display
+
+**Status (2025-11-11):** Under active investigation
+
+**Problem:**
+- Local C++ coverage: 85.9% (171 GoogleTest tests) ✅
+- SonarCloud C++ coverage: Not displaying ⚠️
+- SonarCloud IS analyzing C++ files (shows code issues) ✅
+- SonarCloud IS parsing .gcov files (confirmed in logs) ✅
+
+**What Works:**
+- Compilation database generation (compile_commands.json)
+- C++ analysis enabled (sonar.cpp.file.suffixes=.h,.cpp)
+- .gcov files generated (hatching_egg/coverage-cpp/*.gcov)
+- SonarCloud processing .gcov files (no parse errors)
+
+**What Doesn't Work:**
+- Coverage data not displayed in dashboard
+- Header files show "No coverage data"
+
+**Hypothesis:**
+Path mismatch between .gcov Source: paths and SonarCloud file keys.
+
+**Next Steps:**
+1. Use tools/sonarcloud_verify.py to see actual SonarCloud state
+2. Compare .gcov Source: paths with SonarCloud file keys
+3. Try adding sonar.cfamily.gcov.pathPrefix property
+4. Verify fix with tool before claiming success
+
+**For Next Agent:**
+- Read SESSION_2025-11-11.md for complete investigation history
+- Run verification tool FIRST before making changes
+- Don't claim fixes work without tool confirmation
+- Ask user to verify in dashboard (agents can't see UI)
+
+**References:**
+- Investigation: SESSION_2025-11-11.md
+- Tool usage: tools/README.md
+- API details: tools/SONARCLOUD_API.md
+- Current state: VERIFIED_LOCAL_COVERAGE.md
 
 ## SonarCloud Coverage Integration
 
