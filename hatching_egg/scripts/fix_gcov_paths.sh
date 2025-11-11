@@ -2,12 +2,14 @@
 # Fix .gcov Source: paths for SonarCloud integration
 #
 # PROBLEM:
-#   gcov generates files with Source: paths like "arduino/servo_mapping.h"
-#   SonarCloud expects paths like "hatching_egg/arduino/servo_mapping.h"
+#   gcov generates files with different Source: path formats:
+#   - Local builds: "arduino/servo_mapping.h"
+#   - CI builds: "/home/runner/work/halloween/halloween/hatching_egg/arduino/servo_mapping.h"
+#   SonarCloud expects: "hatching_egg/arduino/servo_mapping.h"
 #
 # SOLUTION:
-#   Post-process .gcov files to add "hatching_egg/" prefix to Source: paths
-#   for our project files (not system headers)
+#   Post-process .gcov files to transform Source: paths to project-relative format
+#   Handles both CI absolute paths and local relative paths
 #
 # USAGE:
 #   Run from hatching_egg/ directory after gcov generation
@@ -18,14 +20,28 @@ set -e
 echo "Fixing .gcov Source: paths for SonarCloud..."
 
 # Fix paths in all .gcov files that contain our project files
-# Only fix lines starting with "Source:" that reference arduino/ directory
 for gcov_file in *.gcov; do
     if [ -f "$gcov_file" ]; then
-        # Check if this file has an arduino/ source path
+        # Transform CI absolute paths (GitHub Actions)
+        # Pattern: /home/runner/work/halloween/halloween/hatching_egg/... → hatching_egg/...
+        if grep -q "^        -:    0:Source:/home/runner/work/halloween/halloween/hatching_egg/" "$gcov_file" 2>/dev/null; then
+            sed -i 's|^        -:    0:Source:/home/runner/work/halloween/halloween/hatching_egg/|        -:    0:Source:hatching_egg/|' "$gcov_file"
+            echo "  ✓ Fixed (CI): $gcov_file"
+        fi
+
+        # Transform local absolute paths
+        # Pattern: /home/<user>/personal/halloween/hatching_egg/... → hatching_egg/...
+        # Uses regex to match any local path that ends with hatching_egg/
+        if grep -q "^        -:    0:Source:.*/hatching_egg/" "$gcov_file" 2>/dev/null; then
+            sed -i 's|^        -:    0:Source:.*/hatching_egg/|        -:    0:Source:hatching_egg/|' "$gcov_file"
+            echo "  ✓ Fixed (local abs): $gcov_file"
+        fi
+
+        # Transform local relative paths
+        # Pattern: arduino/... → hatching_egg/arduino/...
         if grep -q "^        -:    0:Source:arduino/" "$gcov_file" 2>/dev/null; then
-            # Add hatching_egg/ prefix to Source: line
             sed -i 's|^        -:    0:Source:arduino/|        -:    0:Source:hatching_egg/arduino/|' "$gcov_file"
-            echo "  ✓ Fixed: $gcov_file"
+            echo "  ✓ Fixed (local rel): $gcov_file"
         fi
     fi
 done
