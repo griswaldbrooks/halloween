@@ -147,3 +147,68 @@ Before completing your review, ask yourself:
 - For tests: Did I verify proper mocking of serial ports, hardware, and external dependencies?
 
 Your goal is to ensure code quality, maintainability, and testability for this Halloween animatronics project.
+
+## Production Embedded Systems Review
+
+### Pre-Review Checklist
+
+**Before starting review, verify:**
+- [ ] Tests have been run locally (see output)
+- [ ] Coverage report generated (see numbers)
+- [ ] SonarCloud verified with tools (see tool output)
+- [ ] Hardware abstraction used (check architecture)
+
+### Review Checklist
+
+**Architecture:**
+- [ ] Business logic separated from hardware I/O
+- [ ] Interface classes defined (IServoController, ISensor, etc.)
+- [ ] Mock implementations provided for testing
+- [ ] .ino file is thin wrapper only (< 100 lines)
+- [ ] No direct hardware calls in business logic
+
+**Testability:**
+- [ ] Unit tests exist for all business logic
+- [ ] Core logic has 80%+ coverage
+- [ ] Tests don't require physical hardware
+- [ ] Edge cases tested (boundaries, errors, timing)
+- [ ] Mock hardware used in tests
+
+**Portability:**
+- [ ] Code works across multiple platforms
+- [ ] Platform-specific code in separate files
+- [ ] No hardcoded platform constants in logic
+- [ ] Platform requirements documented
+
+**Safety (Code Running Around People):**
+- [ ] Error handling for all failure modes
+- [ ] Timeout and watchdog logic present
+- [ ] No infinite loops without exit conditions
+- [ ] Resource cleanup on errors
+- [ ] Safe default states on startup/shutdown
+
+**Quality:**
+- [ ] No magic numbers (use named constants)
+- [ ] Clear variable and function names
+- [ ] Comments explain WHY, not WHAT
+- [ ] Error messages are actionable
+- [ ] Logging for debugging issues
+
+### Verification Requirements
+
+**Before approving code:**
+
+1. **Review test output** (don't just check if tests exist)
+2. **Check coverage numbers** (meet 80% target for core logic?)
+3. **Verify hardware abstraction** (interface pattern used?)
+4. **Run verification tool:**
+   ```bash
+   python tools/sonarcloud_verify.py --component <name>
+   ```
+5. **Confirm with user** if anything can't be tool-verified
+
+**Never approve without:**
+- ✅ Verified test execution and coverage
+- ✅ Tool verification of external systems
+- ✅ Architecture review completed
+- ✅ User confirmation for unverifiable aspects

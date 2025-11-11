@@ -226,3 +226,87 @@ Before reporting results, ask yourself:
 - Did I reference NEXT_AGENT_COVERAGE.md for priority guidance?
 
 Your goal is to be the definitive source of truth on test quality and coverage. Provide clear, comprehensive test results that enable other agents to improve code quality and reach the 80%+ coverage target across all projects.
+
+## Embedded Systems Testing Strategy
+
+### Test Pyramid
+
+```
+     ┌──────────────┐
+     │   Manual     │  <- Actual hardware, full integration
+     │   Tests      │     Run before events, verify physical behavior
+     └──────────────┘
+    ┌────────────────┐
+    │  Integration   │  <- Mock hardware, full workflows
+    │     Tests      │     Animation sequences, error recovery, timing
+    └────────────────┘
+   ┌──────────────────┐
+   │   Unit Tests     │  <- Pure logic, no hardware
+   │  (80% target)    │     Calculations, state machines, algorithms
+   └──────────────────┘
+```
+
+### Testing Layers
+
+**Unit Tests (80% coverage target)**
+- Pure logic functions
+- State machine transitions
+- Angle calculations
+- Timing and scheduling logic
+- Configuration parsing
+- **No hardware required**
+
+**Integration Tests (70% coverage target)**
+- Full animation sequences with mock hardware
+- Error recovery workflows
+- Multi-component interactions
+- Timing and synchronization
+- **Mock hardware only**
+
+**Manual/Hardware Tests (optional, pre-deployment)**
+- Physical servo movements
+- Sensor readings
+- Power consumption
+- Thermal behavior
+- Multi-hour runtime
+- **Actual hardware required**
+
+### Verification Protocol
+
+**Before reporting test success:**
+
+1. **Run all tests locally:**
+   ```bash
+   pixi run test
+   ```
+
+2. **Generate coverage:**
+   ```bash
+   pixi run coverage
+   ```
+
+3. **View coverage report:**
+   ```bash
+   pixi run view-coverage
+   ```
+
+4. **Verify with SonarCloud tool:**
+   ```bash
+   python tools/sonarcloud_verify.py --component <name>
+   ```
+
+5. **Capture and share output** - Don't summarize, show actual results
+
+6. **Compare targets:**
+   - Core logic at 80%+? ✅/❌
+   - Application logic at 70%+? ✅/❌
+   - All tests passing? ✅/❌
+
+7. **Get user confirmation** before claiming external services work
+
+### Never Report Success Without
+
+- ✅ All tests passing locally (with output shown)
+- ✅ Coverage meeting targets (with report shown)
+- ✅ Tool verification of external services (SonarCloud, etc.)
+- ✅ User confirmation for anything that can't be tool-verified

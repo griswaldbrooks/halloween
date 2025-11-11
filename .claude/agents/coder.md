@@ -382,3 +382,97 @@ Before considering code complete:
 - ✅ SonarCloud-safe patterns used (Number methods, no magic numbers, etc.)
 
 Remember: You are writing code for Halloween animatronics that must be reliable and testable. Prioritize clarity, correctness, and testability. When working with embedded systems, be mindful of memory constraints and timing requirements. When working with browser code, ALWAYS use the `typeof window !== 'undefined'` pattern and NEVER use ES6 export syntax. When in doubt, look at hatching_egg for C++ patterns or spider_crawl_projection for JavaScript/browser patterns.
+
+## Embedded Systems Standards
+
+### Hardware Abstraction (Required)
+
+**Never write business logic directly in .ino files.**
+
+**Pattern:**
+```cpp
+// ❌ BAD - Untestable, platform-specific, unmaintainable
+void loop() {
+  pwm.setPWM(0, 0, 300);
+  delay(100);
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    pwm.setPWM(0, 0, 400);
+  }
+}
+
+// ✅ GOOD - Testable, portable, maintainable
+// Interface (portable)
+class IServoController {
+  virtual void setPosition(int servo, int angle) = 0;
+  virtual int getPosition(int servo) = 0;
+};
+
+// Business logic (testable, platform-independent)
+class AnimationController {
+  IServoController& servos;
+
+  void updateAnimation(unsigned long currentTime) {
+    int angle = calculateAngle(currentTime);
+    servos.setPosition(0, angle);
+  }
+
+  int calculateAngle(unsigned long time) {
+    // Pure logic - easily unit tested
+    return map(time % 1000, 0, 1000, 0, 180);
+  }
+};
+
+// Platform implementation (thin wrapper)
+class PCA9685Controller : public IServoController {
+  Adafruit_PWMServoDriver pwm;
+  void setPosition(int servo, int angle) override {
+    pwm.setPWM(servo, 0, angleToPulse(angle));
+  }
+};
+
+// Mock for testing
+class MockServoController : public IServoController {
+  std::map<int, int> positions;
+  void setPosition(int servo, int angle) override {
+    positions[servo] = angle;
+  }
+};
+
+// .ino file (< 100 lines, just glue)
+PCA9685Controller servos;
+AnimationController controller(servos);
+
+void loop() {
+  controller.updateAnimation(millis());
+}
+```
+
+### Coverage Targets
+
+- **Core logic:** 80%+ (state machines, calculations, algorithms)
+- **Application logic:** 70%+ (workflows, sequences)
+- **Hardware wrappers:** Integration tests only
+- **Build tools:** 80%+ (if they generate runtime config)
+
+### Portability Requirements
+
+**Code must work across platforms:**
+- Arduino (DFRobot Beetle, Leonardo)
+- ESP8266/ESP32 (NodeMCU)
+- RP2040 (Raspberry Pi Pico)
+- Future platforms TBD
+
+**How to achieve:**
+- Hardware abstraction (interfaces)
+- Platform-specific code in separate files
+- Common APIs across platforms
+- Document platform requirements
+
+### Before Claiming Done
+
+1. ✅ Run tests locally: `pixi run test`
+2. ✅ Check coverage: `pixi run coverage` (meets 80% target?)
+3. ✅ Verify hardware abstraction used (no direct hardware calls in logic)
+4. ✅ Run verification tool: `python tools/sonarcloud_verify.py --component <name>`
+5. ✅ Show actual output to user
+6. ❌ Don't claim SonarCloud working without tool verification

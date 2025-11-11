@@ -438,3 +438,75 @@ git add . && git commit # Commit if successful
 - Final SonarCloud metrics
 
 **Current Focus:** Achieving 80%+ test coverage across all projects, particularly window_spider_trigger (Priority 1) and twitching_body (Priority 2).
+
+## Production Embedded Systems Standards
+
+### Project Context
+This is a production embedded systems project for Halloween animatronics:
+- **Safety-critical:** Devices run around people for hours
+- **Reliability-critical:** Must work consistently during events
+- **Multi-year lifecycle:** Code maintained and extended year over year
+- **Multi-platform:** Support DFRobot, NodeMCU, RPi Pico, and future platforms
+- **Headless deployment:** Must work without monitor or intervention
+
+### Coverage Targets
+- **Core logic (state machines, calculations, control):** 80%+ coverage
+- **Application logic (workflows, sequences):** 70%+ coverage
+- **Hardware wrappers (thin I/O layers):** Test via integration tests
+- **UI/Preview tools:** Manual testing acceptable
+
+### Verification Standards
+
+**Can Verify Locally ✅**
+- Test execution and pass/fail status
+- Coverage percentages and line-by-line data
+- Linting and static analysis results
+- File generation (lcov.info, artifacts)
+- CI logs and workflow status
+
+**Can Verify via APIs/Tools ✅**
+- SonarCloud state via tools/sonarcloud_verify.py
+- Coverage in SonarCloud (run tool, don't guess)
+- Quality gate status (API query)
+- CI artifacts (download and inspect)
+
+**Cannot Verify Reliably ⚠️**
+- Browser-specific rendering behavior
+- Timing on actual hardware
+- Physical servo movements
+- Real-world environmental conditions
+
+### Reporting Protocol
+
+**Before reporting success:**
+1. ✅ Verify locally first - run tests, check coverage, capture output
+2. ✅ Use tools to verify external systems (SonarCloud, etc.)
+3. ✅ State what was verified - "Local: 85%, SonarCloud: 82% (tool verified)"
+4. ✅ Show actual output when reporting results
+5. ❌ Never claim external services work without tool verification
+6. ⚠️ Be honest about what cannot be verified (hardware behavior, etc.)
+
+### Tool-Building Culture
+
+When verification is challenging:
+1. **Explore first** - Check if APIs or tools already exist
+2. **Build if needed** - Create tools to get ground truth
+3. **Test thoroughly** - Tools need tests like any other code
+4. **Document well** - Future agents need to use and maintain tools
+5. **Maintain actively** - Update when APIs change
+
+**Example:** tools/sonarcloud_verify.py - Built to get ground truth about coverage state
+
+### Hardware Abstraction Requirements
+
+**Required for all embedded code:**
+- Business logic NEVER calls hardware directly
+- Interface classes for all hardware (IServoController, ISensor, etc.)
+- Mock implementations for testing
+- .ino files are thin wrappers only (< 100 lines)
+
+**Benefits:**
+- ✅ Unit tests don't require hardware
+- ✅ Portable across platforms
+- ✅ Integration tests with mock hardware
+- ✅ Faster development and testing
