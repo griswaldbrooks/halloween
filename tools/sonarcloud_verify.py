@@ -197,6 +197,51 @@ class SonarCloudClient:
         data = self._get('qualitygates/project_status', params)
         return data.get('projectStatus', {})
 
+    def get_language_breakdown(self) -> Dict[str, int]:
+        """Get file count by language."""
+        files = self.get_all_files()
+        breakdown = {}
+        for f in files:
+            lang = f.language
+            breakdown[lang] = breakdown.get(lang, 0) + 1
+        return breakdown
+
+    def get_cpp_files_detail(self, component_filter: Optional[str] = None) -> Dict[str, Any]:
+        """Get detailed view of C++ files (.h and .cpp) in SonarCloud."""
+        all_files = self.get_all_coverage(component_filter)
+
+        cpp_files = [f for f in all_files if f.language == 'cpp' or f.path.endswith(('.h', '.cpp', '.hpp', '.cc', '.cxx'))]
+
+        headers = [f for f in cpp_files if f.path.endswith(('.h', '.hpp'))]
+        sources = [f for f in cpp_files if f.path.endswith(('.cpp', '.cc', '.cxx'))]
+
+        return {
+            'total_cpp_files': len(cpp_files),
+            'headers': headers,
+            'sources': sources,
+            'headers_with_coverage': [f for f in headers if f.has_coverage],
+            'sources_with_coverage': [f for f in sources if f.has_coverage],
+        }
+
+    def get_excluded_files(self) -> List[str]:
+        """Get list of files that are excluded from analysis."""
+        params = {
+            'component': self.project_key
+        }
+
+        try:
+            data = self._get('settings/values', params)
+            settings = {s['key']: s.get('value', '') for s in data.get('settings', [])}
+
+            exclusions = []
+            for key in ['sonar.exclusions', 'sonar.coverage.exclusions', 'sonar.test.exclusions']:
+                if key in settings:
+                    exclusions.append(f"{key}: {settings[key]}")
+
+            return exclusions
+        except:
+            return []
+
 
 class CoverageVerifier:
     """Verifies and reports on SonarCloud coverage."""
@@ -392,6 +437,85 @@ class CoverageVerifier:
 
         return files
 
+    def get_cpp_diagnostic_report(self, component: Optional[str] = None) -> str:
+        """Generate comprehensive C++ coverage diagnostic report."""
+        lines = []
+
+        lines.append("=" * 80)
+        lines.append("C++ COVERAGE DIAGNOSTIC REPORT")
+        lines.append("=" * 80)
+        lines.append(f"Project: {self.client.project_key}")
+        if component:
+            lines.append(f"Component: {component}")
+        lines.append("")
+
+        # Language breakdown
+        lang_breakdown = self.client.get_language_breakdown()
+        lines.append("Language Breakdown:")
+        lines.append("-" * 80)
+        for lang, count in sorted(lang_breakdown.items()):
+            lines.append(f"  {lang}: {count} files")
+        lines.append("")
+
+        # Exclusions
+        exclusions = self.client.get_excluded_files()
+        if exclusions:
+            lines.append("Configured Exclusions:")
+            lines.append("-" * 80)
+            for exc in exclusions:
+                lines.append(f"  {exc}")
+            lines.append("")
+
+        # C++ file details
+        cpp_detail = self.client.get_cpp_files_detail(component)
+        lines.append("C++ File Analysis:")
+        lines.append("-" * 80)
+        lines.append(f"Total C++ files: {cpp_detail['total_cpp_files']}")
+        lines.append(f"Header files (.h): {len(cpp_detail['headers'])}")
+        lines.append(f"Source files (.cpp): {len(cpp_detail['sources'])}")
+        lines.append(f"Headers WITH coverage: {len(cpp_detail['headers_with_coverage'])}")
+        lines.append(f"Sources WITH coverage: {len(cpp_detail['sources_with_coverage'])}")
+        lines.append("")
+
+        # Header files detail
+        if cpp_detail['headers']:
+            lines.append("Header Files in SonarCloud:")
+            lines.append("-" * 80)
+            for f in cpp_detail['headers']:
+                status = "✅ HAS COVERAGE" if f.has_coverage else "❌ NO COVERAGE"
+                cov_str = f" ({f.coverage:.1f}%)" if f.has_coverage else ""
+                lines.append(f"{status}: {f.path}{cov_str}")
+            lines.append("")
+        else:
+            lines.append("WARNING: NO HEADER FILES FOUND IN SONARCLOUD")
+            lines.append("-" * 80)
+            lines.append("This likely means:")
+            lines.append("  1. Headers are excluded from analysis")
+            lines.append("  2. Compilation database doesn't reference headers")
+            lines.append("  3. Headers not in the source tree recognized by SonarCloud")
+            lines.append("")
+
+        # Source files detail
+        if cpp_detail['sources']:
+            lines.append("Source Files in SonarCloud:")
+            lines.append("-" * 80)
+            for f in cpp_detail['sources']:
+                status = "✅ HAS COVERAGE" if f.has_coverage else "❌ NO COVERAGE"
+                cov_str = f" ({f.coverage:.1f}%)" if f.has_coverage else ""
+                lines.append(f"{status}: {f.path}{cov_str}")
+            lines.append("")
+
+        # All files (for debugging)
+        all_files = self.client.get_all_files(component)
+        if component:
+            lines.append(f"All Files in Component '{component}':")
+            lines.append("-" * 80)
+            for f in all_files:
+                lines.append(f"  {f.path} ({f.language})")
+            lines.append("")
+
+        return "\n".join(lines)
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -415,6 +539,7 @@ Examples:
     parser.add_argument('--organization', default='griswaldbrooks', help='SonarCloud organization')
     parser.add_argument('--component', help='Specific component to check (e.g., hatching_egg)')
     parser.add_argument('--compare-local', help='Path to local lcov.info for comparison')
+    parser.add_argument('--cpp-diagnostic', action='store_true', help='Generate C++ coverage diagnostic report')
     parser.add_argument('--json', action='store_true', help='Output in JSON format')
 
     args = parser.parse_args()
@@ -422,6 +547,12 @@ Examples:
     try:
         client = SonarCloudClient(args.organization, args.project)
         verifier = CoverageVerifier(client)
+
+        # C++ diagnostic report
+        if args.cpp_diagnostic:
+            report = verifier.get_cpp_diagnostic_report(args.component)
+            print(report)
+            return 0
 
         # Generate report
         report = verifier.get_coverage_report(args.component)
