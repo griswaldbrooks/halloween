@@ -69,7 +69,7 @@ jobs:
       uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./window_spider_trigger/coverage/lcov.info,./spider_crawl_projection/coverage/lcov.info,./hatching_egg/coverage/lcov.info
+        files: ./window_spider_trigger/coverage/lcov.info,./spider_crawl_projection/coverage/lcov.info,./hatching_egg/coverage-js/lcov.info
         fail_ci_if_error: false
         verbose: true
 
@@ -87,7 +87,9 @@ jobs:
         path: |
           window_spider_trigger/coverage/
           spider_crawl_projection/coverage/
-          hatching_egg/coverage/
+          hatching_egg/coverage-js/
+          hatching_egg/coverage-cpp/
+          hatching_egg/coverage-python/
         retention-days: 30
 
     - name: Coverage Summary
