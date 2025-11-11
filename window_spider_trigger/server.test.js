@@ -617,49 +617,9 @@ describe('Spider Window Scare Server', () => {
       });
     });
 
-    test('READY message from Arduino emits arduino-status', (done) => {
-      const client = SocketClient(`http://localhost:${serverPort}`, { reconnection: false, timeout: 1000 });
-
-      client.on('arduino-status', (status) => {
-        expect(status).toHaveProperty('ready', true);
-        client.disconnect();
-        done();
-      });
-
-      client.on('connect', () => {
-        // Simulate Arduino sending READY
-        setTimeout(() => {
-          if (parserDataCallback) {
-            parserDataCallback('READY\n');
-          } else {
-            client.disconnect();
-            done();
-          }
-        }, 300);
-      });
-    });
-
-    test('STARTUP message from Arduino emits arduino-status', (done) => {
-      const client = SocketClient(`http://localhost:${serverPort}`, { reconnection: false, timeout: 1000 });
-
-      client.on('arduino-status', (status) => {
-        expect(status).toHaveProperty('startup', true);
-        client.disconnect();
-        done();
-      });
-
-      client.on('connect', () => {
-        // Simulate Arduino sending STARTUP
-        setTimeout(() => {
-          if (parserDataCallback) {
-            parserDataCallback('STARTUP\n');
-          } else {
-            client.disconnect();
-            done();
-          }
-        }, 300);
-      });
-    });
+    // Note: arduino-status events are still emitted by the server for future extensibility,
+    // but the client UI no longer displays them (Serial status is sufficient).
+    // The server-side emission is tested in SerialPortManager.test.js
   });
 
   describe('Integration Tests', () => {

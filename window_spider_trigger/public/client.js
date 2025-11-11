@@ -10,7 +10,6 @@ const mainVideo = document.getElementById('main-video');
 const statusOverlay = document.getElementById('status-overlay');
 const loading = document.getElementById('loading');
 
-const arduinoStatus = document.getElementById('arduino-status');
 const serialStatus = document.getElementById('serial-status');
 const triggerCount = document.getElementById('trigger-count');
 const lastTrigger = document.getElementById('last-trigger');
@@ -47,14 +46,6 @@ socket.on('serial-status', (data) => {
     updateSerialStatus('Connected', 'connected');
   } else {
     updateSerialStatus('Disconnected', 'disconnected');
-  }
-});
-
-socket.on('arduino-status', (data) => {
-  if (data.ready) {
-    updateArduinoStatus('Ready', 'ready');
-  } else if (data.startup) {
-    updateArduinoStatus('Starting...', 'ready');
   }
 });
 
@@ -168,11 +159,6 @@ function toggleFullscreen() {
 function updateSerialStatus(text, className) {
   serialStatus.textContent = text;
   serialStatus.className = 'status-value ' + className;
-}
-
-function updateArduinoStatus(text, className) {
-  arduinoStatus.textContent = text;
-  arduinoStatus.className = 'status-value ' + className;
 }
 
 // Hide cursor after inactivity
