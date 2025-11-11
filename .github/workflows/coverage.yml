@@ -65,6 +65,19 @@ jobs:
         chmod +x ./scripts/fix-lcov-paths.sh
         ./scripts/fix-lcov-paths.sh
 
+    - name: Generate C++ Compilation Database for SonarCloud
+      working-directory: ./hatching_egg
+      run: |
+        echo "Generating compilation database for C++ analysis..."
+        pixi run generate-compile-db
+        if [ -f compile_commands.json ]; then
+          echo "✅ Compilation database generated successfully"
+          ls -lh compile_commands.json
+        else
+          echo "❌ Failed to generate compilation database"
+          exit 1
+        fi
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       with:
