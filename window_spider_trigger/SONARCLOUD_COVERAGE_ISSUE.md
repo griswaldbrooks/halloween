@@ -11,7 +11,21 @@ The window_spider_trigger project has:
 - ✅ **98.62% test coverage locally** (93 passing tests, 0 skipped)
 - ✅ **Comprehensive refactoring** with dependency injection
 - ✅ **Proper lcov.info generation** with correct paths
-- ❌ **SonarCloud showing 0% coverage** for all 3 files
+- ✅ **SonarCloud showing 96.6% coverage** for 3 source files (verified via API)
+
+## Resolution Discovery (2025-11-11)
+
+**The "0% coverage" claim was INCORRECT.** Built `tools/sonarcloud_verify.py` to query SonarCloud API directly.
+
+**Actual SonarCloud State:**
+```
+window_spider_trigger/server.js: 90.7% (41 lines, 3 uncovered)
+window_spider_trigger/lib/SerialPortManager.js: 99.0% (77 lines, 0 uncovered)
+window_spider_trigger/lib/SocketIOHandler.js: 100.0% (26 lines, 0 uncovered)
+Average Coverage: 96.6%
+```
+
+**Lesson Learned:** Don't trust web UI alone. BUILD TOOLS to query APIs for ground truth.
 
 ## What Works Locally
 
