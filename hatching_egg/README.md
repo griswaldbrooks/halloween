@@ -67,7 +67,7 @@ pixi run monitor
 ### Run Tests
 
 ```bash
-pixi run test           # Run all tests (232 total: C++ + Python + JavaScript)
+pixi run test           # Run all tests (241 total: C++ + Python + JavaScript)
 pixi run test-cpp       # Run 44 C++ servo mapping tests (Google Test)
 pixi run test-python    # Run 20 Python config tests (includes buffer overflow check)
 pixi run test-servo-tester  # Run 34 servo tester tests (Google Test)
@@ -76,7 +76,7 @@ pixi run test-kinematics    # Run 31 JavaScript kinematics tests
 pixi run test-animation-behaviors  # Run 10 animation behaviors tests
 ```
 
-**Test Framework:** Google Test (gtest) for C++ with C++17, Node.js for JavaScript
+**Test Framework:** Google Test (gtest) for C++ with C++17, Node.js for JavaScript, unittest for Python
 
 **Tests verify:**
 - Per-servo PWM range mapping (0-90°)
@@ -98,8 +98,32 @@ pixi run test-animation-behaviors  # Run 10 animation behaviors tests
 - `test_servo_tester.cpp` - 34 gtest tests (calibration tool logic)
 - `test_servo_sweep.cpp` - 93 gtest tests (sweep test logic)
 - `test_leg_kinematics.js` - 31 JavaScript tests (forward kinematics + PWM mapping)
-- `test_animation_behaviors.js` - 10 JavaScript tests (animation loading + symmetry)
-- `arduino/servo_mapping.h` - Tested core logic used by all sketches
+- `test_animation_behaviors.js` - 10 JavaScript tests (animation data validation)
+
+### Test Coverage
+
+Run coverage reports:
+```bash
+pixi run coverage              # Generate all coverage reports (JS, C++, Python)
+pixi run view-coverage         # Open all coverage reports in browser
+pixi run view-coverage-js      # JavaScript coverage only
+pixi run view-coverage-cpp     # C++ coverage only
+pixi run view-coverage-python  # Python coverage only
+```
+
+**Coverage Status:**
+
+| Language   | Coverage | Lines Covered | Test Count | Report Location              |
+|------------|----------|---------------|------------|------------------------------|
+| JavaScript | 92.12%   | 117/127       | 41 tests   | `coverage-js/index.html`     |
+| C++        | 85.9%    | 1621/1888     | 171 tests  | `coverage-cpp/index.html`    |
+| Python     | 97%      | 152/157       | 20 tests   | `coverage-python/index.html` |
+
+**Browser-Only Files (Not Tested):**
+- `animation-behaviors.js` - Uses browser `fetch()` API and top-level await (cannot run in Node.js)
+- `preview-app.js` - Interactive canvas preview (development tool, DOM-dependent)
+
+These files are tested indirectly via data validation tests and manual browser testing.
 
 **Upload Safety:** `pixi run upload` automatically runs all tests first. Upload is blocked if any test fails.
 

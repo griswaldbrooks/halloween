@@ -40,13 +40,7 @@ test-servo-sweep = { cmd = "g++ -std=c++17 -I. -I.pixi/envs/default/include test
 test-cpp-coverage = { cmd = "bash -c 'g++ -std=c++17 --coverage -fprofile-arcs -ftest-coverage -I.pixi/envs/default/include test_servo_mapping.cpp -o test_servo_mapping_cov -L.pixi/envs/default/lib -lgtest -pthread && LD_LIBRARY_PATH=.pixi/envs/default/lib ./test_servo_mapping_cov && g++ -std=c++17 --coverage -fprofile-arcs -ftest-coverage -I.pixi/envs/default/include test_servo_tester.cpp -o test_servo_tester_cov -L.pixi/envs/default/lib -lgtest -pthread && LD_LIBRARY_PATH=.pixi/envs/default/lib ./test_servo_tester_cov && g++ -std=c++17 --coverage -fprofile-arcs -ftest-coverage -I. -I.pixi/envs/default/include test_servo_sweep.cpp -o test_servo_sweep_cov -L.pixi/envs/default/lib -lgtest -pthread && LD_LIBRARY_PATH=.pixi/envs/default/lib ./test_servo_sweep_cov && lcov --capture --directory . --output-file coverage-cpp.info && lcov --remove coverage-cpp.info \"/usr/*\" --output-file coverage-cpp-filtered.info && genhtml coverage-cpp-filtered.info --output-directory coverage-cpp && echo \"C++ coverage report generated in coverage-cpp/index.html\"'", description = "Run C++ tests with coverage" }
 
 # === Python Coverage Tasks ===
-test-python-coverage = { cmd = """
-python -m coverage run test_servo_mapping.py
-python -m coverage html -d coverage-python
-python -m coverage xml -o coverage-python/coverage.xml
-python -m coverage report
-echo "Python coverage report generated in coverage-python/index.html"
-""", description = "Run Python tests with coverage" }
+test-python-coverage = { cmd = "bash -c 'python -m coverage run test_servo_mapping.py && python -m coverage html -d coverage-python && python -m coverage xml -o coverage-python/coverage.xml && python -m coverage report && echo \"Python coverage report generated in coverage-python/index.html\"'", description = "Run Python tests with coverage" }
 test-kinematics = { cmd = "node test_leg_kinematics.js", description = "Run leg kinematics tests (31 tests)" }
 test-animation-behaviors = { cmd = "node test_animation_behaviors.js", description = "Run animation behaviors tests (10 tests)" }
 test = { depends-on = ["test-cpp", "test-python", "test-servo-tester", "test-servo-sweep", "test-kinematics", "test-animation-behaviors"], description = "Run all tests (232 total - includes buffer overflow prevention)" }
@@ -56,7 +50,7 @@ test-coverage = { cmd = "npx c8 --reporter=html --reporter=lcov --reporter=text 
 # === Combined Coverage ===
 coverage-js-only = { cmd = "npx c8 --reporter=html --reporter=lcov --reporter=text --include='*.js' --exclude='test_*.js' --exclude='arduino/**' --exclude='scripts/**' --report-dir=coverage-js bash -c 'node test_leg_kinematics.js && node test_animation_behaviors.js'", description = "Run JavaScript tests with coverage" }
 
-coverage-all = { cmd = "bash -c 'echo \"Running JavaScript coverage...\" && pixi run coverage-js-only && echo && echo \"Running C++ coverage...\" && pixi run test-cpp-coverage && echo && echo \"Running Python coverage...\" && pixi run test-python-coverage && echo && echo \"================================================\" && echo \"Coverage reports generated:\" && echo \"  - JavaScript: coverage-js/index.html\" && echo \"  - C++:        coverage-cpp/index.html\" && echo \"  - Python:     coverage-python/index.html\" && echo \"================================================\"'", description = "Run all tests with coverage (JS, C++, Python)" }
+coverage-all = { cmd = "bash -c 'set -e && echo \"Running JavaScript coverage...\" && pixi run coverage-js-only && echo && echo \"Running C++ coverage...\" && pixi run test-cpp-coverage && echo && echo \"Running Python coverage...\" && pixi run test-python-coverage && echo && echo \"================================================\" && echo \"Coverage reports generated:\" && echo \"  - JavaScript: coverage-js/index.html\" && echo \"  - C++:        coverage-cpp/index.html\" && echo \"  - Python:     coverage-python/index.html\" && echo \"================================================\"'", description = "Run all tests with coverage (JS, C++, Python)" }
 
 coverage = { depends-on = ["coverage-all"], description = "Generate all code coverage reports" }
 view-coverage-js = { cmd = "xdg-open coverage-js/index.html", description = "Open JavaScript coverage report" }
