@@ -65,6 +65,21 @@ jobs:
       - name: Display coverage summary
         run: pixi run coverage-summary
 
+      # Debug: List files for SonarCloud
+      - name: Debug - List build artifacts
+        run: |
+          echo "=== Repository root files ==="
+          ls -la
+          echo ""
+          echo "=== cmake_prototype directory ==="
+          ls -la cmake_prototype/
+          echo ""
+          echo "=== cmake_prototype/build directory ==="
+          ls -la cmake_prototype/build/ || echo "build directory not found"
+          echo ""
+          echo "=== Check for compile_commands.json ==="
+          find . -name "compile_commands.json" -type f 2>/dev/null || echo "No compile_commands.json found"
+
       # Upload coverage HTML as artifact
       - name: Upload coverage HTML
         uses: actions/upload-artifact@v4
