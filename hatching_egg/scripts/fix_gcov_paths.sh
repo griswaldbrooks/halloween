@@ -1,15 +1,14 @@
 #!/bin/bash
-# DEPRECATED (2025-11-11): This script is NO LONGER USED
-#
-# REPLACED BY: gcovr --sonarqube XML format (official SonarSource pattern)
-# Reference: github.com/sonarsource-cfamily-examples/linux-cmake-gcovr-gh-actions-sc
-#
-# This script was used to fix raw .gcov file paths for SonarCloud.
-# Now using gcovr to generate SonarQube XML format which handles paths correctly.
-# Kept for reference only.
-#
-# ------- ORIGINAL DOCUMENTATION -------
 # Fix .gcov Source: paths for SonarCloud integration
+# ACTIVE (2025-11-11): Used with native .gcov format for CFamily sensor
+#
+# CONTEXT:
+#   - SonarCloud CFamily sensor processes native .gcov files during analysis phase
+#   - This solves timing issue: Generic Coverage Report runs BEFORE file indexing
+#   - Native .gcov files are processed AS files are indexed (coverage applies correctly)
+#
+# PURPOSE:
+#   Transform absolute paths in .gcov files to project-relative format for SonarCloud
 #
 # PROBLEM:
 #   gcov generates files with different Source: path formats:
