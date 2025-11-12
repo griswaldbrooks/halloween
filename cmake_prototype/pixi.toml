@@ -28,7 +28,10 @@ test-quiet = { cmd = "cd build && ctest --output-on-failure", depends-on = ["bui
 
 # === Coverage Generation ===
 # Generate coverage in SonarQube XML format (for SonarCloud)
-coverage-xml = { cmd = "cd build && gcovr --sonarqube ../coverage.xml --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches", depends-on = ["test"], description = "Generate SonarQube XML coverage report" }
+# Step 1: Generate with project root (so gcov can find .gcno files)
+# Step 2: Post-process XML to add cmake_prototype/ prefix for SonarCloud path matching
+# This solves: SonarCloud resolves paths from repo root, not projectBaseDir
+coverage-xml = { cmd = "cd build && gcovr --sonarqube ../coverage.xml --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches && sed -i 's|<file path=\"lib/|<file path=\"cmake_prototype/lib/|g' ../coverage.xml", depends-on = ["test"], description = "Generate SonarQube XML coverage report" }
 
 # Generate coverage in HTML format (for human viewing)
 coverage-html = { cmd = "mkdir -p coverage && cd build && gcovr --html-details ../coverage/index.html --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches", depends-on = ["test"], description = "Generate HTML coverage report" }
