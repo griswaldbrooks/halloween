@@ -174,8 +174,7 @@ All projects should maintain at least 80% test coverage. Current status:
 - ✅ hatching_egg: 92.12% JS, 85.9% C++ (241 tests)
 - ✅ spider_crawl_projection: 97.48% (11 test suites + 2 regression prevention suites with 15 tests)
 - ✅ window_spider_trigger: **98.62% local** (93 tests, 0 skipped) - **REFACTORED Nov 2025**
-  - ⚠️ **SONARCLOUD ISSUE**: Reports 0% despite correct local coverage & lcov.info
-  - Investigation details: `window_spider_trigger/SONARCLOUD_COVERAGE_ISSUE.md`
+  - ⚠️ **SONARCLOUD ISSUE RESOLVED**: Coverage exclusions properly configured
 - ❌ twitching_body: 0% - **Priority 1** (needs refactoring)
 
 ### Test Organization
@@ -619,16 +618,15 @@ Path mismatch between .gcov Source: paths and SonarCloud file keys.
 4. Verify fix with tool before claiming success
 
 **For Next Agent:**
-- Read SESSION_2025-11-11.md for complete investigation history
-- Run verification tool FIRST before making changes
+- Check docs/archive/sessions/ for historical investigation context
+- Run verification tool FIRST before making changes (tools/sonarcloud_verify.py)
 - Don't claim fixes work without tool confirmation
 - Ask user to verify in dashboard (agents can't see UI)
 
 **References:**
-- Investigation: SESSION_2025-11-11.md
 - Tool usage: tools/README.md
 - API details: tools/SONARCLOUD_API.md
-- Current state: VERIFIED_LOCAL_COVERAGE.md
+- Historical investigations: docs/archive/investigations/
 
 ## SonarCloud Coverage Integration
 
@@ -662,13 +660,6 @@ When creating projects with browser-only code:
 1. Add `**/public/**` to sonar.coverage.exclusions immediately
 2. Document which files are browser-only in README
 3. Separate browser and Node.js code into different directories when possible
-
-**Investigation Document:**
-See `window_spider_trigger/SONARCLOUD_COVERAGE_ISSUE.md` for:
-- Detailed root cause analysis
-- Mathematical explanation of coverage dilution
-- Verification steps
-- Lessons learned
 
 ## CMake Prototype for C++ Coverage (November 2025)
 
@@ -761,10 +752,10 @@ cmake_prototype/
 ### For Next Agent
 
 **Read these in order:**
-1. `cmake_prototype/NEXT_AGENT.md` - Quick start and decision point
+1. `cmake_prototype/docs/NEXT_AGENT.md` - Quick start and decision point
 2. `cmake_prototype/README.md` - Complete technical guide
-3. `cmake_prototype/COMPARISON.md` - Should we migrate hatching_egg?
-4. `cmake_prototype/MIGRATION.md` - How to migrate step-by-step
+3. `cmake_prototype/docs/COMPARISON.md` - Should we migrate hatching_egg?
+4. `cmake_prototype/docs/MIGRATION.md` - How to migrate step-by-step
 
 **Decision to make:**
 - **Option A (Recommended):** Migrate hatching_egg to CMake (~90 minutes, solves everything)
@@ -783,13 +774,10 @@ cmake_prototype/
 
 ### Research Documentation
 
-Extensive investigation documents from prototype development (all in repo root):
-- `SONARCLOUD_CPP_COVERAGE_ROOT_CAUSE.md` - Root cause analysis
-- `ARDUINO_CLI_INVESTIGATION.md` - arduino-cli compatibility testing
-- `COMPLETE_DUPLICATION_ANALYSIS.md` - Code duplication analysis
-- `GCOVR_IMPLEMENTATION_PLAN.md` - gcovr integration approach
-- `RESEARCH_NO_DUPLICATION_SOLUTIONS.md` - Zero-duplication approaches
-- And more (see `SESSION_2025-11-12_CMAKE_PROTOTYPE.md` for complete list)
+Extensive investigation documents from prototype development are archived in:
+- `docs/archive/investigations/` - Root cause analyses, research findings
+- `docs/archive/sessions/SESSION_2025-11-12_CMAKE_PROTOTYPE.md` - Complete session log
+- `cmake_prototype/docs/` - Prototype-specific documentation
 
 ---
 

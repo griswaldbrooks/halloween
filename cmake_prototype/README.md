@@ -285,7 +285,7 @@ To migrate your hatching_egg project to this structure:
 
 7. **Delete duplicate headers** in test/ directory
 
-See [MIGRATION.md](MIGRATION.md) for detailed step-by-step instructions.
+See [MIGRATION.md](docs/MIGRATION.md) for detailed step-by-step instructions.
 
 ## Adding More Libraries
 
@@ -371,7 +371,7 @@ This prototype is part of the Halloween animatronics project.
 3. Test it locally (`pixi run test`)
 4. View coverage (`pixi run view-coverage`)
 5. Decide if you want to migrate hatching_egg
-6. Follow MIGRATION.md if proceeding
+6. Follow docs/MIGRATION.md if proceeding
 
 ---
 
