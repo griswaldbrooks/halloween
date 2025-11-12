@@ -39,6 +39,7 @@ jobs:
         uses: prefix-dev/setup-pixi@v0.4.1
         with:
           pixi-version: latest
+          manifest-path: cmake_prototype/pixi.toml
 
       # Configure CMake
       - name: Configure CMake
