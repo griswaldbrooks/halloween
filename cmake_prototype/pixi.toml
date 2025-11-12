@@ -28,11 +28,11 @@ test-quiet = { cmd = "cd build && ctest --output-on-failure", depends-on = ["bui
 
 # === Coverage Generation ===
 # Generate coverage in SonarQube XML format (for SonarCloud)
-# CRITICAL: SonarCloud file keys are ALWAYS repo-relative, regardless of projectBaseDir
-# File key example: griswaldbrooks_halloween:cmake_prototype/lib/servo_logic.cpp
-# Step 1: gcovr generates with --root .. making paths relative to cmake_prototype (lib/servo_logic.cpp)
-# Step 2: sed adds cmake_prototype/ prefix to match SonarCloud file keys
-coverage-xml = { cmd = "cd build && gcovr --sonarqube ../coverage.xml --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches && sed -i 's|<file path=\"lib/|<file path=\"cmake_prototype/lib/|g' ../coverage.xml", depends-on = ["test"], description = "Generate SonarQube XML coverage report" }
+# CRITICAL: When using projectBaseDir in CI, paths must be relative to projectBaseDir
+# CI runs scanner with: projectBaseDir: cmake_prototype
+# Therefore coverage.xml paths must be: lib/servo_logic.cpp (NOT cmake_prototype/lib/servo_logic.cpp)
+# The --root .. makes paths relative to cmake_prototype directory
+coverage-xml = { cmd = "cd build && gcovr --sonarqube ../coverage.xml --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches", depends-on = ["test"], description = "Generate SonarQube XML coverage report" }
 
 # Generate coverage in HTML format (for human viewing)
 coverage-html = { cmd = "mkdir -p coverage && cd build && gcovr --html-details ../coverage/index.html --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches", depends-on = ["test"], description = "Generate HTML coverage report" }
