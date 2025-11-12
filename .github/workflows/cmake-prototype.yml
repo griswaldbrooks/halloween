@@ -101,6 +101,12 @@ jobs:
           path: cmake_prototype/coverage.xml
           retention-days: 30
 
+      # WORKAROUND: SonarCloud resolves compile-commands path from repo root despite projectBaseDir
+      - name: Copy compile_commands.json to expected location
+        run: |
+          mkdir -p /home/runner/work/halloween/halloween/build
+          cp build/compile_commands.json /home/runner/work/halloween/halloween/build/
+
       # SonarCloud scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
