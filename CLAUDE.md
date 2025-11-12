@@ -670,3 +670,129 @@ See `window_spider_trigger/SONARCLOUD_COVERAGE_ISSUE.md` for:
 - Verification steps
 - Lessons learned
 
+## CMake Prototype for C++ Coverage (November 2025)
+
+**Location:** `cmake_prototype/`
+**Branch:** `test/cmake-prototype`
+**Status:** ✅ Complete and verified in SonarCloud
+
+### Purpose
+
+This prototype demonstrates a solution to the hatching_egg SonarCloud C++ coverage issue:
+- 100% test coverage (21 GoogleTest tests)
+- SonarCloud successfully displays coverage
+- Zero code duplication
+- Works with arduino-cli
+
+### Root Cause Analysis
+
+**Why hatching_egg fails (85.9% local, 0% SonarCloud):**
+1. **No compile_commands.json** - SonarCloud CFamily sensor requires this for C++ analysis
+2. **Wrong coverage format** - Using .gcov files instead of SonarQube XML format
+3. **Code duplication** - Multiple copies of headers cause SonarCloud ambiguity
+
+**Why prototype works:**
+1. **CMake generates compile_commands.json** - `CMAKE_EXPORT_COMPILE_COMMANDS=ON`
+2. **gcovr generates XML format** - SonarQube XML format that SonarCloud processes correctly
+3. **Zero duplication** - Single source of truth in lib/ directory
+
+### Key Technical Findings
+
+#### compile_commands.json is REQUIRED
+```cmake
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)  # CRITICAL for SonarCloud
+```
+Without this file, SonarCloud CFamily sensor cannot analyze C++ files.
+
+#### Coverage Format Matters
+- ✅ **gcovr → SonarQube XML format** (what SonarCloud needs)
+- ❌ **gcov → .gcov files** (what hatching_egg uses)
+- ❌ **lcov → LCOV format** (doesn't work with SonarCloud C++)
+
+#### Code Duplication Breaks Coverage Attribution
+- Multiple copies of same file = SonarCloud can't determine which to use
+- Single source file = clear coverage attribution
+
+### Project Structure
+
+```
+cmake_prototype/
+├── lib/                        # Shared library code
+│   ├── servo_logic.h           # Single source of truth
+│   └── servo_logic.cpp
+├── test/                       # GoogleTest unit tests
+│   └── test_servo_logic.cpp
+├── arduino_sketch/             # Example Arduino usage
+│   └── example_sketch.ino
+├── CMakeLists.txt              # Build configuration
+├── pixi.toml                   # Task automation
+└── docs/
+    ├── README.md               # Complete guide
+    ├── NEXT_AGENT.md           # Quick start for next agent
+    ├── QUICKSTART.md           # 5-minute demo
+    ├── MIGRATION.md            # Step-by-step migration guide
+    ├── COMPARISON.md           # Cost/benefit analysis
+    └── PROTOTYPE_SUMMARY.md    # Technical details
+```
+
+### Benefits Over Current Approach
+
+1. **Zero code duplication** - Headers live in lib/, both tests and Arduino sketches use them
+2. **Industry-standard build system** - CMake is widely used and well-supported
+3. **Better IDE support** - compile_commands.json enables full IntelliSense/clangd
+4. **SonarCloud compatibility** - Coverage displays correctly
+5. **arduino-cli still works** - Libraries in lib/ are automatically discovered
+
+### Verification Results
+
+✅ **Local:**
+- 21/21 tests passing
+- 100% coverage (17/17 lines, 8/8 branches)
+- gcovr HTML report generated
+
+✅ **CI/CD:**
+- GitHub Actions workflow passing
+- gcovr XML coverage generated
+
+✅ **SonarCloud:**
+- Coverage displaying correctly (100%)
+- Dashboard: https://sonarcloud.io/dashboard?id=griswaldbrooks_halloween&branch=test%2Fcmake-prototype
+
+### For Next Agent
+
+**Read these in order:**
+1. `cmake_prototype/NEXT_AGENT.md` - Quick start and decision point
+2. `cmake_prototype/README.md` - Complete technical guide
+3. `cmake_prototype/COMPARISON.md` - Should we migrate hatching_egg?
+4. `cmake_prototype/MIGRATION.md` - How to migrate step-by-step
+
+**Decision to make:**
+- **Option A (Recommended):** Migrate hatching_egg to CMake (~90 minutes, solves everything)
+- **Option B:** Try quick fixes (compile_commands.json + gcovr, may not fully solve)
+- **Option C:** Keep as reference documentation
+
+**Key insight:** This proves that the SonarCloud C++ coverage issue CAN be solved. The prototype demonstrates a working implementation with 100% coverage visible in SonarCloud.
+
+### Lessons Learned
+
+1. **SonarCloud requires specific formats** - Not all coverage formats work
+2. **compile_commands.json is non-negotiable** - CFamily sensor must have this
+3. **Duplication causes silent failures** - SonarCloud won't warn, just won't show coverage
+4. **CMake works with Arduino** - arduino-cli discovers libraries in lib/ automatically
+5. **Tool verification is critical** - Use tools/sonarcloud_verify.py to verify actual state
+
+### Research Documentation
+
+Extensive investigation documents from prototype development (all in repo root):
+- `SONARCLOUD_CPP_COVERAGE_ROOT_CAUSE.md` - Root cause analysis
+- `ARDUINO_CLI_INVESTIGATION.md` - arduino-cli compatibility testing
+- `COMPLETE_DUPLICATION_ANALYSIS.md` - Code duplication analysis
+- `GCOVR_IMPLEMENTATION_PLAN.md` - gcovr integration approach
+- `RESEARCH_NO_DUPLICATION_SOLUTIONS.md` - Zero-duplication approaches
+- And more (see `SESSION_2025-11-12_CMAKE_PROTOTYPE.md` for complete list)
+
+---
+
+**Last Updated:** 2025-11-12
+**Session:** SESSION_2025-11-12_CMAKE_PROTOTYPE.md
+

@@ -1,0 +1,153 @@
+name: Test and Coverage
+
+on:
+  push:
+    branches: [ main, develop, 'test/**' ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  test-and-coverage:
+    name: Build, Test, and Generate Coverage
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cmake_prototype
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for SonarCloud
+
+      # Install dependencies
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            ninja-build \
+            g++ \
+            libgtest-dev \
+            gcovr \
+            lcov
+
+      # Setup pixi environment
+      - name: Setup pixi
+        uses: prefix-dev/setup-pixi@v0.4.1
+        with:
+          pixi-version: latest
+          manifest-path: cmake_prototype/pixi.toml
+
+      # Configure CMake
+      - name: Configure CMake
+        run: pixi run configure
+
+      # Build
+      - name: Build
+        run: pixi run build
+
+      # Run tests
+      - name: Run tests
+        run: pixi run test
+
+      # Generate coverage in SonarQube XML format
+      - name: Generate coverage (XML)
+        run: pixi run coverage
+
+      # Generate coverage in HTML format (for artifacts)
+      - name: Generate coverage (HTML)
+        run: pixi run coverage-html
+
+      # Show coverage summary in logs
+      - name: Display coverage summary
+        run: pixi run coverage-summary
+
+      # Debug: List files for SonarCloud
+      - name: Debug - List build artifacts
+        run: |
+          echo "=== Current working directory ==="
+          pwd
+          echo ""
+          echo "=== Files in current directory ==="
+          ls -la
+          echo ""
+          echo "=== Build directory ==="
+          ls -la build/ || echo "build directory not found"
+          echo ""
+          echo "=== Check for compile_commands.json ==="
+          find . -name "compile_commands.json" -type f 2>/dev/null || echo "No compile_commands.json found"
+          echo ""
+          echo "=== Contents of compile_commands.json (if exists) ==="
+          if [ -f build/compile_commands.json ]; then
+            cat build/compile_commands.json | head -20
+          fi
+
+      # Upload coverage HTML as artifact
+      - name: Upload coverage HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: cmake_prototype/coverage/
+          retention-days: 30
+
+      # Upload coverage XML as artifact
+      - name: Upload coverage XML
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: cmake_prototype/coverage.xml
+          retention-days: 30
+
+      # WORKAROUND: SonarCloud resolves compile-commands path from repo root despite projectBaseDir
+      - name: Copy compile_commands.json to expected location
+        run: |
+          mkdir -p /home/runner/work/halloween/halloween/build
+          cp build/compile_commands.json /home/runner/work/halloween/halloween/build/
+
+      # SonarCloud scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: cmake_prototype
+
+      # Fail if coverage is below threshold (optional)
+      - name: Check coverage threshold
+        run: |
+          COVERAGE=$(pixi run coverage-summary | grep TOTAL | awk '{print $4}' | sed 's/%//')
+          echo "Coverage: ${COVERAGE}%"
+          if [ -z "$COVERAGE" ]; then
+            echo "WARNING: Could not parse coverage"
+            exit 0
+          fi
+          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+            echo "ERROR: Coverage ${COVERAGE}% is below 80% threshold"
+            exit 1
+          fi
+          echo "SUCCESS: Coverage ${COVERAGE}% meets threshold"
+
+  # Optional: Build Arduino sketch (requires setup)
+  # arduino-compile:
+  #   name: Compile Arduino Sketch
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #
+  #     - name: Setup Arduino CLI
+  #       uses: arduino/setup-arduino-cli@v1
+  #
+  #     - name: Install Arduino platform
+  #       run: |
+  #         arduino-cli core update-index
+  #         arduino-cli core install arduino:avr
+  #
+  #     - name: Compile sketch
+  #       run: |
+  #         arduino-cli compile --fqbn arduino:avr:leonardo \
+  #           arduino_sketch/example_sketch

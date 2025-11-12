@@ -89,6 +89,27 @@ cd window_spider_trigger
 pixi run deploy
 ```
 
+### CMake Prototype (Experimental)
+**Location:** `cmake_prototype/`
+
+**Status:** ✅ Verified working with SonarCloud
+
+A proof-of-concept demonstrating:
+- Zero code duplication
+- 100% C++ test coverage (21 GoogleTest tests)
+- SonarCloud integration that works
+- CMake build system
+- arduino-cli compatibility
+
+This prototype solves the C++ coverage display issue that hatching_egg currently has. See `cmake_prototype/README.md` for complete documentation and `cmake_prototype/NEXT_AGENT.md` for next steps.
+
+**Quick Start:**
+```bash
+cd cmake_prototype
+pixi run test
+pixi run coverage
+```
+
 ## 🛠️ Development Environment
 
 All projects use **Pixi** for reproducible environments:
