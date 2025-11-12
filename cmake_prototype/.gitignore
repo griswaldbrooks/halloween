@@ -1,0 +1,30 @@
+# CMake build artifacts
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.ninja
+.ninja_*
+
+# Coverage reports
+coverage/
+coverage.xml
+*.gcov
+*.gcda
+*.gcno
+
+# Test executables
+*_tests
+test_*_runner
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
