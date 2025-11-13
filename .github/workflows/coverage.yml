@@ -87,6 +87,42 @@ jobs:
         pixi install
         pixi run generate-compile-db || echo "⚠️ Compilation database generation failed (non-fatal)"
 
+    - name: Merge Compilation Databases
+      run: |
+        # SonarCloud only accepts one compile_commands.json path
+        # Merge hatching_egg and cmake_prototype databases into one
+        echo "Merging compilation databases..."
+        python3 -c "
+        import json
+        import os
+
+        databases = []
+
+        # Load hatching_egg compile_commands.json
+        hatching_egg_db = 'hatching_egg/compile_commands.json'
+        if os.path.exists(hatching_egg_db):
+            with open(hatching_egg_db) as f:
+                databases.extend(json.load(f))
+            print(f'Loaded {len(json.load(open(hatching_egg_db)))} entries from hatching_egg')
+
+        # Load cmake_prototype compile_commands.json
+        cmake_db = 'cmake_prototype/build/compile_commands.json'
+        if os.path.exists(cmake_db):
+            with open(cmake_db) as f:
+                entries = json.load(f)
+                databases.extend(entries)
+            print(f'Loaded {len(entries)} entries from cmake_prototype')
+
+        # Write merged database to root
+        with open('compile_commands.json', 'w') as f:
+            json.dump(databases, f, indent=2)
+
+        print(f'Merged compilation database written: {len(databases)} total entries')
+        "
+
+        echo "Compilation database merged successfully"
+        ls -lh compile_commands.json
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       with:
