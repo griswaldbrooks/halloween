@@ -87,7 +87,7 @@ jobs:
         pixi install
         pixi run generate-compile-db || echo "⚠️ Compilation database generation failed (non-fatal)"
 
-    - name: Merge Compilation Databases
+    - name: Merge Compilation Databases and Coverage
       run: |
         # SonarCloud only accepts one compile_commands.json path
         # Merge hatching_egg and cmake_prototype databases into one
@@ -122,6 +122,15 @@ jobs:
 
         echo "Compilation database merged successfully"
         ls -lh compile_commands.json
+
+        # Merge all .gcov files into a single directory for SonarCloud
+        # SonarCloud's sonar.cfamily.gcov.reportsPath only supports a single path
+        echo "Merging .gcov files from all projects..."
+        mkdir -p coverage-gcov
+        cp -v hatching_egg/coverage-cpp/*.gcov coverage-gcov/ 2>/dev/null || echo "No hatching_egg .gcov files"
+        cp -v cmake_prototype/coverage-cpp/*.gcov coverage-gcov/ 2>/dev/null || echo "No cmake_prototype .gcov files"
+        echo "Total .gcov files: $(ls coverage-gcov/*.gcov 2>/dev/null | wc -l)"
+        ls -lh coverage-gcov/
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
