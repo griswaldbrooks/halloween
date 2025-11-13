@@ -22,6 +22,7 @@ target_compile_options(servo_logic_tests PRIVATE
     --coverage              # Enable coverage
     -fprofile-arcs         # Generate .gcda files
     -ftest-coverage        # Generate .gcno files
+    -fprofile-abs-path     # Use absolute paths in coverage data (required for SonarCloud)
     -O0                    # Disable optimization for accurate coverage
     -g                     # Include debug symbols
 )
@@ -35,6 +36,7 @@ target_compile_options(servo_logic PRIVATE
     --coverage
     -fprofile-arcs
     -ftest-coverage
+    -fprofile-abs-path     # Use absolute paths in coverage data (required for SonarCloud)
     -O0
     -g
 )
