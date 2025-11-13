@@ -60,6 +60,18 @@ jobs:
           pixi run test
         fi
 
+    - name: Test CMake Prototype with Coverage
+      working-directory: ./cmake_prototype
+      run: |
+        pixi install
+        if pixi task list 2>&1 | grep -q "coverage"; then
+          pixi run coverage
+        else
+          echo "⚠️  No coverage task defined for cmake_prototype"
+          echo "Running tests only"
+          pixi run test
+        fi
+
     - name: Fix LCOV paths for SonarCloud
       run: |
         chmod +x ./scripts/fix-lcov-paths.sh
@@ -100,6 +112,8 @@ jobs:
           hatching_egg/coverage-js/
           hatching_egg/coverage-cpp/
           hatching_egg/coverage-python/
+          cmake_prototype/coverage/
+          cmake_prototype/coverage-cpp/
         retention-days: 30
 
     - name: Coverage Summary

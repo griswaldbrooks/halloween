@@ -8,7 +8,7 @@ platforms = ["linux-64"]
 [dependencies]
 cmake = ">=3.14"
 gtest = "*"
-gcovr = "*"
+gcovr = "*"  # Version 8.3+ required for gcc 14.x compatibility (5.0 fails with modern gcc)
 lcov = "*"
 ninja = "*"
 cxx-compiler = "*"
@@ -34,6 +34,11 @@ test-quiet = { cmd = "cd build && ctest --output-on-failure", depends-on = ["bui
 # The --root .. makes paths relative to cmake_prototype directory
 coverage-xml = { cmd = "cd build && gcovr --sonarqube ../coverage.xml --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches", depends-on = ["test"], description = "Generate SonarQube XML coverage report" }
 
+# Generate native .gcov files for SonarCloud CFamily sensor
+# These are processed during CFamily sensor analysis phase (solves timing issue)
+# Pattern matches hatching_egg coverage generation approach
+coverage-gcov = { cmd = "bash -c 'cd build && echo \"Generating native .gcov files for SonarCloud...\" && gcov -p lib/CMakeFiles/servo_logic.dir/servo_logic.cpp.gcda && mkdir -p ../coverage-cpp && mv *.gcov ../coverage-cpp/ && echo \"Native .gcov files generated in coverage-cpp/ ($(ls ../coverage-cpp/*.gcov 2>/dev/null | wc -l) files)\"'", depends-on = ["test"], description = "Generate native .gcov files for SonarCloud" }
+
 # Generate coverage in HTML format (for human viewing)
 coverage-html = { cmd = "mkdir -p coverage && cd build && gcovr --html-details ../coverage/index.html --root .. --filter '../lib/.*' --exclude-throw-branches --exclude-unreachable-branches", depends-on = ["test"], description = "Generate HTML coverage report" }
 
@@ -43,8 +48,8 @@ coverage-terminal = { cmd = "cd build && gcovr --root .. --filter '../lib/.*' --
 # Alias for CI/CD compatibility
 coverage-summary = { depends-on = ["coverage-terminal"], description = "Show coverage summary (alias for coverage-terminal)" }
 
-# Combined coverage (both XML and HTML)
-coverage = { depends-on = ["coverage-xml", "coverage-html", "coverage-terminal"], description = "Generate all coverage reports" }
+# Combined coverage (XML, gcov, and HTML)
+coverage = { depends-on = ["coverage-xml", "coverage-gcov", "coverage-html", "coverage-terminal"], description = "Generate all coverage reports" }
 
 # === View Coverage ===
 view-coverage = { cmd = "xdg-open coverage/index.html", description = "Open HTML coverage report in browser" }
