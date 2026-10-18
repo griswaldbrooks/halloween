@@ -1,0 +1,49 @@
+# investigation: group together, the bound player works each room, the spirit's order
+deliverance go deliverance
+deliverance examine
+deliverance workh*
+deliverance go seance
+deliverance place
+sync
+waitstill go waitstill
+waitstill examine
+waitstill workh*
+waitstill go seance
+waitstill place
+sync
+mindwell go mindwell
+mindwell examine
+mindwell workh*
+mindwell go seance
+mindwell place
+sync
+remember go remember
+remember examine
+remember workh*
+remember go seance
+remember place
+sync
+# finale one piece at a time with everyone watching, which is what a chain investigation teaches;
+# table order, a confer before each, no hint until the medium pushes
+deliverance confer
+deliverance relay remember
+remember work* carried
+sync
+deliverance confer
+deliverance examine seen
+waitstill work* seen
+sync
+deliverance confer
+deliverance examine heard
+deliverance relay remember
+remember needs heard
+remember show mindwell
+mindwell needs heard
+mindwell work* heard
+sync
+deliverance confer
+remember work* said
+remember work* slate
+remember show deliverance
+deliverance needs testimony
+deliverance work* testimony

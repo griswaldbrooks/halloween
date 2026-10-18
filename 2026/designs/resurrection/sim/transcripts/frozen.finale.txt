@@ -1,0 +1,39 @@
+# transcripts/frozen.finale: finale from time zero 19:56 (fourth curse at 19:56)
+20:56 +1:00 remember    wait                | Deliverance's scream comes close. Her voice: 'Deliverance. Come.'; The deliverance socket pulses fast, red and white.
+      -> deliverance Deliverance's scream comes close. Her voice: 'Deliverance. Come.'; The deliverance socket pulses fast, red and white.
+      -> waitstill   Deliverance's scream comes close. Her voice: 'Deliverance. Come.'
+      -> mindwell    The deliverance socket pulses fast, red and white.
+21:26 +1:30 remember    wait                | Deliverance's scream stops. From the board: 'Here, Mother.'; The deliverance socket goes steady red. Deliverance is taken; the bearer sits still.
+      -> deliverance Deliverance's scream stops. From the board: 'Here, Mother.'; The deliverance socket goes steady red. Deliverance is taken; the bearer sits still.
+      -> waitstill   Deliverance's scream stops. From the board: 'Here, Mother.'
+      -> mindwell    The deliverance socket goes steady red. Deliverance is taken; the bearer sits still.
+22:26 +2:30 remember    wait                | Waitstill's scream comes close. Her voice: 'Waitstill. Come.'; The waitstill socket pulses fast, red and white.
+      -> deliverance Waitstill's scream comes close. Her voice: 'Waitstill. Come.'; The waitstill socket pulses fast, red and white.
+      -> waitstill   Waitstill's scream comes close. Her voice: 'Waitstill. Come.'
+      -> mindwell    The waitstill socket pulses fast, red and white.
+22:56 +3:00 remember    wait                | Waitstill's scream stops. From the board: 'Here, Mother.'; The waitstill socket goes steady red. Waitstill is taken; the bearer sits still.
+      -> deliverance Waitstill's scream stops. From the board: 'Here, Mother.'; The waitstill socket goes steady red. Waitstill is taken; the bearer sits still.
+      -> waitstill   Waitstill's scream stops. From the board: 'Here, Mother.'
+      -> mindwell    The waitstill socket goes steady red. Waitstill is taken; the bearer sits still.
+23:56 +4:00 remember    wait                | Mindwell's scream comes close. Her voice: 'Mindwell. Come.'; The mindwell socket pulses fast, red and white.
+      -> deliverance Mindwell's scream comes close. Her voice: 'Mindwell. Come.'; The mindwell socket pulses fast, red and white.
+      -> waitstill   Mindwell's scream comes close. Her voice: 'Mindwell. Come.'
+      -> mindwell    The mindwell socket pulses fast, red and white.
+24:26 +4:30 remember    wait                | Mindwell's scream stops. From the board: 'Here, Mother.'; The mindwell socket goes steady red. Mindwell is taken; the bearer sits still.
+      -> deliverance Mindwell's scream stops. From the board: 'Here, Mother.'; The mindwell socket goes steady red. Mindwell is taken; the bearer sits still.
+      -> waitstill   Mindwell's scream stops. From the board: 'Here, Mother.'
+      -> mindwell    The mindwell socket goes steady red. Mindwell is taken; the bearer sits still.
+25:56 +6:00 remember    wait                | Remember's scream comes close. Her voice: 'Remember. Come.'; The remember socket pulses fast, red and white.
+      -> deliverance Remember's scream comes close. Her voice: 'Remember. Come.'; The remember socket pulses fast, red and white.
+      -> waitstill   Remember's scream comes close. Her voice: 'Remember. Come.'
+      -> mindwell    The remember socket pulses fast, red and white.
+26:26 +6:30 remember    wait                | Remember's scream stops. From the board: 'Here, Mother.'; The remember socket goes steady red. Remember is taken; the bearer sits still.
+      -> deliverance Remember's scream stops. From the board: 'Here, Mother.'; The remember socket goes steady red. Remember is taken; the bearer sits still.
+      -> waitstill   Remember's scream stops. From the board: 'Here, Mother.'
+      -> mindwell    The remember socket goes steady red. Remember is taken; the bearer sits still.
+== LOST == You lost because the fire ended with children still in it: the roll is called: 0 of four went home (nobody); she keeps deliverance, waitstill, mindwell, remember. Tier 0 of 4.
+total 26:26; stages: opening 3:30, deliverance 2:39, seance 0:50, waitstill 3:03, seance 0:50, mindwell 2:58, seance 0:50, remember 2:29, seance 0:20, turn 2:25, finale 6:30; hints 4; taken ['deliverance', 'waitstill', 'mindwell', 'remember']
+  finale taken:deliverance  21:26
+  finale taken:waitstill    22:56
+  finale taken:mindwell     24:26
+  finale taken:remember     26:26

@@ -1,0 +1,45 @@
+# transcripts/hesitant.finale: finale from time zero 19:56 (fourth curse at 19:56)
+19:56 +0:00 deliverance work               !! nobody here who knows sever_deliverance can supply hands
+20:16 +0:20 deliverance confer              | The players confer.
+      -> waitstill   The players confer.
+      -> remember    The players confer.
+20:31 +0:35 deliverance relay waitstill     | deliverance tells waitstill what they know.
+      -> waitstill   deliverance tells waitstill what they know.
+      -> remember    deliverance tells waitstill what they know.
+20:46 +0:50 waitstill   work                | sever_deliverance: no result yet (0:15 of effort so far).
+21:01 +1:05 waitstill   work                | Deliverance's scream comes close. Her voice: 'Deliverance. Come.'; Deliverance's scream leaves the fire. A bell.
+      -> deliverance Deliverance's scream comes close. Her voice: 'Deliverance. Come.'; Deliverance's scream leaves the fire. A bell.; The deliverance socket pulses fast, red and white.; sever_deliverance is solved.; The deliverance socket goes dark; a river light comes up. Deliverance is home.
+      -> mindwell    The deliverance socket pulses fast, red and white.; sever_deliverance is solved.; The deliverance socket goes dark; a river light comes up. Deliverance is home.
+      -> remember    Deliverance's scream comes close. Her voice: 'Deliverance. Come.'; Deliverance's scream leaves the fire. A bell.; The deliverance socket pulses fast, red and white.; sever_deliverance is solved.; The deliverance socket goes dark; a river light comes up. Deliverance is home.
+21:16 +1:20 waitstill   relay remember      | waitstill tells remember what they know.
+      -> deliverance waitstill tells remember what they know.
+      -> remember    waitstill tells remember what they know.
+21:31 +1:35 remember    work                | sever_waitstill: no result yet (0:15 of effort so far).
+21:36 +1:40 remember    work                | Waitstill's scream leaves the fire. A bell.; sever_waitstill is solved.; The waitstill socket goes dark; a river light comes up. Waitstill is home.
+      -> deliverance Waitstill's scream leaves the fire. A bell.; sever_waitstill is solved.; The waitstill socket goes dark; a river light comes up. Waitstill is home.
+      -> waitstill   Waitstill's scream leaves the fire. A bell.
+      -> mindwell    sever_waitstill is solved.; The waitstill socket goes dark; a river light comes up. Waitstill is home.
+21:51 +1:55 mindwell    relay deliverance  
+      -> deliverance mindwell tells deliverance what they know.
+      -> waitstill   mindwell tells deliverance what they know.
+      -> remember    mindwell tells deliverance what they know.
+22:06 +2:10 deliverance work                | sever_mindwell: no result yet (0:15 of effort so far).
+22:21 +2:25 deliverance work                | sever_mindwell: no result yet (0:30 of effort so far).
+22:31 +2:35 deliverance work                | Mindwell's scream leaves the fire. A bell.; sever_mindwell is solved.; The mindwell socket goes dark; a river light comes up. Mindwell is home.
+      -> waitstill   Mindwell's scream leaves the fire. A bell.
+      -> mindwell    sever_mindwell is solved.; The mindwell socket goes dark; a river light comes up. Mindwell is home.
+      -> remember    Mindwell's scream leaves the fire. A bell.; sever_mindwell is solved.; The mindwell socket goes dark; a river light comes up. Mindwell is home.
+22:51 +2:55 remember    relay deliverance   | remember writes on the slate and shows it to deliverance.
+      -> deliverance remember writes on the slate and shows it to deliverance.
+      -> mindwell    remember writes on the slate and shows it to deliverance.
+23:06 +3:10 remember    work                | sever_remember: no result yet (0:15 of effort so far).
+23:21 +3:25 remember    work                | Remember's scream leaves the fire. A bell.; sever_remember is solved.; The remember socket goes dark; a river light comes up. Remember is home.
+      -> deliverance Remember's scream leaves the fire. A bell.; sever_remember is solved.; The remember socket goes dark; a river light comes up. Remember is home.
+      -> waitstill   Remember's scream leaves the fire. A bell.
+      -> mindwell    sever_remember is solved.; The remember socket goes dark; a river light comes up. Remember is home.
+== WON == You won because you sent all four home by their own signs before any scream reached its bearer, at 23:21 with 3:05 of the soundtrack left.
+total 23:21; stages: opening 3:30, deliverance 2:39, seance 0:50, waitstill 3:03, seance 0:50, mindwell 2:58, seance 0:50, remember 2:29, seance 0:20, turn 2:25, finale 3:25; hints 4; taken []
+  finale sever_deliverance  21:01
+  finale sever_waitstill    21:36
+  finale sever_mindwell     22:31
+  finale sever_remember     23:21

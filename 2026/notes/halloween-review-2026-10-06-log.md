@@ -1,0 +1,13 @@
+# Halloween 2026 storyboard review - running log, 2026-10-06 (Griswald + Tamari, voice)
+
+Rule for this session: notes only, no edits to the storyboard or halloween-2026-notes.md until the captain says so.
+
+- Run length: 30 min is a cap, not a target; Tamari finds 30 long per team. Open: adopt a shorter target (~20 min) by cutting scenes. Not yet decided.
+- Captain: the storyboard reads as fluff, a pile of random pieces; he cannot see how it physically functions as a game with real players in real rooms. Mechanics need to be made concrete before anything else.
+- Decision direction (Griswald + Tamari): build a simulation of the game - a vectorized plan of the rooms, players, and stations, showing how groups move from place to place over a run. Purpose: see whether the mechanics physically work. Needs the real lower-floor and basement layout (room mapping was previously deferred).
+- Simulation scope (captain): do NOT model the real house yet; an abstract S-shaped snake of rooms is fine, real layout later. Alongside the simulation, a decision tree of every choice players can make, so we can check the branches reconverge where we want them to. Worker starts building now, in the background, while the review continues.
+- 2025 run time check: the six retro transcripts and retro notes record NO measured time per group. Only hints: groups rushed through the spider tunnel ("Neat, cool" and kept going); the UV paint faded after about 10 min; the victim room's anticipation depended on how long the group spent in the previous room. No group count either. If 2026 timing matters, time each group this year.
+- Simulation scout started (Codex astra, high effort); it reads this log while building. Log page: http://127.0.0.1:4387/session/1d9a561d8d92ba57
+- First playable simulation is up: http://127.0.0.1:4387/session/7ef3a8255c6e7d20 (worker still checking the full-run and curse branches).
+- Simulation findings (worker, rev 07 rules): (1) baseline cannot hit 20 min: 24 min of scenes + 1 min moving + 1 min per sacrifice = 25 to 28 min depending on survivors. (2) Five failures can still keep all four guests alive (four offerings + one curse): the economy never forces a removal. (3) The Named-curse fallback is unreachable under baseline numbers. (4) Arrival, direct contact, and reveal have no pass/fail or cost at all. (5) A removal needs both performers, so the game pauses for about a minute each time. (6) The Oct 1 notes (sacrifice and blindness as maybes, spy renamed Informer) are newer than storyboard 07; the sim follows 07 and flags the conflict.
+- Sim bug (captain): Step advances one event then stops; Play does not proceed. Sent to the worker: make any waiting choice obvious, let Play use defaults, fix if a real bug.

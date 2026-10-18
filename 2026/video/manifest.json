@@ -1,0 +1,18 @@
+{
+  "script.md": {
+    "bytes": 12378,
+    "sha256": "6d01a0508b78ff688d2f3a9db9b2f5e38f7d935e11533a59f0e58e50b07b2e9b"
+  },
+  "walkthrough.mp4": {
+    "bytes": 9946866,
+    "sha256": "7a3fa1d27e1e1f7a44e619599e8de6089066558c834f6e63d6afa77bbf4bdbe8"
+  },
+  "index.html": {
+    "bytes": 13864085,
+    "sha256": "b02029bf3e1ec3164d6e5e6ebe9f00ac4749b609b5b33eda2e8006f1c2f9dea4"
+  },
+  "report.md": {
+    "bytes": 11112,
+    "sha256": "e4a28955534c1547af3533be9db3b0d160778430ff54a4f39a0f0dcbd4605511"
+  }
+}

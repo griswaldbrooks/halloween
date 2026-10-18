@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="490" viewBox="0 0 1240 490" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <rect width="1240" height="490" fill="#fbf8f1"/>
+  <text x="20" y="30" font-size="20" font-weight="bold">Father's sign, the lock that takes it, and Father's answer. Directions as seen FROM THE WINDOW.</text>
+  <text x="20" y="52" fill="#444">Left: what Deliverance's lamp does, over and over. Middle: the same four pushes on the box's lock. Right: the countersign from the window, and his light going out.</text>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#ffd34d"/>
+    </marker>
+    <marker id="w" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#ddd"/>
+    </marker>
+  </defs>
+
+  <!-- panel 1: the sign, as the lamp draws it -->
+  <rect x="20" y="70" width="380" height="402" fill="#1b2230" rx="8"/>
+  <text x="210" y="95" fill="#ddd" text-anchor="middle" font-size="13">1. THE SIGN: the yard at night, through the spyglass</text>
+  <circle cx="210" cy="240" r="7" fill="#777"/>
+  <text x="210" y="262" fill="#aaa" text-anchor="middle" font-size="12">starts at his chest</text>
+  <text x="210" y="276" fill="#aaa" text-anchor="middle" font-size="12">ends there, covered</text>
+  <circle cx="210" cy="150" r="16" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <text x="210" y="155" text-anchor="middle" font-weight="bold" font-size="14">1</text>
+  <text x="210" y="128" fill="#fff" text-anchor="middle" font-size="13">UP</text>
+  <circle cx="300" cy="240" r="16" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <text x="300" y="245" text-anchor="middle" font-weight="bold" font-size="14">2</text>
+  <text x="326" y="245" fill="#fff" font-size="13">RIGHT</text>
+  <circle cx="210" cy="330" r="16" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <text x="210" y="335" text-anchor="middle" font-weight="bold" font-size="14">3</text>
+  <text x="210" y="368" fill="#fff" text-anchor="middle" font-size="13">DOWN</text>
+  <circle cx="120" cy="240" r="16" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <text x="120" y="245" text-anchor="middle" font-weight="bold" font-size="14">4</text>
+  <text x="94" y="245" fill="#fff" font-size="13" text-anchor="end">LEFT</text>
+  <path d="M226 160 A90 90 0 0 1 290 224" fill="none" stroke="#ffd34d" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M290 256 A90 90 0 0 1 226 320" fill="none" stroke="#ffd34d" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M194 320 A90 90 0 0 1 130 256" fill="none" stroke="#ffd34d" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M130 224 A90 90 0 0 1 194 160" fill="none" stroke="#ffd34d" stroke-width="2" marker-end="url(#a)"/>
+  <text x="210" y="398" fill="#ccc" text-anchor="middle" font-size="12">four stops, about 1 s each, brisk moves between;</text>
+  <text x="210" y="414" fill="#ccc" text-anchor="middle" font-size="12">then covered about 5 s; then drawn again, and again,</text>
+  <text x="210" y="430" fill="#ccc" text-anchor="middle" font-size="12">until the window answers. He never walks.</text>
+  <text x="210" y="448" fill="#9ab" text-anchor="middle" font-size="12">he faces the house, so his right is the window's left.</text>
+  <text x="210" y="462" fill="#9ab" text-anchor="middle" font-size="12">run sheet: up, YOUR LEFT, down, YOUR RIGHT</text>
+
+  <!-- panel 2: the lock -->
+  <rect x="420" y="70" width="380" height="402" fill="#fff" stroke="#999" rx="8"/>
+  <text x="610" y="95" text-anchor="middle" font-size="13" fill="#333">2. THE LOCK: the directional padlock on Father's box</text>
+  <path d="M560 188 v-30 a50 50 0 0 1 100 0 v30" fill="none" stroke="#555" stroke-width="10"/>
+  <rect x="535" y="188" width="150" height="150" rx="14" fill="#2f3a4a" stroke="#111" stroke-width="2"/>
+  <circle cx="610" cy="263" r="48" fill="#e6e6e6" stroke="#999" stroke-width="2"/>
+  <circle cx="610" cy="263" r="14" fill="#555"/>
+  <path d="M610 233 l-8 12 h16 z" fill="#333"/>
+  <path d="M640 263 l-12 -8 v16 z" fill="#333"/>
+  <path d="M610 293 l-8 -12 h16 z" fill="#333"/>
+  <path d="M580 263 l12 -8 v16 z" fill="#333"/>
+  <text x="610" y="210" text-anchor="middle" font-weight="bold" fill="#ff6b6b">1 up</text>
+  <text x="692" y="268" font-weight="bold" fill="#c0392b">2 right</text>
+  <text x="610" y="326" text-anchor="middle" font-weight="bold" fill="#ff6b6b">3 down</text>
+  <text x="528" y="268" font-weight="bold" fill="#c0392b" text-anchor="end">4 left</text>
+  <text x="610" y="366" text-anchor="middle" font-size="13" fill="#333">push where the lamp stopped: up, right, down, left;</text>
+  <text x="610" y="384" text-anchor="middle" font-size="13" fill="#333">pull the shackle. The box opens.</text>
+  <text x="610" y="410" text-anchor="middle" font-size="12" fill="#777">wrong try? squeeze the shackle twice and begin again;</text>
+  <text x="610" y="426" text-anchor="middle" font-size="12" fill="#777">the lamp is still drawing the ring out in the yard</text>
+  <text x="610" y="450" text-anchor="middle" font-size="12" fill="#777">inside: the shuttered lantern, Josiah's note, the map</text>
+
+  <!-- panel 3: the countersign -->
+  <rect x="820" y="70" width="400" height="402" fill="#1b2230" rx="8"/>
+  <text x="1020" y="95" fill="#ddd" text-anchor="middle" font-size="13">3. THE COUNTERSIGN: from the window, as Deliverance sees it</text>
+  <!-- the house front with one window -->
+  <rect x="860" y="112" width="320" height="120" fill="#242c3a" stroke="#555"/>
+  <rect x="945" y="128" width="150" height="90" fill="#0e1118" stroke="#8a8a8a" stroke-width="2"/>
+  <line x1="1020" y1="128" x2="1020" y2="218" stroke="#8a8a8a"/>
+  <line x1="945" y1="173" x2="1095" y2="173" stroke="#8a8a8a"/>
+  <text x="1020" y="247" fill="#aaa" text-anchor="middle" font-size="12">the dark house; the lantern is the one lit thing in its front</text>
+  <!-- three shows -->
+  <circle cx="960" cy="290" r="14" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <circle cx="990" cy="290" r="7" fill="#444"/>
+  <circle cx="1020" cy="290" r="14" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <circle cx="1050" cy="290" r="7" fill="#444"/>
+  <circle cx="1080" cy="290" r="14" fill="#ffd34d" stroke="#fff3c0" stroke-width="2"/>
+  <text x="960" y="295" text-anchor="middle" font-weight="bold" font-size="13">1</text>
+  <text x="1020" y="295" text-anchor="middle" font-weight="bold" font-size="13">2</text>
+  <text x="1080" y="295" text-anchor="middle" font-weight="bold" font-size="13">3</text>
+  <text x="1020" y="320" fill="#fff" text-anchor="middle" font-size="13">show, cover, show, cover, show, cover</text>
+  <text x="1020" y="336" fill="#ccc" text-anchor="middle" font-size="12">about a second each; no aiming; held at the open window</text>
+  <!-- then: his lamp goes dark -->
+  <path d="M1020 348 L1020 372" stroke="#ddd" stroke-width="2" marker-end="url(#w)"/>
+  <circle cx="1020" cy="395" r="12" fill="#333" stroke="#666" stroke-width="2"/>
+  <text x="1020" y="424" fill="#fff" text-anchor="middle" font-size="13">Deliverance covers his lamp and stays dark.</text>
+  <text x="1020" y="440" fill="#ccc" text-anchor="middle" font-size="12">That is the acknowledgment; the exchange is over.</text>
+  <text x="1020" y="454" fill="#9ab" text-anchor="middle" font-size="12">two, four, or a fumble: he ignores it and keeps drawing the ring</text>
+</svg>

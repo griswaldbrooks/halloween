@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8.5in" height="11in" viewBox="0 0 816 1056">
+<defs>
+<marker id="arrE" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,1 L9,5 L0,9 z" fill="#b30000"/></marker>
+<marker id="arrS" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M10,1 L1,5 L10,9 z" fill="#b30000"/></marker>
+<marker id="arrN" markerWidth="12" markerHeight="12" refX="6" refY="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,10 L6,0 L11,10 z" fill="#111"/></marker>
+<pattern id="hatch" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#666" stroke-width="1.2"/></pattern>
+</defs>
+<rect x="0" y="0" width="816" height="1056" fill="white"/>
+<rect x="24" y="24" width="768" height="1008" fill="none" stroke="#111" stroke-width="1"/>
+<text x="40" y="62" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#111" text-anchor="start" font-weight="bold">Deliverance's drop: draft map</text>
+<rect x="548" y="38" width="228" height="34" fill="none" stroke="#b30000" stroke-width="2"/>
+<text x="662" y="60" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#b30000" text-anchor="middle" font-weight="bold">DRAFT. Placeholders, not final art</text>
+<text x="40" y="86" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">Plan view, seen from above. The house edge at the top sets the orientation. Not to scale.</text>
+<rect x="60" y="108" width="340" height="88" fill="#f4f4f4" stroke="#111" stroke-width="2"/>
+<line x1="180" y1="108" x2="180" y2="196" stroke="#111" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="290" y="157" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#111" text-anchor="middle" font-weight="normal">Dwelling house</text>
+<text x="120" y="157" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#111" text-anchor="middle" font-weight="normal" font-style="italic">office</text>
+<line x1="100" y1="196" x2="140" y2="196" stroke="white" stroke-width="4"/>
+<path d="M100,196 A40,40 0 0 0 140,236" fill="none" stroke="#111" stroke-width="1"/>
+<line x1="100" y1="196" x2="100" y2="236" stroke="#111" stroke-width="1.5"/>
+<text x="150" y="228" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">back door</text>
+<rect x="430" y="106" width="346" height="108" fill="none" stroke="#111" stroke-width="1"/>
+<text x="442" y="128" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">From the back door of the dwelling house,</text>
+<text x="442" y="147" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">go down the yard to the great oak.</text>
+<text x="442" y="166" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">At the foot of the oak stands the grey boulder.</text>
+<text x="442" y="185" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">Where the boulder meets the wall, under the</text>
+<text x="442" y="204" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">flat stone, is the hollow.</text>
+<line x1="746" y1="330" x2="746" y2="276" stroke="#111" stroke-width="2" marker-end="url(#arrN)"/>
+<text x="746" y="352" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#111" text-anchor="middle" font-weight="bold">N</text>
+<text x="746" y="368" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#b30000" text-anchor="middle" font-weight="normal">set after the survey</text>
+<rect x="84" y="262" width="616" height="518" rx="30" fill="none" stroke="#b30000" stroke-width="1" stroke-dasharray="8 5"/>
+<text x="96" y="282" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">search zone: where the lights are</text>
+<circle cx="112" cy="250" r="4" fill="#b30000"/>
+<circle cx="116" cy="320" r="4" fill="#b30000"/>
+<circle cx="136" cy="390" r="4" fill="#b30000"/>
+<circle cx="172" cy="458" r="4" fill="#b30000"/>
+<circle cx="222" cy="520" r="4" fill="#b30000"/>
+<circle cx="276" cy="568" r="4" fill="#b30000"/>
+<text x="96" y="606" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">path lights, low,</text>
+<text x="96" y="620" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">every 10 to 15 ft</text>
+<line x1="200" y1="598" x2="268" y2="574" stroke="#b30000" stroke-width="0.8"/>
+<circle cx="600" cy="400" r="70" fill="none" stroke="#b30000" stroke-width="1.5" stroke-dasharray="6 4"/>
+<circle cx="600" cy="400" r="6" fill="#b30000"/>
+<text x="600" y="300" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="middle" font-weight="normal">Decoy: the largest living tree in view.</text>
+<text x="600" y="314" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="middle" font-weight="normal">Lantern at its base. Not on the prop.</text>
+<circle cx="600" cy="422" r="7" fill="#fff3b0" stroke="#b30000" stroke-width="1.5"/>
+<line x1="610.0" y1="422.0" x2="615.0" y2="422.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="607.1" y1="429.1" x2="610.6" y2="432.6" stroke="#b30000" stroke-width="1.2"/>
+<line x1="600.0" y1="432.0" x2="600.0" y2="437.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="592.9" y1="429.1" x2="589.4" y2="432.6" stroke="#b30000" stroke-width="1.2"/>
+<line x1="590.0" y1="422.0" x2="585.0" y2="422.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="592.9" y1="414.9" x2="589.4" y2="411.4" stroke="#b30000" stroke-width="1.2"/>
+<line x1="600.0" y1="412.0" x2="600.0" y2="407.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="607.1" y1="414.9" x2="610.6" y2="411.4" stroke="#b30000" stroke-width="1.2"/>
+<circle cx="420" cy="585" r="58" fill="none" stroke="#111" stroke-width="2"/>
+<circle cx="420" cy="585" r="6" fill="#111"/>
+<text x="356" y="540" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#111" text-anchor="end" font-weight="normal">the great oak</text>
+<circle cx="436" cy="599" r="7" fill="#fff3b0" stroke="#b30000" stroke-width="1.5"/>
+<line x1="446.0" y1="599.0" x2="451.0" y2="599.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="443.1" y1="606.1" x2="446.6" y2="609.6" stroke="#b30000" stroke-width="1.2"/>
+<line x1="436.0" y1="609.0" x2="436.0" y2="614.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="428.9" y1="606.1" x2="425.4" y2="609.6" stroke="#b30000" stroke-width="1.2"/>
+<line x1="426.0" y1="599.0" x2="421.0" y2="599.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="428.9" y1="591.9" x2="425.4" y2="588.4" stroke="#b30000" stroke-width="1.2"/>
+<line x1="436.0" y1="589.0" x2="436.0" y2="584.0" stroke="#b30000" stroke-width="1.2"/>
+<line x1="443.1" y1="591.9" x2="446.6" y2="588.4" stroke="#b30000" stroke-width="1.2"/>
+<text x="490" y="566" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">Yard reality:</text>
+<text x="490" y="580" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">this tree is a stump.</text>
+<text x="490" y="594" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">The lantern sits on it.</text>
+<polygon points="300,595 340,586 372,604 378,632 358,656 322,660 296,638" fill="#d9d9d9" stroke="#111" stroke-width="2"/>
+<text x="312" y="688" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#111" text-anchor="end" font-weight="normal">the grey boulder</text>
+<text x="312" y="703" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#b30000" text-anchor="end" font-weight="normal">draw the real boulder's outline here</text>
+<rect x="370.4" y="651.0" width="30" height="12" rx="2" fill="white" stroke="#111" stroke-width="2" transform="rotate(27.6 385.4 657.0)"/>
+<circle cx="385.4" cy="657.0" r="3" fill="#111"/>
+<ellipse cx="412.2" cy="671.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 412.2 671.0)"/>
+<ellipse cx="439.0" cy="685.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 439.0 685.0)"/>
+<ellipse cx="465.8" cy="699.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 465.8 699.0)"/>
+<ellipse cx="492.6" cy="713.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 492.6 713.0)"/>
+<ellipse cx="519.4" cy="727.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 519.4 727.0)"/>
+<ellipse cx="546.2" cy="741.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 546.2 741.0)"/>
+<ellipse cx="573.0" cy="755.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 573.0 755.0)"/>
+<ellipse cx="599.8" cy="769.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 599.8 769.0)"/>
+<ellipse cx="626.6" cy="783.0" rx="13" ry="7" fill="#d9d9d9" stroke="#111" stroke-width="1.5" transform="rotate(27.6 626.6 783.0)"/>
+<text x="591.2" y="739.7" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#111" text-anchor="middle" font-weight="normal" transform="rotate(27.6 591.2 739.7)">the wall</text>
+<line x1="389.4" y1="649.0" x2="496" y2="661" stroke="#111" stroke-width="1"/>
+<text x="500" y="665" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111" text-anchor="start" font-weight="normal">the hollow, under the flat stone</text>
+<rect x="362" y="634" width="141.0" height="32" rx="8" fill="none" stroke="#b30000" stroke-width="1.2" stroke-dasharray="5 3" transform="rotate(27.6 362 634)"/>
+<text x="300" y="804" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">Yard reality: only this end of the wall exists, the mock fragment.</text>
+<text x="300" y="818" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">The rest of the wall is on the map only.</text>
+<line x1="40" y1="846" x2="776" y2="828" stroke="#b30000" stroke-width="2" stroke-dasharray="10 6"/>
+<text x="48" y="866" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b30000" text-anchor="start" font-weight="normal">rope line with reflective tags: the zone ends here</text>
+<path d="M40,900 C200,880 360,896 520,882 S700,870 776,880 L776,1000 L40,1000 Z" fill="url(#hatch)" stroke="#111" stroke-width="1.5"/>
+<rect x="318" y="930" width="180" height="26" fill="white" stroke="none"/>
+<text x="408" y="948" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#111" text-anchor="middle" font-weight="normal">low wet ground</text>
+<line x1="120.0" y1="196.0" x2="312.0" y2="592.0" stroke="#b30000" stroke-width="1.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<rect x="150.5" y="384.0" width="131.0" height="20" fill="white" stroke="none"/>
+<text x="216.0" y="398.32" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#b30000" text-anchor="middle" font-weight="normal">[__] ft (40 to 80)</text>
+<line x1="600.0" y1="400.0" x2="420.0" y2="585.0" stroke="#b30000" stroke-width="1.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<rect x="450.2" y="473.2" width="137.7" height="20" fill="white" stroke="none"/>
+<text x="519.0" y="487.57" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#b30000" text-anchor="middle" font-weight="normal">[__] ft, 25 or more</text>
+<line x1="372" y1="650" x2="347.9" y2="696.1" stroke="#b30000" stroke-width="1"/>
+<line x1="484.56" y1="708.8" x2="460.5" y2="754.9" stroke="#b30000" stroke-width="1"/>
+<line x1="351.6" y1="689.0" x2="464.2" y2="747.8" stroke="#b30000" stroke-width="1.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<rect x="362.6" y="708.4" width="90.6" height="20" fill="white" stroke="none"/>
+<text x="407.9072055785755" y="722.7193493210127" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#b30000" text-anchor="middle" font-weight="normal">4 ft or more</text>
+<line x1="700" y1="830" x2="738.0" y2="830.0" stroke="#b30000" stroke-width="1"/>
+<line x1="700" y1="884" x2="738.0" y2="884.0" stroke="#b30000" stroke-width="1"/>
+<line x1="730.0" y1="830.0" x2="730.0" y2="884.0" stroke="#b30000" stroke-width="1.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<rect x="681.3" y="847.0" width="97.4" height="20" fill="white" stroke="none"/>
+<text x="730.0" y="861.32" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#b30000" text-anchor="middle" font-weight="normal">30 ft or more</text>
+<text x="44" y="1022" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#111" text-anchor="start" font-weight="normal">Black: what the prop must show.</text>
+<text x="262" y="1022" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#b30000" text-anchor="start" font-weight="normal">Red: build notes, not on the prop.</text>
+<text x="500" y="1022" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#b30000" text-anchor="start" font-weight="normal">Red dashed: yard reality the map does not show.</text>
+<text x="772" y="1044" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#111" text-anchor="end" font-weight="normal">Draft 1, 2026-10-17</text>
+</svg>

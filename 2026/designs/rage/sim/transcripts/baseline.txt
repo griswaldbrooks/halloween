@@ -1,0 +1,95 @@
+3:15 deliverance go deliverance     The mother asks: find what became of my children; bring back what each one left.; deliverance, waitstill, mindwell, remember arrive in deliverance.
+3:35 deliverance examine            You take in the clue for deliverance_1.
+3:50 deliverance work               deliverance_1: no result yet (0:15 of effort so far).
+4:05 deliverance work               deliverance_1: no result yet (0:30 of effort so far).
+4:20 deliverance work               deliverance_1: no result yet (0:45 of effort so far).
+4:35 deliverance work               deliverance_1: no result yet (1:00 of effort so far).
+4:50 deliverance work               deliverance_1: no result yet (1:15 of effort so far).
+5:35 deliverance work               deliverance_1 is solved.; Role revealed: deliverance was the hands of the network.; Fate, partial: deliverance was inside the house when the fire came.; deliverance takes deliverance_relic (and now knows: carried).
+5:50 deliverance go seance          deliverance, waitstill, mindwell, remember arrive in seance.
+6:25 deliverance place              The mother answers the relic (she refuses what it means).; She says: waitstill. Go together.; deliverance places deliverance_relic in its outline; that seat's candle lights.
+6:40 waitstill   go waitstill       deliverance, waitstill, mindwell, remember arrive in waitstill.
+7:00 waitstill   examine            You take in the clue for waitstill_1.
+7:15 waitstill   work               waitstill_1: no result yet (0:15 of effort so far).
+7:30 waitstill   work               waitstill_1: no result yet (0:30 of effort so far).
+7:45 waitstill   work               waitstill_1: no result yet (0:45 of effort so far).
+8:00 waitstill   work               waitstill_1: no result yet (1:00 of effort so far).
+8:45 waitstill   work               waitstill_1 is solved.; Role revealed: waitstill was the eyes of the network.; Fate, partial: waitstill was inside the house when the fire came.; waitstill takes waitstill_relic (and now knows: seen).
+9:00 waitstill   go seance          deliverance, waitstill, mindwell, remember arrive in seance.
+9:35 waitstill   place              The mother answers the relic (she refuses what it means).; She says: mindwell. Go together.; waitstill places waitstill_relic in its outline; that seat's candle lights.
+9:50 mindwell    go mindwell        deliverance, waitstill, mindwell, remember arrive in mindwell.
+10:10 mindwell    examine            You take in the clue for mindwell_1.
+10:25 mindwell    work               mindwell_1: no result yet (0:15 of effort so far).
+10:40 mindwell    work               mindwell_1: no result yet (0:30 of effort so far).
+10:55 mindwell    work               mindwell_1: no result yet (0:45 of effort so far).
+11:10 mindwell    work               mindwell_1: no result yet (1:00 of effort so far).
+11:55 mindwell    work               mindwell_1 is solved.; Role revealed: mindwell was the ears of the network.; Fate, partial: mindwell was inside the house when the fire came.; mindwell takes mindwell_relic (and now knows: -).
+12:10 mindwell    go seance          deliverance, waitstill, mindwell, remember arrive in seance.
+12:45 mindwell    place              The mother answers the relic (she refuses what it means).; She says: remember. Go together.; mindwell places mindwell_relic in its outline; that seat's candle lights.
+13:00 remember    go remember        deliverance, waitstill, mindwell, remember arrive in remember.
+13:20 remember    examine            You take in the clue for remember_1.
+13:35 remember    work               remember_1: no result yet (0:15 of effort so far).
+13:50 remember    work               remember_1: no result yet (0:30 of effort so far).
+14:05 remember    work               remember_1: no result yet (0:45 of effort so far).
+14:50 remember    work               remember_1 is solved.; Role revealed: remember was the voice of the network.; Fate, partial: remember was inside the house when the fire came.; remember takes remember_relic (and now knows: said, slate, testimony).
+15:05 remember    go seance          deliverance, waitstill, mindwell, remember arrive in seance.
+16:20 remember    place              The drop used. The black shown. Under the stair. Under the bed. None of them left the house. (she breaks); Crackle, then four distant voices. The fire bed begins, low.; Josiah's seal on the paper in my son's satchel. He swore. The
+16:35 deliverance curse              The drop used. The black shown. Under the stair. Under the bed. None of them left the house. (she breaks); Crackle, then four distant voices. The fire bed begins, low.; Josiah's seal on the paper in my son's satchel. He swore. The
+16:50 waitstill   curse              The drop used. The black shown. Under the stair. Under the bed. None of them left the house. (she breaks); Crackle, then four distant voices. The fire bed begins, low.; Josiah's seal on the paper in my son's satchel. He swore. The
+17:05 mindwell    curse              remember places remember_relic in its outline; that seat's candle lights.; The fourth candle lights. The medium rings the bell: all four are seated.; Light turns amber and red; shadows move on the walls.; The centre candle flares.
+17:30 remember    curse              She calls Waitstill: your eyes.; She calls Mindwell: your ears.; She calls Remember: your voice.; She means to put him into the fire. Before it reaches him, give her the report her children never gave: what was seen, what was hear  [fire 7:00]
+17:50 deliverance examine heard      She calls Mindwell: your ears.; She calls Remember: your voice.; She means to put him into the fire. Before it reaches him, give her the report her children never gave: what was seen, what was heard, what was carried, what was sai  [fire 6:40]
+18:05 deliverance relay remember     deliverance tells remember what they know.  [fire 6:25]
+18:25 deliverance examine seen       You take in the clue for seen.  [fire 6:05]
+18:40 waitstill   work seen          seen: no result yet (0:15 of effort so far).  [fire 5:50]
+19:05 remember    show mindwell      deliverance tells remember what they know.; remember shows mindwell (slate or pointing).  [fire 5:25]
+19:20 waitstill   work seen          seen: no result yet (0:30 of effort so far).  [fire 5:10]
+19:20 mindwell    work heard         remember shows mindwell (slate or pointing).; heard: no result yet (0:15 of effort so far).  [fire 5:10]
+19:20 remember    work carried       carried: no result yet (0:15 of effort so far).  [fire 5:10]
+19:35 waitstill   work seen          Josiah. (5:00 of fire left); seen: no result yet (0:45 of effort so far).  [fire 4:55]
+19:35 mindwell    work heard         The light steps redder: the fire has moved toward him. (5:00 of fire left); heard: no result yet (0:30 of effort so far).  [fire 4:55]
+19:35 remember    work carried       Josiah. (5:00 of fire left); The light steps redder: the fire has moved toward him. (5:00 of fire left); carried: no result yet (0:30 of effort so far).  [fire 4:55]
+19:50 waitstill   work seen          seen: on the slate.  [fire 4:40]
+19:50 mindwell    work heard         seen is solved.; A line goes onto the slate: seen.; heard: no result yet (0:45 of effort so far).  [fire 4:40]
+19:50 remember    work carried       seen: on the slate.; seen is solved.; A line goes onto the slate: seen.; carried: no result yet (0:45 of effort so far).  [fire 4:40]
+20:05 mindwell    work heard         heard: no result yet (1:00 of effort so far).  [fire 4:25]
+20:05 remember    work carried       carried: on the slate.; carried is solved.; A line goes onto the slate: carried.  [fire 4:25]
+20:20 mindwell    work heard         carried is solved.; A line goes onto the slate: carried.; heard is solved.; A line goes onto the slate: heard.  [fire 4:10]
+20:20 remember    work said          heard: on the slate.; heard is solved.; A line goes onto the slate: heard.; said: no result yet (0:15 of effort so far).  [fire 4:10]
+20:35 remember    work said          said: on the slate.; said is solved.; A line goes onto the slate: said.  [fire 3:55]
+20:50 remember    work slate         slate: no result yet (0:15 of effort so far).  [fire 3:40]
+21:05 remember    work slate         slate: no result yet (0:30 of effort so far).  [fire 3:25]
+21:20 remember    work slate         It is whole. Say it.; slate is solved.; Remember raises the board; the medium nods.  [fire 3:10]
+21:45 remember    show deliverance   As you condemned me, I condemn you. (3:00 of fire left); The light steps redder: the fire has moved toward him. (3:00 of fire left); remember shows deliverance (slate or pointing).  [fire 2:45]
+22:00 deliverance work testimony     As you condemned me, I condemn you. (3:00 of fire left); The light steps redder: the fire has moved toward him. (3:00 of fire left); remember shows deliverance (slate or pointing).; testimony: no result yet (0:15 of effort so far)  [fire 2:30]
+22:15 deliverance work testimony     testimony is solved.  [fire 2:15]
+
+== WON ==
+You won because deliverance spoke the report whole to her at 22:15, with 2:15 of the fire left. The last child falls quiet; his voice stops; the light warms; she says his name and he answers.
+total run length: 22:15 (target 20:00)
+time per stage:
+  opening        3:00
+  deliverance    2:35
+  seance         0:50
+  waitstill      2:20
+  seance         0:50
+  mindwell       2:20
+  seance         0:50
+  remember       2:05
+  seance         0:25
+  turn           2:15
+  finale         4:45
+hints used: 0
+curses active at each finale step:
+  curse:deliverance 16:30  deliverance=gloved, waitstill=-, mindwell=-, remember=-
+  curse:waitstill  16:45  deliverance=gloved, waitstill=blindfolded, mindwell=-, remember=-
+  curse:mindwell   17:00  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=-
+  curse:remember   17:15  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+  seen             19:50  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+  carried          20:05  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+  heard            20:20  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+  said             20:35  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+  slate            21:20  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+  testimony        22:15  deliverance=gloved, waitstill=blindfolded, mindwell=muffled, remember=silenced
+undefined rules hit:
+  -  none
