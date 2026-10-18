@@ -270,7 +270,7 @@ The ten-minute finale, rejection of Resurrection, room-earned curse objects, gro
 
 ## 9. Evidence and the next story test
 
-I read the six requested sources in order, covering the full handoff, full walkthrough, Rage design §§1–8, full storytelling research, synthesis §2 and finale research §§3–4. This revision also applies all seven backstory findings and the room constraints in [the captain's later instruction](../../state/hw-rage-stakes.inbox/handled/001.msg). Truncated tool output was recovered only for the omitted passages. The alternatives and dialogue are new proposals; the research supports the craft tests, not proof that any ending will move a party audience.
+I read the six requested sources in order, covering the full handoff, full walkthrough, Rage design §§1–8, full storytelling research, synthesis §2 and finale research §§3–4. This revision also applies all seven backstory findings and the room constraints in the captain's later instruction. Truncated tool output was recovered only for the omitted passages. The alternatives and dialogue are new proposals; the research supports the craft tests, not proof that any ending will move a party audience.
 
 | Reference | Local evidence |
 |---|---|

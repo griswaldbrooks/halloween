@@ -4,7 +4,7 @@ The 2026 plan was a séance game for the annual Halloween party: four guests at 
 
 None of it was built. On 2026-10-18 the project was shelved for a possible later year, and this folder stores everything as it stood that day. If you are picking it up, start with the Ashby design record and the rulings. The rest shows how the design got there. The listening cup prop from the Ashby design continues as its own project and is not stored here.
 
-The files are copied as they were written. The only changes are relative links fixed for the new folder names. Reports often name their original locations (`data/hw-...`); the table below maps those names to folders here.
+The files are copied as they were written. The only changes are relative links fixed for the new folder names, and one line in the planning notes where the street address was replaced with `[home address]`. Reports often name their original locations (`data/hw-...`); the table below maps those names to folders here.
 
 ## Contents
 
@@ -17,7 +17,7 @@ The files are copied as they were written. The only changes are relative links f
 | [ashby/design-record/report.md](ashby/design-record/report.md) | Consolidation report the record was built from, with provenance | ashby-design-record |
 | [ashby/backyard-puzzle/](ashby/backyard-puzzle/report.md) | Scene 4: Deliverance's drop in the back yard, map draft, cache, hint ladder | ashby-backyard-puzzle |
 | [ashby/lantern-puzzle/](ashby/lantern-puzzle/report.md) | Scenes 2 to 3: Waitstill's lantern signal and the chest, plus the captain's revision | ashby-lantern-puzzle |
-| [ashby/checkpoints/](ashby/checkpoints/) | ChatGPT design checkpoints 02 to 06 and the captain's 2026-10-16 dictation that started the Ashby rework. `halloween-2026-ashby-checkpoint-02.md` is an identical earlier copy of checkpoint 02. | (loose files) |
+| [ashby/checkpoints/](ashby/checkpoints/) | ChatGPT design checkpoints 02 to 06 and the captain's 2026-10-16 dictation that started the Ashby rework. A second copy of checkpoint 02 (`halloween-2026-ashby-checkpoint-02.md`) was identical and is not stored. | (loose files) |
 
 ### The Rage and Resurrection designs (2026-10-09 to 10-10)
 
@@ -47,6 +47,7 @@ The files are copied as they were written. The only changes are relative links f
 
 | Folder | What it is | Original name |
 | --- | --- | --- |
+| [notes/halloween-2026-notes.md](notes/halloween-2026-notes.md) | Planning notes from the 2026-09-29 voice conversation onward (street address redacted at one line) | (loose file) |
 | [notes/halloween_escape_room_design_handoff.md](notes/halloween_escape_room_design_handoff.md) | Tamari and Griz's design handoff for the séance game | (loose file) |
 | [notes/halloween-review-2026-10-06-log.md](notes/halloween-review-2026-10-06-log.md) | Storyboard review log, 2026-10-06 | (loose file) |
 | [notes/board/](notes/board/index.html) | Working board page | halloween-board |
@@ -56,9 +57,8 @@ The files are copied as they were written. The only changes are relative links f
 
 ## Left out
 
-The repository is public, so files that contain the home street address were not stored:
+The repository is public, so the printable invitations (`invite.html`, `invite-bw.html`, `invite.pdf` and `invite-bw.pdf`) were not stored: they print the home street address. The planning notes, `notes/halloween-2026-notes.md`, are stored with the address replaced by `[home address]` at the one line that named it.
 
-- `halloween-2026-notes.md`, the planning notes from the 2026-09-29 voice conversation onward
-- `invite.html`, `invite-bw.html`, `invite.pdf` and `invite-bw.pdf`, the printable invitations
+Also not stored: the firstmate worker briefs (`brief.md`), HTML renders of the reports (`report.html`) and Python bytecode caches. Worker scratch outputs are kept as they were: `hold-result*.txt` and `verification.txt` in `designs/rage-rooms/`, `transcripts/investigation.part` and `design.diff` in `designs/rage/sim/`, and `engine.diff` in `designs/resurrection/sim/`.
 
-Also not stored: the firstmate worker briefs (`brief.md`), HTML renders of the reports (`report.html`) and Python bytecode caches. Large binaries (images, audio, video, and the 14 MB self-contained video page) are stored with Git LFS.
+Large binaries (images, audio, video, and the 14 MB self-contained video page) are stored with Git LFS.
