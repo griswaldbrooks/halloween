@@ -1,0 +1,21 @@
+# Nobody acts for the first minute (the fear peak): the bearer tries it gloved, the group confers, waits for the medium.
+deliverance: work                  # refused: gloved
+deliverance: confer
+remember: wait
+remember: wait
+remember: wait
+remember: wait
+remember: wait
+deliverance: relay remember        # too late: told at 1:25, the cord needs 30 s, she takes Deliverance at 1:30
+remember: work
+remember: work
+waitstill: relay mindwell
+mindwell: work
+mindwell: work
+mindwell: relay deliverance
+deliverance: work
+deliverance: work
+deliverance: work
+remember: relay deliverance
+remember: work
+remember: work

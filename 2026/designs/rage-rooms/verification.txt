@@ -1,0 +1,1 @@
+Inbox 001 revision verified: 13 printed pages, overview on page 1, four explicit backstory dependency lines, synchronized standalone homecoming walkthrough. C1 revised on existing halloween-2026-review; prior calls preserved. Browser: no broken navigation or overflow; report tab closed. Shared completion gate rerun successfully.

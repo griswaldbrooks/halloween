@@ -1,0 +1,40 @@
+# investigation: group together, the bound player works each room, the spirit's order
+deliverance go deliverance
+deliverance examine
+deliverance work*
+deliverance go seance
+deliverance place
+sync
+waitstill go waitstill
+waitstill examine
+waitstill work*
+waitstill go seance
+waitstill place
+sync
+mindwell go mindwell
+mindwell examine
+mindwell work*
+mindwell go seance
+mindwell place
+sync
+remember go remember
+remember examine
+remember work*
+remember go seance
+remember place
+sync
+# finale, section 7, in parallel: per-player queues
+deliverance examine heard          # listens to the fire: the officer's sentence
+deliverance relay remember         # tells her the fold (carried) and which page (heard)
+deliverance examine seen           # reads the slate's marks aloud for the blind bearer
+deliverance needs testimony
+deliverance work* testimony       # one voice says it whole
+remember needs heard
+remember show mindwell             # points Mindwell to page 8
+remember work* carried            # her hands open the paper under his direction
+remember work* said               # writes the father's words from memory
+remember work* slate              # the four lines in the form; raises the board
+remember show deliverance          # shows the speaker the slate
+waitstill work* seen              # the blind bearer says what the marks mean, with his eyes
+mindwell needs heard
+mindwell work* heard              # the deaf bearer decodes page 8

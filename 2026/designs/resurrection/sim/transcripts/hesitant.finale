@@ -1,0 +1,16 @@
+# The playtest's hesitation: the gloved bearer tries it, everyone confers, then the bearer tells the blind one, who does it by feel.
+deliverance: work                  # refused: gloved
+deliverance: confer
+deliverance: relay waitstill
+waitstill: work
+waitstill: work
+waitstill: relay remember          # the blind bearer tells; Remember's eyes pick the pane
+remember: work
+remember: work
+mindwell: relay deliverance
+deliverance: work
+deliverance: work
+deliverance: work
+remember: relay deliverance
+remember: work
+remember: work

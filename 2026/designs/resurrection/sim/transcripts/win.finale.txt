@@ -1,0 +1,42 @@
+# transcripts/win.finale: finale from time zero 19:56 (fourth curse at 19:56)
+20:11 +0:15 deliverance relay remember      | deliverance tells remember what they know.
+      -> waitstill   deliverance tells remember what they know.
+      -> remember    deliverance tells remember what they know.
+20:26 +0:30 remember    work                | sever_deliverance: no result yet (0:15 of effort so far).
+20:41 +0:45 remember    work                | Deliverance's scream leaves the fire. A bell.; sever_deliverance is solved.; The deliverance socket goes dark; a river light comes up. Deliverance is home.
+      -> deliverance Deliverance's scream leaves the fire. A bell.; sever_deliverance is solved.; The deliverance socket goes dark; a river light comes up. Deliverance is home.
+      -> waitstill   Deliverance's scream leaves the fire. A bell.
+      -> mindwell    sever_deliverance is solved.; The deliverance socket goes dark; a river light comes up. Deliverance is home.
+20:46 +0:50 waitstill   relay mindwell     
+      -> deliverance waitstill writes on the slate and shows it to mindwell.
+      -> mindwell    waitstill writes on the slate and shows it to mindwell.
+      -> remember    waitstill writes on the slate and shows it to mindwell.
+21:01 +1:05 mindwell    work                | sever_waitstill: no result yet (0:15 of effort so far).
+21:06 +1:10 mindwell    work                | sever_waitstill is solved.; The waitstill socket goes dark; a river light comes up. Waitstill is home.
+      -> deliverance Waitstill's scream leaves the fire. A bell.; sever_waitstill is solved.; The waitstill socket goes dark; a river light comes up. Waitstill is home.
+      -> waitstill   Waitstill's scream leaves the fire. A bell.
+      -> remember    Waitstill's scream leaves the fire. A bell.; sever_waitstill is solved.; The waitstill socket goes dark; a river light comes up. Waitstill is home.
+21:21 +1:25 mindwell    relay deliverance  
+      -> deliverance mindwell tells deliverance what they know.
+      -> waitstill   mindwell tells deliverance what they know.
+      -> remember    mindwell tells deliverance what they know.
+21:36 +1:40 deliverance work                | sever_mindwell: no result yet (0:15 of effort so far).
+21:51 +1:55 deliverance work                | sever_mindwell: no result yet (0:30 of effort so far).
+22:01 +2:05 deliverance work                | Mindwell's scream leaves the fire. A bell.; sever_mindwell is solved.; The mindwell socket goes dark; a river light comes up. Mindwell is home.
+      -> waitstill   Mindwell's scream leaves the fire. A bell.
+      -> mindwell    sever_mindwell is solved.; The mindwell socket goes dark; a river light comes up. Mindwell is home.
+      -> remember    Mindwell's scream leaves the fire. A bell.; sever_mindwell is solved.; The mindwell socket goes dark; a river light comes up. Mindwell is home.
+22:21 +2:25 remember    relay deliverance   | remember writes on the slate and shows it to deliverance.
+      -> deliverance remember writes on the slate and shows it to deliverance.
+      -> mindwell    remember writes on the slate and shows it to deliverance.
+22:36 +2:40 remember    work                | sever_remember: no result yet (0:15 of effort so far).
+22:51 +2:55 remember    work                | Remember's scream leaves the fire. A bell.; sever_remember is solved.; The remember socket goes dark; a river light comes up. Remember is home.
+      -> deliverance Remember's scream leaves the fire. A bell.; sever_remember is solved.; The remember socket goes dark; a river light comes up. Remember is home.
+      -> waitstill   Remember's scream leaves the fire. A bell.
+      -> mindwell    sever_remember is solved.; The remember socket goes dark; a river light comes up. Remember is home.
+== WON == You won because you sent all four home by their own signs before any scream reached its bearer, at 22:51 with 3:35 of the soundtrack left.
+total 22:51; stages: opening 3:30, deliverance 2:39, seance 0:50, waitstill 3:03, seance 0:50, mindwell 2:58, seance 0:50, remember 2:29, seance 0:20, turn 2:25, finale 2:55; hints 4; taken []
+  finale sever_deliverance  20:41
+  finale sever_waitstill    21:06
+  finale sever_mindwell     22:01
+  finale sever_remember     22:51

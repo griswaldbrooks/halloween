@@ -1,0 +1,208 @@
+"""python3 -m unittest test_engine   (run from this directory)"""
+import unittest
+
+import config as C
+import engine as E
+import sim
+
+
+def fixed(**over):
+    """Deterministic config for a test; restored afterwards by the test's tearDown."""
+    saved = {k: getattr(C, k) for k in over}
+    for k, v in over.items():
+        setattr(C, k, v)
+    return saved
+
+
+def act(g, pid, **a):
+    """Act as pid regardless of turn order: sync every clock to the latest, others pass."""
+    for q in g.players.values():
+        q.t = g.now()
+        q.passed_at = q.t if q.id != pid else -1
+    return g.act(pid, a)
+
+
+class Base(unittest.TestCase):
+    def setUp(self):
+        self.saved = fixed(STEP_TIME_JITTER=(1.0, 1.0))
+
+    def tearDown(self):
+        for k, v in self.saved.items():
+            setattr(C, k, v)
+
+    def run_bot(self, game):
+        while not game.over:
+            p = game.next_player()
+            r = game.act(p.id, sim.bot_plan(game, p))
+            self.assertTrue(r["ok"], r)
+        return game
+
+
+class Clock(Base):
+    def test_opening_costs_time_and_group_walks_together(self):
+        g = E.Game()
+        self.assertEqual(g.now(), C.SEANCE_OPENING_SECONDS)
+        self.assertTrue(g.act("deliverance", dict(action="go", to="deliverance"))["ok"])  # the spirit's order: Deliverance first
+        self.assertEqual({p.room for p in g.players.values()}, {"deliverance"})
+        self.assertEqual({p.t for p in g.players.values()}, {C.SEANCE_OPENING_SECONDS + C.TRAVEL_SECONDS})
+
+    def test_only_lowest_clock_acts(self):
+        g = E.Game()
+        g.players["deliverance"].t += 5
+        r = g.act("deliverance", dict(action="wait"))
+        self.assertFalse(r["ok"])
+        self.assertIn("waitstill acts next", r["error"])
+
+    def test_two_players_on_one_step_do_not_double_progress(self):
+        g = E.Game()
+        g.act("deliverance", dict(action="go", to="deliverance"))
+        for pid in ("deliverance", "waitstill"):
+            self.assertTrue(act(g, pid, action="examine")["ok"])
+        for q in g.players.values():
+            q.t = g.now()  # everyone free at the same moment
+        self.assertTrue(g.act("deliverance", dict(action="work"))["ok"])
+        self.assertTrue(g.act("waitstill", dict(action="work"))["ok"])  # overlaps deliverance's effort
+        self.assertEqual(g.steps["deliverance_1"].worked, C.STEP_WORK_CHUNK_SECONDS)
+
+    def test_hint_only_after_stall_and_halves_remaining(self):
+        g = E.Game()
+        g.act("deliverance", dict(action="go", to="deliverance"))
+        act(g, "deliverance", action="examine")
+        self.assertIn("does not offer a hint yet", act(g, "deliverance", action="hint")["error"])
+        s = g.steps["deliverance_1"]
+        s.worked, s.remaining = C.HINT_AFTER_SECONDS, 40
+        self.assertTrue(act(g, "deliverance", action="hint")["ok"])
+        self.assertEqual(s.remaining, 20)
+        self.assertEqual(g.hints, 1)
+
+
+class Turn(Base):
+    def test_bot_reaches_turn_then_variant_question(self):
+        for v in E.VARIANTS:
+            g = self.run_bot(E.Game(v))
+            self.assertEqual(g.over["result"], "undefined")
+            self.assertEqual(g.undefined[-1][1], E.VARIANTS[v]["missing"])
+            self.assertTrue(all(p.cursed for p in g.players.values()))
+            self.assertEqual(g.deadline, g.stages[-2][1] + C.FIRE_TIMER_SECONDS)  # after the curses (design call 4)
+
+    def test_turn_with_player_away_is_undefined(self):
+        g = E.Game()
+        for c in E.CHILDREN:
+            g.relics.append(c + "_relic")
+        g.players["remember"].room = "remember"
+        g.relics.pop()
+        g.players["deliverance"].relic = "remember_relic"
+        self.assertTrue(act(g, "deliverance", action="place")["ok"])
+        self.assertEqual(g.over["result"], "undefined")
+        self.assertIn("away from the seance room", g.over["why"])
+
+    def test_invoked_player_who_does_something_else_is_refused_without_penalty(self):
+        g = self.turned()
+        self.assertEqual(g.invoked, "deliverance")
+        r = g.act("deliverance", dict(action="wait"))
+        self.assertFalse(r["ok"]); self.assertIsNone(g.over)
+
+    def turned(self):
+        g = E.Game(finale="floated")
+        for c in E.CHILDREN[:3]:
+            g.relics.append(c + "_relic")
+        g.players["deliverance"].relic = "remember_relic"
+        act(g, "deliverance", action="place")
+        return g
+
+    def cursed(self):
+        g = self.turned()
+        while g.invoked:
+            g.act(g.invoked, dict(action="curse"))
+        return g
+
+
+class Curses(Turn):
+    def test_blind_player_cannot_move_and_pins_the_group(self):
+        g = self.cursed()
+        r = g.act(g.next_player().id, dict(action="go", to="deliverance"))
+        self.assertIn("blindfolded", r["error"])
+        self.assertIn("cannot leave together", r["error"])
+
+    def test_deaf_player_misses_spoken_lines_and_blind_sees_nothing(self):
+        g = self.cursed()
+        g.say("medium", E.HUB, "a spoken line")
+        self.assertNotIn("a spoken line", g.observe(g.players["mindwell"])["hears"])
+        self.assertIn("a spoken line", g.observe(g.players["deliverance"])["hears"])
+        self.assertEqual(g.observe(g.players["waitstill"])["sees"], [])
+
+    def test_silenced_relay_and_relay_to_deaf_are_refused_and_show_works(self):
+        # hw-design-rage: relay refused at no cost; `show` (slate or pointing) is the channel taught at the opening
+        g = self.cursed()
+        r = act(g, "remember", action="relay", to="deliverance")
+        self.assertFalse(r["ok"]); self.assertIn("show", r["error"]); self.assertIsNone(g.over)
+        r = act(g, "deliverance", action="relay", to="mindwell")
+        self.assertFalse(r["ok"]); self.assertIn("show", r["error"]); self.assertIsNone(g.over)
+        g.players["remember"].knows.add("secret")
+        self.assertTrue(act(g, "remember", action="show", to="mindwell")["ok"])
+        self.assertIn("secret", g.players["mindwell"].knows)
+        self.assertFalse(act(g, "deliverance", action="show", to="mindwell")["ok"])  # gloved cannot write or point
+        self.assertFalse(act(g, "mindwell", action="show", to="waitstill")["ok"])    # blind cannot be shown
+
+    def test_rage_design_plants_pieces_and_wins_on_testimony(self):
+        # the four spokes plant the finale knowledge in their bearers; the testimony needs the slate; the slate needs four lines
+        g = E.Game("rage", finale="rage")
+        for c in E.CHILDREN:
+            g.finish_spoke(g.players[c], c)
+        self.assertIn("carried", g.players["deliverance"].knows)
+        self.assertIn("seen", g.players["waitstill"].knows)
+        self.assertEqual({"said", "slate", "testimony"} - g.players["remember"].knows, set())
+        self.assertNotIn("heard", g.players["mindwell"].knows)
+        for c in E.CHILDREN:
+            g.players[c].relic = None
+        g.relics = [c + "_relic" for c in E.CHILDREN[:3]]
+        g.players["remember"].relic = "remember_relic"
+        act(g, "remember", action="place")
+        while g.invoked:
+            g.act(g.invoked, dict(action="curse"))
+        self.assertEqual(g.phase, "finale")
+        self.assertEqual(g.deadline, g.now() + C.FIRE_TIMER_SECONDS)  # clock starts after the curses and the objective
+        self.assertIn("cannot start until", act(g, "deliverance", action="work", to="testimony")["error"])
+        self.assertIn("nobody here knows", act(g, "mindwell", action="work", to="heard")["error"])
+        g.players["deliverance"].knows.add("heard")
+        self.assertIn("must know", act(g, "mindwell", action="work", to="heard")["error"])
+        for s in ("carried", "seen", "heard", "said", "slate"):
+            g.steps[s].done = True
+        g.players["deliverance"].knows.add("testimony")
+        g.steps["testimony"].remaining = 1
+        self.assertTrue(act(g, "deliverance", action="work", to="testimony")["ok"])
+        self.assertEqual(g.over["result"], "won")
+
+    def test_gloved_holder_relays_then_other_works_satchel(self):
+        g = self.cursed()
+        self.assertIn("satchel", g.players["deliverance"].knows)
+        self.assertIn("can supply hands", act(g, "deliverance", action="work")["error"])
+        self.assertTrue(act(g, "deliverance", action="relay", to="remember")["ok"])
+        self.assertTrue(act(g, "remember", action="work")["ok"])
+        self.assertEqual(g.steps["satchel"].worked, C.STEP_WORK_CHUNK_SECONDS)
+
+    def test_fire_timer_expiry_is_a_legible_loss(self):
+        g = self.cursed()
+        for q in g.players.values():
+            q.t = g.deadline - 1
+        act(g, "deliverance", action="relay", to="remember")
+        self.assertEqual(g.over["result"], "lost")
+        self.assertIn("You lost because the fire clock ran out", g.over["why"])
+        self.assertIn(E.VARIANTS["resurrection"]["loss"], g.over["why"])
+
+
+class Cli(Base):
+    def test_config_and_questions_list_everything(self):
+        names = [n for n, _, _ in sim.config_lines()]
+        self.assertIn("FIRE_TIMER_SECONDS", names)
+        self.assertEqual(len(names), len([k for k in vars(C) if k.isupper()]))
+        self.assertGreaterEqual(len(sim.questions()), 6)  # hw-design-rage answered questions 3, 5, 6, 7 and the rage variant
+
+    def test_split_strategy_hits_medium_location_question(self):
+        self.saved.update(fixed(GROUP_MOVES_TOGETHER=False, HINT_AFTER_SECONDS=0, SPOKE_ORDER_FIXED=False))
+        g = self.run_bot(E.Game())
+        self.assertIn("Where is the medium", g.over["why"])
+
+
+if __name__ == "__main__":
+    unittest.main()

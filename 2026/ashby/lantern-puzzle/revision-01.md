@@ -1,0 +1,10 @@
+Revise report.md. The captain rejected the reply mechanism: "how do you point a lantern? it's not a laser", and "you wouldn't mirror the same thing back". Historically a night challenge and its reply were two DIFFERENT prearranged patterns (navy private signals, army parole and countersign); civilian signals of the period were mostly one-way (Revere, the Culper clothesline).
+
+The captain's design, use it exactly:
+1. Deliverance, at the edge of the front yard, flashes a PATTERN with his lamp. That pattern IS the chest key (keep the ring and the directional padlock if it still fits; a show-and-cover sequence that maps onto the lock is also fine; justify whichever you keep).
+2. Participants identify him among the decoys because he is the one making a deliberate pattern, read the pattern through the spyglass, and push it into the lock. The chest opens.
+3. Inside, with the map, is Josiah's note: the countersign, "answer him with <a different pattern>", a short show-and-cover count the dark lantern can make from the window, shown toward the yard. No aiming; the lantern just has to be visible from the yard.
+4. On the correct countersign, Deliverance covers his lamp and the lights go out: that is the acknowledgment (the committed direction from CP03), the exchange is over, map in hand, on to the table. A wrong countersign: he keeps flashing his pattern until he gets the right one, which is also the recovery.
+Waitstill's spyglass text must now carry only: watch for the one who makes a sign, Father's box takes his sign, Father's answer is in the box. He does not know the countersign.
+
+Rewrite sections 1, 3 (selection clue), 4 (the code), 5 (why the box holds the map: the countersign sealed in the box is the compartment rule, only someone who has seen the courier's sign can learn the reply), 6 if the order shifts, 7 (hints), 8 (props, the dark lantern no longer needs a beam, any shuttered lantern with a light inside), and the-ring.svg if the pattern changes. Keep everything the captain has not touched. Update the open questions: the helper question stands. Overwrite report.md in place and re-append done: when finished.

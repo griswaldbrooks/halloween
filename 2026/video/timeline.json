@@ -1,0 +1,546 @@
+{
+  "duration": 322.677625,
+  "scenes": [
+    {
+      "title": "Four places at the table",
+      "label": "01  /  ARRIVAL",
+      "art": "parlor",
+      "state": "ADA · BEN · CORA · DAX  |  4 PRESENT",
+      "stage": "A later spiritualist parlor, dressed with the memory of Revolutionary New England. Four guests enter; the medium records their chosen names. Four offering tokens sit beside an empty four-seal register. Deal Cora the healer overlay and Dax the separate secret Tory-spy overlay. Names, staging and this particular deal are proposals.",
+      "lines": [
+        [
+          "Narrator",
+          "Four friends enter a candlelit parlor: Ada, Ben, Cora, and Dax. This is one possible run, with two survivors. The ending shown is a proposal, still undecided."
+        ],
+        [
+          "Medium",
+          "Four living witnesses. Four seals. Bring them to this table, and her inheritance will open."
+        ],
+        [
+          "Narrator",
+          "The medium believes she is helping. Cora draws the healer. Dax secretly serves the Tory husband: one misleading suggestion, no physical interference."
+        ],
+        [
+          "Ghost",
+          "I hid messages for the revolution. They murdered my four children. They burned our home. Will you help me open it again?"
+        ]
+      ],
+      "start": 0,
+      "end": 40.707499999999996
+    },
+    {
+      "title": "The card chooses",
+      "label": "02  /  FIRST CONTACT",
+      "art": "cards",
+      "state": "4 PRESENT  |  ADA: VEILED  ·  BEN: DEAFENED",
+      "stage": "Explain willing blindfold participation before the honest tutorial shuffle. Ada happens to draw the sole Veiled card. Guide her to a seat. Separately, play the five-symbol test with replacement and reshuffling after each guess. This sample guess fails. The team chooses Ben’s hearing curse rather than an offering or person. Tutorial blindness itself is not a rigged failure.",
+      "lines": [
+        [
+          "Narrator",
+          "Four tutorial cards are honestly shuffled. One is Veiled. Ada draws it by chance. She is blind from now through her ending, if she survives. Nobody is protected."
+        ],
+        [
+          "Medium",
+          "Now name five hidden symbols in a row. Every card goes back. Every draw is shuffled."
+        ],
+        [
+          "Narrator",
+          "Five correct guesses would win. The chance is one in three thousand, one hundred and twenty-five. Here, the first guess is wrong."
+        ],
+        [
+          "Ghost",
+          "An offering. A curse. Or one of you."
+        ],
+        [
+          "Narrator",
+          "They keep their four offerings and choose a hearing curse for Ben. His world grows quiet."
+        ]
+      ],
+      "start": 40.707499999999996,
+      "end": 77.98020833333331
+    },
+    {
+      "title": "A letter with windows",
+      "label": "03  /  THE STUDY",
+      "art": "letter",
+      "state": "4 PRESENT  |  ADA: VEILED  ·  CORA: SILENCED",
+      "stage": "A large grille reveals BELL. Dax suggests the wrong alignment once. This group submits the wrong answer; failure still grants seal I after a chosen cost. Cora accepts silence, then uses her healer token by pointing to Ben: his hearing returns. This one-use non-Veiled cure is storyboard tuning, not a settled limit. Turn the first portrait; read its death aloud.",
+      "lines": [
+        [
+          "Narrator",
+          "In the study, a paper grille hides four letters. Dax suggests turning it sideways. They follow him, and submit the wrong word."
+        ],
+        [
+          "Medium",
+          "You may still pass. Choose the price."
+        ],
+        [
+          "Narrator",
+          "Cora takes silence. Then she spends her healer token on Ben. He can hear again; she cannot speak. The medium reveals the answer: BELL. Their first seal is earned."
+        ],
+        [
+          "Ghost",
+          "Smoke took my daughter’s sight. She could not find the door before the fire took her."
+        ],
+        [
+          "Narrator",
+          "Ada understands her blindfold differently now. Each curse remembers a child."
+        ]
+      ],
+      "start": 77.98020833333331,
+      "end": 114.22191666666662
+    },
+    {
+      "title": "The hearth whispers",
+      "label": "04  /  HEARING",
+      "art": "hearth",
+      "state": "4 PRESENT  |  ADA: VEILED  ·  CORA: SILENCED  ·  BEN: NO HANDS",
+      "stage": "Quiet ambience under the three-one-four clue. The spoken whisper now addresses guests directly. This group chooses a mistaken 3-4-1 submission despite replay being available. Ben accepts No Hands; his hands are never bound. Grant seal II and the drum; turn portrait II. Failure is a sample outcome, not mandatory operator scripting.",
+      "lines": [
+        [
+          "Ghost",
+          "Three. One. Four."
+        ],
+        [
+          "Narrator",
+          "The voice comes from the cold hearth now, without the medium translating. Ada listens. Ben mixes up the last two numbers. They could ask for a replay; instead, they commit."
+        ],
+        [
+          "Narrator",
+          "Another failure. Ben chooses no hands. No bindings: he simply leaves the objects to his friends. They receive the second seal and a small drum."
+        ],
+        [
+          "Ghost",
+          "A blow stole my boy’s hearing. He never heard the call to escape the burning house."
+        ]
+      ],
+      "start": 114.22191666666662,
+      "end": 147.47449999999992
+    },
+    {
+      "title": "Something reaches back",
+      "label": "05  /  TOUCH",
+      "art": "touch",
+      "state": "3 PRESENT  |  DAX CLAIMED  ·  3 SEALS",
+      "stage": "Consent to the brief hand effect was established before play. Use cloth, smooth beads and three large shapes, with a ridged star sample. Cora is startled, releases a wrong shape, and the group commits it. Dax voluntarily offers himself as payment while they keep their offering purse. Both collectors begin the handoff; medium promptly returns to seated Ada while attendant completes Dax’s private ending and party exit. No removed-player antagonist.",
+      "lines": [
+        [
+          "Narrator",
+          "Cloth. Cold beads. A ridged star, somewhere inside. Then, with their permission, something briefly touches Cora’s hand. She jumps, laughs, and pulls out the wrong shape."
+        ],
+        [
+          "Narrator",
+          "Dax volunteers as payment. They are saving offerings for a prize they barely understand. The collectors lead him out. His clues stay with the group. This is their choice, not a required removal."
+        ],
+        [
+          "Ghost",
+          "My child’s hands were bound. The door would not open. Dax, your place is ready."
+        ],
+        [
+          "Narrator",
+          "Dax receives his own ending, then returns to the party. Three remain with the third seal."
+        ]
+      ],
+      "start": 147.47449999999992,
+      "end": 187.30029166666657
+    },
+    {
+      "title": "Speak for the missing",
+      "label": "06  /  SPEECH",
+      "art": "tiles",
+      "state": "2 PRESENT  |  ADA: VEILED  ·  CORA: SILENCED  |  4 SEALS",
+      "stage": "Tiles with raised dots encode OPEN / THE / HOUSE / AGAIN. Cora may tap; Ada may feel and speak; Ben may direct. This sample team reverses the phrase and fails. Ben volunteers to pay instead of spending an offering or accepting another eligible curse. Give seal IV and the clear phrase, then escort Ben with the same staffed handoff. Read the third child’s death; all four deaths are now known.",
+      "lines": [
+        [
+          "Medium",
+          "Four tiles. Four words. Speak them, or tap the pattern if your voice is gone."
+        ],
+        [
+          "Narrator",
+          "Ada feels the raised dots. Cora taps. Ben tries to order the words, but their answer comes out backward. Ben volunteers to pay. The collectors take him, and leave the fourth seal."
+        ],
+        [
+          "Ghost",
+          "They covered my child’s mouth so no alarm could be raised. He never breathed again. Open the house again."
+        ],
+        [
+          "Narrator",
+          "Now Ada and Cora remain: one blind, one silent. Chance and their choices brought them here. Successful puzzles or different payments could have left more survivors."
+        ]
+      ],
+      "start": 187.30029166666657,
+      "end": 227.16429166666654
+    },
+    {
+      "title": "The book knows your name",
+      "label": "07  /  DIRECT CONTACT",
+      "art": "register",
+      "state": "ADA + CORA AT THE TABLE  |  BEN + DAX ALREADY CLAIMED",
+      "stage": "Place the four seals and keepsakes around the register. Use a prewritten double slate and a direct ghost voice; no Ouija. The medium reads everything aloud. Removed guests’ name slots already say HERS. The remaining two are blank. Quiet all sound briefly at the realization.",
+      "lines": [
+        [
+          "Ghost",
+          "Offer ... yours."
+        ],
+        [
+          "Medium",
+          "The slate says the same thing. But these are your names. Ben and Dax are already marked. Ada. Cora. Your places are still empty."
+        ],
+        [
+          "Narrator",
+          "The medium finally understands. She was never an accomplice. The house has been keeping a family register, not a treasure map. No moving board is needed; the Ouija remains optional and deferred."
+        ],
+        [
+          "Medium",
+          "Every seal bound a name to this house. We paid for passage. We never bought freedom."
+        ]
+      ],
+      "start": 227.16429166666654,
+      "end": 256.69616666666656
+    },
+    {
+      "title": "Open it. Or give it back.",
+      "label": "08  /  THE FALSE CHOICE",
+      "art": "chest",
+      "state": "ENDING A  /  AMBIGUOUS “HERS”  /  STILL UNDECIDED",
+      "stage": "Offer the two fictional choices. Cora points at the chest; Ada agrees aloud. The actual exit remains available. Open the chest to the family register; flip both surviving name tokens to HERS. Read each aloud and allow Ada to feel her token turn. No forced individual sacrifice queue in the finale.",
+      "lines": [
+        [
+          "Ghost",
+          "Take what I have saved for you. Or return what you have taken from me."
+        ],
+        [
+          "Narrator",
+          "Cora points to the chest. Ada says yes. The medium opens it. Either story choice completes the bargain. Their names fill the last two places."
+        ],
+        [
+          "Medium",
+          "Ada. Cora. The inheritance is a place in her family."
+        ],
+        [
+          "Ghost",
+          "Those I took are already here. The rest of you ... are mine."
+        ]
+      ],
+      "start": 256.69616666666656,
+      "end": 284.16175
+    },
+    {
+      "title": "Four answers in the dark",
+      "label": "09  /  THE ENDING",
+      "art": "family",
+      "state": "2 REACHED THE ENDING  |  ALL 4 CLAIMED IN THE STORY",
+      "stage": "Four spatially staggered “Mother” echoes suggest children; do not stage removed guests as antagonists. Place name tokens in Ada’s and Cora’s hands. Ada remains blind through the whole spoken reveal. Then explicitly end play, invite blindfold removal, release silence and guide everyone to the lit party. This depicts candidate A: possession/children/ownership ambiguous, exchange explicit.",
+      "lines": [
+        [
+          "Narrator",
+          "Four answers rise from the dark. Some sound like children. One sounds almost like Ada."
+        ],
+        [
+          "Echo",
+          "Mother. Mother. Mother. Mother."
+        ],
+        [
+          "Ghost",
+          "Every door you opened made a place for you."
+        ],
+        [
+          "Narrator",
+          "Ada feels her name token turn in her hand. She needs no glimpse of the ghost to understand. They helped the mother reclaim her family. The price was them."
+        ],
+        [
+          "Medium",
+          "The game is over. You can remove the blindfold now. Come back to the light."
+        ],
+        [
+          "Narrator",
+          "Two reached this ending; neither escaped the fictional bargain. Did they become her children, or something she owns? That ending is still the captain’s choice."
+        ]
+      ],
+      "start": 284.16175,
+      "end": 322.677625
+    }
+  ],
+  "lines": [
+    {
+      "scene": 0,
+      "speaker": "Narrator",
+      "text": "Four friends enter a candlelit parlor: Ada, Ben, Cora, and Dax. This is one possible run, with two survivors. The ending shown is a proposal, still undecided.",
+      "start": 1.1,
+      "end": 11.714541666666666
+    },
+    {
+      "scene": 0,
+      "speaker": "Medium",
+      "text": "Four living witnesses. Four seals. Bring them to this table, and her inheritance will open.",
+      "start": 12.034541666666666,
+      "end": 17.422208333333334
+    },
+    {
+      "scene": 0,
+      "speaker": "Narrator",
+      "text": "The medium believes she is helping. Cora draws the healer. Dax secretly serves the Tory husband: one misleading suggestion, no physical interference.",
+      "start": 17.742208333333334,
+      "end": 27.89720833333333
+    },
+    {
+      "scene": 0,
+      "speaker": "Ghost",
+      "text": "I hid messages for the revolution. They murdered my four children. They burned our home. Will you help me open it again?",
+      "start": 28.217208333333332,
+      "end": 38.8075
+    },
+    {
+      "scene": 1,
+      "speaker": "Narrator",
+      "text": "Four tutorial cards are honestly shuffled. One is Veiled. Ada draws it by chance. She is blind from now through her ending, if she survives. Nobody is protected.",
+      "start": 41.8075,
+      "end": 52.42191666666666
+    },
+    {
+      "scene": 1,
+      "speaker": "Medium",
+      "text": "Now name five hidden symbols in a row. Every card goes back. Every draw is shuffled.",
+      "start": 52.74191666666666,
+      "end": 58.080999999999996
+    },
+    {
+      "scene": 1,
+      "speaker": "Narrator",
+      "text": "Five correct guesses would win. The chance is one in three thousand, one hundred and twenty-five. Here, the first guess is wrong.",
+      "start": 58.400999999999996,
+      "end": 66.40616666666666
+    },
+    {
+      "scene": 1,
+      "speaker": "Ghost",
+      "text": "An offering. A curse. Or one of you.",
+      "start": 66.72616666666666,
+      "end": 70.18745833333332
+    },
+    {
+      "scene": 1,
+      "speaker": "Narrator",
+      "text": "They keep their four offerings and choose a hearing curse for Ben. His world grows quiet.",
+      "start": 70.73745833333332,
+      "end": 76.31020833333332
+    },
+    {
+      "scene": 2,
+      "speaker": "Narrator",
+      "text": "In the study, a paper grille hides four letters. Dax suggests turning it sideways. They follow him, and submit the wrong word.",
+      "start": 79.0802083333333,
+      "end": 87.06370833333331
+    },
+    {
+      "scene": 2,
+      "speaker": "Medium",
+      "text": "You may still pass. Choose the price.",
+      "start": 87.3837083333333,
+      "end": 89.62637499999997
+    },
+    {
+      "scene": 2,
+      "speaker": "Narrator",
+      "text": "Cora takes silence. Then she spends her healer token on Ben. He can hear again; she cannot speak. The medium reveals the answer: BELL. Their first seal is earned.",
+      "start": 89.94637499999996,
+      "end": 99.9723333333333
+    },
+    {
+      "scene": 2,
+      "speaker": "Ghost",
+      "text": "Smoke took my daughter’s sight. She could not find the door before the fire took her.",
+      "start": 100.29233333333329,
+      "end": 106.95629166666663
+    },
+    {
+      "scene": 2,
+      "speaker": "Narrator",
+      "text": "Ada understands her blindfold differently now. Each curse remembers a child.",
+      "start": 107.50629166666663,
+      "end": 112.55191666666663
+    },
+    {
+      "scene": 3,
+      "speaker": "Ghost",
+      "text": "Three. One. Four.",
+      "start": 115.32191666666661,
+      "end": 117.03229166666661
+    },
+    {
+      "scene": 3,
+      "speaker": "Narrator",
+      "text": "The voice comes from the cold hearth now, without the medium translating. Ada listens. Ben mixes up the last two numbers. They could ask for a replay; instead, they commit.",
+      "start": 117.5822916666666,
+      "end": 128.5105416666666
+    },
+    {
+      "scene": 3,
+      "speaker": "Narrator",
+      "text": "Another failure. Ben chooses no hands. No bindings: he simply leaves the objects to his friends. They receive the second seal and a small drum.",
+      "start": 128.8305416666666,
+      "end": 138.1751666666666
+    },
+    {
+      "scene": 3,
+      "speaker": "Ghost",
+      "text": "A blow stole my boy’s hearing. He never heard the call to escape the burning house.",
+      "start": 138.4951666666666,
+      "end": 145.57449999999992
+    },
+    {
+      "scene": 4,
+      "speaker": "Narrator",
+      "text": "Cloth. Cold beads. A ridged star, somewhere inside. Then, with their permission, something briefly touches Cora’s hand. She jumps, laughs, and pulls out the wrong shape.",
+      "start": 148.57449999999992,
+      "end": 158.79258333333325
+    },
+    {
+      "scene": 4,
+      "speaker": "Narrator",
+      "text": "Dax volunteers as payment. They are saving offerings for a prize they barely understand. The collectors lead him out. His clues stay with the group. This is their choice, not a required removal.",
+      "start": 159.11258333333325,
+      "end": 171.1669166666666
+    },
+    {
+      "scene": 4,
+      "speaker": "Ghost",
+      "text": "My child’s hands were bound. The door would not open. Dax, your place is ready.",
+      "start": 171.4869166666666,
+      "end": 179.3223749999999
+    },
+    {
+      "scene": 4,
+      "speaker": "Narrator",
+      "text": "Dax receives his own ending, then returns to the party. Three remain with the third seal.",
+      "start": 179.87237499999992,
+      "end": 185.63029166666658
+    },
+    {
+      "scene": 5,
+      "speaker": "Medium",
+      "text": "Four tiles. Four words. Speak them, or tap the pattern if your voice is gone.",
+      "start": 188.40029166666656,
+      "end": 192.75066666666658
+    },
+    {
+      "scene": 5,
+      "speaker": "Narrator",
+      "text": "Ada feels the raised dots. Cora taps. Ben tries to order the words, but their answer comes out backward. Ben volunteers to pay. The collectors take him, and leave the fourth seal.",
+      "start": 193.07066666666657,
+      "end": 204.63466666666656
+    },
+    {
+      "scene": 5,
+      "speaker": "Ghost",
+      "text": "They covered my child’s mouth so no alarm could be raised. He never breathed again. Open the house again.",
+      "start": 204.95466666666655,
+      "end": 214.59445833333322
+    },
+    {
+      "scene": 5,
+      "speaker": "Narrator",
+      "text": "Now Ada and Cora remain: one blind, one silent. Chance and their choices brought them here. Successful puzzles or different payments could have left more survivors.",
+      "start": 215.14445833333323,
+      "end": 225.49429166666656
+    },
+    {
+      "scene": 6,
+      "speaker": "Ghost",
+      "text": "Offer ... yours.",
+      "start": 228.26429166666654,
+      "end": 229.7823333333332
+    },
+    {
+      "scene": 6,
+      "speaker": "Medium",
+      "text": "The slate says the same thing. But these are your names. Ben and Dax are already marked. Ada. Cora. Your places are still empty.",
+      "start": 230.33233333333322,
+      "end": 237.63145833333323
+    },
+    {
+      "scene": 6,
+      "speaker": "Narrator",
+      "text": "The medium finally understands. She was never an accomplice. The house has been keeping a family register, not a treasure map. No moving board is needed; the Ouija remains optional and deferred.",
+      "start": 237.95145833333322,
+      "end": 249.7907083333332
+    },
+    {
+      "scene": 6,
+      "speaker": "Medium",
+      "text": "Every seal bound a name to this house. We paid for passage. We never bought freedom.",
+      "start": 250.1107083333332,
+      "end": 255.02616666666654
+    },
+    {
+      "scene": 7,
+      "speaker": "Ghost",
+      "text": "Take what I have saved for you. Or return what you have taken from me.",
+      "start": 257.7961666666666,
+      "end": 263.3210416666666
+    },
+    {
+      "scene": 7,
+      "speaker": "Narrator",
+      "text": "Cora points to the chest. Ada says yes. The medium opens it. Either story choice completes the bargain. Their names fill the last two places.",
+      "start": 263.8710416666666,
+      "end": 273.05837499999996
+    },
+    {
+      "scene": 7,
+      "speaker": "Medium",
+      "text": "Ada. Cora. The inheritance is a place in her family.",
+      "start": 273.37837499999995,
+      "end": 276.72824999999995
+    },
+    {
+      "scene": 7,
+      "speaker": "Ghost",
+      "text": "Those I took are already here. The rest of you ... are mine.",
+      "start": 277.04824999999994,
+      "end": 282.26174999999995
+    },
+    {
+      "scene": 8,
+      "speaker": "Narrator",
+      "text": "Four answers rise from the dark. Some sound like children. One sounds almost like Ada.",
+      "start": 285.26175,
+      "end": 290.953375
+    },
+    {
+      "scene": 8,
+      "speaker": "Echo",
+      "text": "Mother. Mother. Mother. Mother.",
+      "start": 291.273375,
+      "end": 293.44829166666665
+    },
+    {
+      "scene": 8,
+      "speaker": "Ghost",
+      "text": "Every door you opened made a place for you.",
+      "start": 293.76829166666664,
+      "end": 297.06424999999996
+    },
+    {
+      "scene": 8,
+      "speaker": "Narrator",
+      "text": "Ada feels her name token turn in her hand. She needs no glimpse of the ghost to understand. They helped the mother reclaim her family. The price was them.",
+      "start": 297.61424999999997,
+      "end": 307.10375
+    },
+    {
+      "scene": 8,
+      "speaker": "Medium",
+      "text": "The game is over. You can remove the blindfold now. Come back to the light.",
+      "start": 307.42375,
+      "end": 311.38379166666664
+    },
+    {
+      "scene": 8,
+      "speaker": "Narrator",
+      "text": "Two reached this ending; neither escaped the fictional bargain. Did they become her children, or something she owns? That ending is still the captain’s choice.",
+      "start": 311.70379166666663,
+      "end": 321.00762499999996
+    }
+  ]
+}

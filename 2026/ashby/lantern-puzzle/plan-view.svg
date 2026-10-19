@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="710" viewBox="0 0 820 710" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <rect width="820" height="710" fill="#fbf8f1"/>
+  <text x="20" y="30" font-size="20" font-weight="bold">PLAN VIEW, seen from above. Not to scale.</text>
+  <text x="20" y="52" fill="#444">Front yard at the top, house along the bottom. Light positions are placeholders: the yard is not surveyed.</text>
+  <text x="20" y="72" fill="#444">The windows drawn here are the "right-side windows" of the captain's schematic. They look onto the FRONT yard.</text>
+
+  <!-- road / property edge -->
+  <rect x="20" y="95" width="780" height="34" fill="#e4e0d6" stroke="#9a9488" stroke-dasharray="6 4"/>
+  <text x="30" y="118" fill="#555">Road or property edge, placeholder. Real street lights and neighbours' windows here are free decoys.</text>
+
+  <!-- yard -->
+  <rect x="20" y="129" width="780" height="391" fill="#eef3e6" stroke="#9a9488"/>
+  <text x="30" y="150" fill="#556b3f" font-style="italic">FRONT YARD: the signal game.</text>
+  <text x="30" y="168" fill="#556b3f" font-style="italic">The BACK yard, behind the house, holds the search. A different space, not drawn.</text>
+
+  <!-- helper route: back door, along the margin, up the left edge, across to D -->
+  <path d="M223 678 L40 678 L40 300 L430 300 L456 226" fill="none" stroke="#2e7d32" stroke-width="2" stroke-dasharray="8 5"/>
+
+  <!-- sightlines from the window to each light; the D line is also D's view of the window -->
+  <line x1="560" y1="516" x2="150" y2="190" stroke="#777" stroke-dasharray="5 4"/>
+  <line x1="560" y1="516" x2="470" y2="215" stroke="#777" stroke-dasharray="5 4"/>
+  <line x1="560" y1="516" x2="720" y2="380" stroke="#777" stroke-dasharray="5 4"/>
+  <text x="520" y="372" fill="#555" font-size="12" text-anchor="end">D must see this window plainly:</text>
+  <text x="520" y="388" fill="#555" font-size="12" text-anchor="end">the countersign is shown there</text>
+
+  <!-- W: window decoy -->
+  <rect x="135" y="176" width="30" height="28" fill="#ffd34d" stroke="#8a6d00" stroke-width="2"/>
+  <line x1="150" y1="176" x2="150" y2="204" stroke="#8a6d00"/>
+  <line x1="135" y1="190" x2="165" y2="190" stroke="#8a6d00"/>
+  <text x="30" y="222" font-weight="bold">W  a neighbour's window</text>
+  <text x="30" y="238" font-size="13" fill="#333">steady light behind a window mask,</text>
+  <text x="30" y="254" font-size="13" fill="#333">hung 1.5 to 2 m up, farther than D</text>
+
+  <!-- D: Deliverance -->
+  <circle cx="470" cy="215" r="14" fill="#ffd34d" stroke="#8a6d00" stroke-width="2"/>
+  <text x="490" y="205" font-weight="bold" font-size="14">D  Deliverance: helper + hand lantern</text>
+  <text x="490" y="223" font-size="13" fill="#333">stands still; draws Father's sign, up, right, down, left;</text>
+  <text x="490" y="241" font-size="13" fill="#333">covers, waits, draws it again until answered;</text>
+  <text x="490" y="259" font-size="13" fill="#333">15 to 30 m out, placeholder; sees the window</text>
+
+  <!-- L: optional decoy -->
+  <circle cx="270" cy="338" r="10" fill="none" stroke="#8a6d00" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="52" y="330" font-size="13" fill="#555">L, optional: a steady lantern</text>
+  <text x="52" y="346" font-size="13" fill="#555">on a branch, if a spare is on hand</text>
+
+  <!-- F: fire decoy -->
+  <path d="M720 380 q-10 -22 2 -32 q0 14 10 18 q6 -10 2 -20 q16 14 4 34 z" fill="#ff8a3d" stroke="#a23b00" stroke-width="2"/>
+  <text x="600" y="290" font-weight="bold">F  a fire</text>
+  <text x="600" y="308" font-size="13" fill="#333">flame lantern on the ground,</text>
+  <text x="600" y="324" font-size="13" fill="#333">in brush; flickers, no order, never dark</text>
+
+  <!-- angular separation note -->
+  <text x="100" y="470" fill="#c0392b" font-size="13">keep any two lights a fist's width apart at arm's length (about 10 degrees)</text>
+  <text x="100" y="486" fill="#c0392b" font-size="13">as seen from the window, so the glass shows one light at a time</text>
+
+  <!-- legend -->
+  <rect x="640" y="440" width="150" height="76" fill="#fff" stroke="#999"/>
+  <line x1="650" y1="458" x2="685" y2="458" stroke="#777" stroke-dasharray="5 4"/>
+  <text x="692" y="462" font-size="12">sightline</text>
+  <circle cx="667" cy="480" r="6" fill="#ffd34d" stroke="#8a6d00"/>
+  <text x="692" y="484" font-size="12">countersign: lantern</text>
+  <text x="692" y="497" font-size="12">shown 3x at the window</text>
+  <line x1="650" y1="508" x2="685" y2="508" stroke="#2e7d32" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="692" y="512" font-size="12">helper's walk</text>
+
+  <!-- house -->
+  <rect x="150" y="520" width="520" height="150" fill="#f3ead9" stroke="#333" stroke-width="2.5"/>
+  <rect x="150" y="520" width="150" height="150" fill="#fbf3c9" stroke="#333" stroke-width="1.5"/>
+  <text x="165" y="600" fill="#333">Office</text>
+  <rect x="300" y="520" width="370" height="150" fill="none" stroke="#333" stroke-width="1.5"/>
+  <text x="310" y="548" fill="#333">Main room</text>
+  <text x="310" y="660" font-weight="bold">HOUSE, downstairs play space</text>
+  <ellipse cx="600" cy="640" rx="46" ry="18" fill="#d9c7ec" stroke="#6b4c9a"/>
+  <text x="600" y="644" text-anchor="middle" font-size="12">Tamari at the table</text>
+
+  <!-- front windows on the house's front (top) wall -->
+  <rect x="470" y="514" width="60" height="10" fill="#bfe3f5" stroke="#1d6fa3"/>
+  <rect x="560" y="514" width="60" height="10" fill="#bfe3f5" stroke="#1d6fa3"/>
+  <circle cx="560" cy="516" r="7" fill="#ffd34d" stroke="#8a6d00"/>
+  <circle cx="560" cy="516" r="3" fill="#000"/>
+  <text x="660" y="548" font-size="13" fill="#1d6fa3" text-anchor="end">front windows: the lookout's post</text>
+  <text x="660" y="566" font-size="12" fill="#1d6fa3" text-anchor="end">spyglass hidden here; Father's locked box on the floor beneath,</text>
+  <text x="660" y="582" font-size="12" fill="#1d6fa3" text-anchor="end">holding the shuttered lantern, his note and the map;</text>
+  <text x="660" y="598" font-size="12" fill="#1d6fa3" text-anchor="end">the countersign is shown at this window</text>
+
+  <!-- back door and route label -->
+  <rect x="200" y="666" width="46" height="8" fill="#5b7fb8"/>
+  <text x="30" y="696" fill="#2e7d32" font-size="12">green dashes: the helper's walk, out of the windows' view</text>
+  <text x="360" y="696" fill="#5b7fb8" font-size="12">back door, to the back yard: the search, other task</text>
+</svg>
