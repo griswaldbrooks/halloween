@@ -13,7 +13,8 @@ ruff = "*"
 
 [tasks]
 test = { cmd = "python -m pytest -q", description = "Run the unit tests" }
-coverage = { cmd = "python -m pytest -q --cov=story_model --cov-report=term-missing --cov-report=xml", description = "Tests with coverage (xml for SonarCloud/Codecov)" }
+coverage = { cmd = "python -m pytest -q --cov=story_model --cov-report=term-missing --cov-report=xml --cov-report=html", description = "Tests with coverage (xml for SonarCloud/Codecov)" }
+view-coverage = { cmd = "xdg-open htmlcov/index.html || open htmlcov/index.html", description = "Open the HTML coverage report" }
 lint = { cmd = "ruff check . && ruff format --check .", description = "Lint and format check" }
 format = { cmd = "ruff format .", description = "Format in place" }
 check = { cmd = "python -m story_model", description = "Check the Ashby fixture; exit 1 on errors" }
