@@ -17,6 +17,7 @@ halloween/
 ├── spider_crawl_projection/   # Browser-based spider walking animation
 ├── twitching_body/            # Servo-controlled twitching victim
 ├── window_spider_trigger/     # Motion-triggered video scare
+├── story_model/               # Story world model + consistency checker (Python)
 ├── 2025/                      # Year-specific materials (layouts, scripts, etc.)
 └── [YEAR]/                    # Future years...
 ```
@@ -88,6 +89,25 @@ pixi run deploy
 cd window_spider_trigger
 pixi run deploy
 ```
+
+### Story Model
+
+**Tech:** Python 3.12+, stdlib only; pytest, ruff via Pixi
+
+A typed fabula / evidence / scene model for story-driven escape rooms and a checker
+that reports when the story cannot play: ghosts testifying to things they never knew,
+actions nothing motivated, payoffs aimed at characters the participants never met,
+twists with nothing to twist. The 2026 Ashby design record is the first fixture.
+
+**Quick Start:**
+
+```
+cd story_model
+pixi run test
+pixi run check-all
+```
+
+See `story_model/README.md`.
 
 ### CMake Prototype (Experimental)
 **Location:** `cmake_prototype/`
